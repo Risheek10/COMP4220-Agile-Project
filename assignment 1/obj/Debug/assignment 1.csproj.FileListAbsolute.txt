@@ -1,0 +1,16 @@
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\bin\Debug\assignment 1.exe.config
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\bin\Debug\assignment 1.exe
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\bin\Debug\assignment 1.pdb
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.csproj.AssemblyReference.cache
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\MainWindow.g.cs
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\App.g.cs
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1_MarkupCompile.cache
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1_MarkupCompile.lref
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\MainWindow.baml
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.g.resources
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment_1.Properties.Resources.resources
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.csproj.GenerateResource.cache
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.csproj.CoreCompileInputs.cache
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.exe
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.pdb
+D:\UW\F2025\COMP 4220\assignment 1\assignment 1\obj\Debug\assignment 1.exe.config
