@@ -114,3 +114,5 @@ C:\Users\Ali\Desktop\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookStoreGU
 C:\Users\Ali\Desktop\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookSt.F8D1CACE.Up2Date
 C:\Users\Ali\Desktop\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI.exe
 C:\Users\Ali\Desktop\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI.pdb
+C:\Users\Ali\Desktop\COMP4220-Agile-Project\assignment 1\obj\Debug\CheckoutWindow.baml
+C:\Users\Ali\Desktop\COMP4220-Agile-Project\assignment 1\obj\Debug\CheckoutWindow.g.cs
