@@ -7,6 +7,8 @@ namespace BookStoreGUI
     /// </summary>
     using System;
     using System.Diagnostics;
+    using System.Linq;
+    using System.Text.RegularExpressions;
     using System.Windows;
         public partial class CheckoutWindow : Window
         {
@@ -22,6 +24,104 @@ namespace BookStoreGUI
                 bookOrder = BO;
         }
 
+            
+            private Boolean ValidatePaymentInput()
+            {
+                if (string.IsNullOrWhiteSpace(CardNameTextBox.Text) ||
+                       string.IsNullOrWhiteSpace(CardNumberTextBox.Text) ||
+                       string.IsNullOrWhiteSpace(ExpiryTextBox.Text) ||
+                       string.IsNullOrWhiteSpace(CvvBox.Password))
+                {
+                    MessageBox.Show("Please fill in all payment fields.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                // Card number: digits only after removing spaces, length 13-19 (typical ranges)
+                var cardNumber = CardNumberTextBox.Text.Replace(" ", "").Replace("-", "");
+                if (!cardNumber.All(char.IsDigit) || cardNumber.Length < 13 || cardNumber.Length > 19)
+                {
+                    MessageBox.Show("Please enter a valid card number (digits only).", "Invalid Card Number", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                // Expiry: MM/YY and not expired
+                var expiry = ExpiryTextBox.Text.Trim();
+                if (!Regex.IsMatch(expiry, @"^(0[1-9]|1[0-2])\/\d{2}$"))
+                {
+                    MessageBox.Show("Expiry date must be in MM/YY format.", "Invalid Expiry", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                try
+                {
+                    int month = int.Parse(expiry.Substring(0, 2));
+                    int year = 2000 + int.Parse(expiry.Substring(3, 2));
+                    // last day of expiry month
+                    var lastDay = new DateTime(year, month, DateTime.DaysInMonth(year, month));
+                    if (lastDay < DateTime.Today)
+                    {
+                        MessageBox.Show("Card has expired. Please use a valid card.", "Card Expired", MessageBoxButton.OK, MessageBoxImage.Warning);
+                        return false;
+                    }
+                }
+                catch
+                {
+                    MessageBox.Show("Invalid expiry date.", "Invalid Expiry", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                // CVV: 3 or 4 digits
+                var cvv = CvvBox.Password.Trim();
+                if (!cvv.All(char.IsDigit) || (cvv.Length != 3 && cvv.Length != 4))
+                {
+                    MessageBox.Show("Please enter a valid CVV (3 or 4 digits).", "Invalid CVV", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+            return true;
+        }
+            private Boolean ValidateShippingInput()
+            {
+                if (string.IsNullOrWhiteSpace(FullNameTextBox.Text) ||
+                      string.IsNullOrWhiteSpace(StreetTextBox.Text) ||
+                      string.IsNullOrWhiteSpace(CityTextBox.Text) ||
+                      string.IsNullOrWhiteSpace(PostalTextBox.Text))
+                {
+                    MessageBox.Show("Please fill in all Shipping Address fields.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
+                // Optional: basic postal code sanity (letters/numbers, 3-10 chars)
+                var postal = PostalTextBox.Text.Trim();
+                if (postal.Length < 3 || postal.Length > 10)
+                {
+                    MessageBox.Show("Please enter a valid Postal Code.", "Invalid Postal Code", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+                return true;
+
+            }
+
+        private Boolean FeildsValidated()
+            {
+            // Validate billing/shipping when BillingSection is visible
+            if (BillingSection.Visibility == Visibility.Visible)
+            {
+                return ValidateShippingInput();
+
+            }
+
+            // Validate payment when PaymentSection is visible
+            if (PaymentSection.Visibility == Visibility.Visible)
+            {
+               return ValidatePaymentInput();
+            }
+
+            return true;
+
+
+        }
+        
             private void UpdateTotals()
             {
                 double tax = Subtotal * TaxRate;
@@ -35,7 +135,11 @@ namespace BookStoreGUI
             private void ConfirmButton_Click(object sender, RoutedEventArgs e)
             {
 
-                
+            if (!FeildsValidated())
+            {
+                return;
+            }
+
             Debug.WriteLine("Order confirmed:");
             Debug.WriteLine(bookOrder.OrderItemList);
             int orderId;
@@ -49,6 +153,11 @@ namespace BookStoreGUI
 
             private void NextButton_Click(object sender, RoutedEventArgs e)
             {
+                if (!FeildsValidated())
+                {
+                    return;
+                }
+
                 BillingSection.Visibility = Visibility.Collapsed;
                 PaymentSection.Visibility = Visibility.Visible;
 
