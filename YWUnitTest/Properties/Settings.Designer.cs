@@ -38,8 +38,9 @@ namespace ywBookStoreLIB.Properties {
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
-        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=(LocalDB)\\MSSQLLocalDB;AttachDbFilename=C:\\Users\\Ali\\Desktop\\COMP4220" +
-            "-Agile-Project\\xyBookstoreDB.mdf;Integrated Security=True;Connect Timeout=30")]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=tfs.cs.uwindsor.ca;Initial Catalog=Agile2422DB25;Persist Security Inf" +
+            "o=True;User ID=Agile2422UNew;Password=Agile2422UNew$;Encrypt=True;TrustServerCer" +
+            "tificate=True;")]
         public string ywConnectionString {
             get {
                 return ((string)(this["ywConnectionString"]));
