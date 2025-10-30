@@ -61,7 +61,7 @@ namespace ywBookStoreLIB
         { //black string
             //specify the value of test inputs
             inputName = "dclark";
-            inputPassword = "dc1234";
+            inputPassword = "d1234c";
             //specify the value of expected outputs
             Boolean expectedReturn = false;
             int expectedUserId = -1;
