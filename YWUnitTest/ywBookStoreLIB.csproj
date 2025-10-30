@@ -57,9 +57,6 @@
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALUserInfo.cs" />
     <Compile Include="OrderItem.cs" />
-    <Compile Include="Properties\RecommendBookWindow.xaml.cs">
-      <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -80,10 +77,10 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Properties\RecommendBookWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <ProjectReference Include="..\assignment 1\ywBookStoreGUI.csproj">
+      <Project>{3ED43B2B-B07B-46BD-9BEA-43E6BA7ACCFE}</Project>
+      <Name>BookStoreGUI</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets" Condition="Exists('$(VSToolsPath)\TeamTest\Microsoft.TestTools.targets')" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

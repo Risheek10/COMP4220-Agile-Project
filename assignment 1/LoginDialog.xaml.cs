@@ -15,7 +15,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using ywBookStoreLIB;
 
-namespace ywBookStoreGUI
+namespace BookStoreGUI
 {
     /// <summary>
     /// Interaction logic for LoginDialog.xaml

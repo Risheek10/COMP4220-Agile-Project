@@ -19,8 +19,6 @@ using System.Windows.Shapes;
 using System.Data;
 using ywBookStoreLIB;
 using System.Collections.ObjectModel;
-using ywBookStoreGUI;
-using ywBookStoreLIB;
 using System.Diagnostics;
 
 namespace BookStoreGUI
