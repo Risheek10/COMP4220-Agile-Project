@@ -29,10 +29,7 @@
         <!-- Section 2: Most Popular Books -->
         <TextBlock Text="Most Popular Books" FontWeight="Bold"
                    FontSize="16" Margin="0,5,0,5" Grid.Row="2"/>
-        <ListView x:Name="popularBooksList" Grid.Row="3"c:\users\yihan xie\source\repos\comp4220-agile-project\assignment 1\recommendbookwindow.xaml
-c:\users\yihan xie\source\repos\comp4220-agile-project\assignment 1\recommendbookwindow.xaml.cs
-
-                  BorderThickness="1">
+        <ListView x:Name="popularBooksList" Grid.Row="3" BorderThickness="1">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
