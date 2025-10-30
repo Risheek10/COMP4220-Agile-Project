@@ -65,8 +65,9 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
 		    Content="Add Book" Click="addButton_Click" />
+                <Button x:Name="btnRecommendBook" Content="Recommend Book" Margin="50,0,0,0" MinHeight="25" MinWidth="80" Width="121" Click="btnRecommendBook_Click"/>
                 <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
-		    Content="Proceed to Checkout" Click="chechoutButton_Click" Width="121" Margin="286,0,0,0"/>
+		    Content="Proceed to Checkout" Click="chechoutButton_Click" Width="121" Margin="116,0,0,0"/>
             </StackPanel>
         </StackPanel>
         <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch">
