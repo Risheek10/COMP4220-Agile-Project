@@ -115,5 +115,11 @@ namespace BookStoreGUI
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
         }
+        private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
+        {
+            RecommendBookWindow recommendWin = new RecommendBookWindow();
+            recommendWin.ShowDialog();
+        }
+
     }
 }

@@ -1,0 +1,45 @@
+﻿<Window x:Class="BookStoreGUI.RecommendBookWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Recommended Books" Height="400" Width="500"
+        Loaded="Window_Loaded">
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <!-- Section 1: Guess You Like -->
+        <TextBlock Text="Guess You Like" FontWeight="Bold"
+                   FontSize="16" Margin="0,0,0,5"/>
+        <ListView x:Name="guessYouLikeList" Grid.Row="1"
+                  Margin="0,5,0,10" BorderThickness="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
+                    <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author}" Width="150"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+
+        <!-- Section 2: Most Popular Books -->
+        <TextBlock Text="Most Popular Books" FontWeight="Bold"
+                   FontSize="16" Margin="0,5,0,5" Grid.Row="2"/>
+        <ListView x:Name="popularBooksList" Grid.Row="3"c:\users\yihan xie\source\repos\comp4220-agile-project\assignment 1\recommendbookwindow.xaml
+c:\users\yihan xie\source\repos\comp4220-agile-project\assignment 1\recommendbookwindow.xaml.cs
+
+                  BorderThickness="1">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" Width="200"/>
+                    <GridViewColumn Header="Author" DisplayMemberBinding="{Binding Author}" Width="150"/>
+                    <GridViewColumn Header="Price" DisplayMemberBinding="{Binding Price}" Width="80"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
+</Window>

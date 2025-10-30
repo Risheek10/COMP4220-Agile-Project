@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Data;
+using System.Data.SqlClient;
 
 namespace ywBookStoreLIB
 {
@@ -19,5 +20,23 @@ namespace ywBookStoreLIB
             DALBookCatalog bookCatalog = new DALBookCatalog();
             return bookCatalog.GetBookInfo();
         }
+        public DataTable ExecuteQuery(string query)
+        {
+            DataTable dt = new DataTable();
+            string connectionString = Properties.Settings.Default.ywConnectionString;
+
+            using (SqlConnection conn = new SqlConnection(connectionString))
+            {
+                using (SqlCommand cmd = new SqlCommand(query, conn))
+                {
+                    conn.Open();
+                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                    adapter.Fill(dt);
+                }
+            }
+
+            return dt;
+        }
+
     }
 }
