@@ -8,15 +8,17 @@ namespace BookStoreGUI
     using System;
     using System.Diagnostics;
     using System.Linq;
+    using System.Runtime.InteropServices;
     using System.Text.RegularExpressions;
     using System.Windows;
-        public partial class CheckoutWindow : Window
+    using ywBookStoreLIB;
+    public partial class CheckoutWindow : Window
         {
             public double Subtotal { get; set; } = 0.0;
             private const double TaxRate = 0.10;
             BookOrder bookOrder;
 
-            public CheckoutWindow(BookOrder BO)
+        public CheckoutWindow(BookOrder BO)
             {
                 InitializeComponent();
                 Subtotal = BO.GetOrderTotal();
@@ -25,12 +27,12 @@ namespace BookStoreGUI
         }
 
             
-            private Boolean ValidatePaymentInput()
+            /*public Boolean ValidatePaymentInput(String cardName, String cardNum, String expiryT, String cvvT)
             {
-                if (string.IsNullOrWhiteSpace(CardNameTextBox.Text) ||
-                       string.IsNullOrWhiteSpace(CardNumberTextBox.Text) ||
-                       string.IsNullOrWhiteSpace(ExpiryTextBox.Text) ||
-                       string.IsNullOrWhiteSpace(CvvBox.Password))
+                if (string.IsNullOrWhiteSpace(cardName) ||
+                       string.IsNullOrWhiteSpace(cardNum) ||
+                       string.IsNullOrWhiteSpace(expiryT) ||
+                       string.IsNullOrWhiteSpace(cvvT))
                 {
                     MessageBox.Show("Please fill in all payment fields.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
@@ -80,19 +82,19 @@ namespace BookStoreGUI
 
             return true;
         }
-            private Boolean ValidateShippingInput()
+            public Boolean ValidateShippingInput(String fullName, String streetName, String city, String postalCode)
             {
-                if (string.IsNullOrWhiteSpace(FullNameTextBox.Text) ||
-                      string.IsNullOrWhiteSpace(StreetTextBox.Text) ||
-                      string.IsNullOrWhiteSpace(CityTextBox.Text) ||
-                      string.IsNullOrWhiteSpace(PostalTextBox.Text))
+                if (string.IsNullOrWhiteSpace(fullName) ||
+                      string.IsNullOrWhiteSpace(streetName) ||
+                      string.IsNullOrWhiteSpace(city) ||
+                      string.IsNullOrWhiteSpace(postalCode))
                 {
                     MessageBox.Show("Please fill in all Shipping Address fields.", "Missing Information", MessageBoxButton.OK, MessageBoxImage.Warning);
                     return false;
                 }
 
                 // Optional: basic postal code sanity (letters/numbers, 3-10 chars)
-                var postal = PostalTextBox.Text.Trim();
+                var postal = postalCode.Trim();
                 if (postal.Length < 3 || postal.Length > 10)
                 {
                     MessageBox.Show("Please enter a valid Postal Code.", "Invalid Postal Code", MessageBoxButton.OK, MessageBoxImage.Warning);
@@ -100,21 +102,33 @@ namespace BookStoreGUI
                 }
                 return true;
 
-            }
+            }*/
 
         private Boolean FeildsValidated()
             {
             // Validate billing/shipping when BillingSection is visible
             if (BillingSection.Visibility == Visibility.Visible)
             {
-                return ValidateShippingInput();
+                var(ok, err) = CheckoutValidator.ValidateShippingInput(FullNameTextBox.Text, StreetTextBox.Text, CityTextBox.Text, PostalTextBox.Text);
 
+                if (err != "")
+                {
+                    MessageBox.Show(err, "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
             }
 
             // Validate payment when PaymentSection is visible
             if (PaymentSection.Visibility == Visibility.Visible)
             {
-               return ValidatePaymentInput();
+                var(ok, err) = CheckoutValidator.ValidatePaymentInput(CardNameTextBox.Text, CardNumberTextBox.Text, ExpiryTextBox.Text, CvvBox.Password);
+                
+                if (err != "")
+                {
+                    MessageBox.Show(err, "Validation Error", MessageBoxButton.OK, MessageBoxImage.Warning);
+                    return false;
+                }
+
             }
 
             return true;
@@ -135,20 +149,20 @@ namespace BookStoreGUI
             private void ConfirmButton_Click(object sender, RoutedEventArgs e)
             {
 
-            if (!FeildsValidated())
-            {
-                return;
-            }
+                if (!FeildsValidated())
+                {
+                    return;
+                }
 
-            Debug.WriteLine("Order confirmed:");
-            Debug.WriteLine(bookOrder.OrderItemList);
-            int orderId;
-            orderId = bookOrder.PlaceOrder(1);
-            MessageBox.Show("Your order has been placed. Your order id is " +
-            orderId.ToString());
+                Debug.WriteLine("Order confirmed:");
+                Debug.WriteLine(bookOrder.OrderItemList);
+                int orderId;
+                orderId = bookOrder.PlaceOrder(1);
+                MessageBox.Show("Your order has been placed. Your order id is " +
+                orderId.ToString());
 
-            //MessageBox.Show("Order confirmed! Thank you for your purchase.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
-            this.Close();
+                //MessageBox.Show("Order confirmed! Thank you for your purchase.", "Success", MessageBoxButton.OK, MessageBoxImage.Information);
+                this.Close();
             }
 
             private void NextButton_Click(object sender, RoutedEventArgs e)
