@@ -101,10 +101,6 @@ namespace BookStoreGUI
             {
                 MessageBox.Show("Please type the keyword. ");
             }
-            else if (s.search(keyword, category) == 2)
-            {
-                MessageBox.Show("Sorry, we cannot find the book. Please try again later.");
-            }
             else if (s.search(keyword, category) == 3)
             {
                 MessageBox.Show("Please type the correct format keyword try again later.");
@@ -113,10 +109,21 @@ namespace BookStoreGUI
             {
                 MessageBox.Show("Please type the year or edition and try again.");
             }
-            else
+            else if(s.search(keyword, category) == 0)
             {
                 dsBookCat = s.result;
-                ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
+                if (dsBookCat.Tables.Contains("result") && dsBookCat.Tables["result"].Rows.Count>0)
+                {
+                    ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, we do not have books related with this keyword. Pleas try again.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sorry, something goes wrong, please try it later.");
             }
         }
 
@@ -139,7 +146,15 @@ namespace BookStoreGUI
             if (f.filter(minPrice.Text, maxPrice.Text) == 0)
             {
                 dsBookCat = f.result;
-                ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
+                if (dsBookCat.Tables.Contains("result") && dsBookCat.Tables["result"].Rows.Count>0)
+                {
+                    ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, we do not have books in this price range. Pleas try again.");
+                }
+                
             }
             else if (f.filter(minPrice.Text, maxPrice.Text) == 1)
             {
@@ -151,7 +166,7 @@ namespace BookStoreGUI
 
             }
             else if (f.filter(minPrice.Text, maxPrice.Text) == 3) {
-                MessageBox.Show("Sorry, we do not have books in this price range. Pleas try again.");
+                MessageBox.Show("Sorry, the price range is incorrect. Pleas try again.");
 
             }
             else
