@@ -1,0 +1,167 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|d:\\uw\\f2025\\comp 4220\\project\\ywbookstore_a3\\ywunittest\\unittest2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\unittest2.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\ywunittest\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\properties\\settings.settings||{6D2695F9-5365-4A78-89ED-F205C045BFE6}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\ywunittest\\search.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\search.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\ywunittest\\searchdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\searchdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\ywunittest\\dalpricefilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\dalpricefilter.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\ywunittest\\unittest3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\unittest3.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\ywunittest\\pricefilterdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{DD143626-2AF6-4F2D-A64D-70D691058113}|YWUnitTest\\ywBookStoreLIB.csproj|solutionrelative:ywunittest\\pricefilterdata.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED43B2B-B07B-46BD-9BEA-43E6BA7ACCFE}|assignment 1\\ywBookStoreGUI.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\assignment 1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{3ED43B2B-B07B-46BD-9BEA-43E6BA7ACCFE}|assignment 1\\ywBookStoreGUI.csproj|solutionrelative:assignment 1\\mainwindow.xaml.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED43B2B-B07B-46BD-9BEA-43E6BA7ACCFE}|assignment 1\\ywBookStoreGUI.csproj|D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\assignment 1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}",
+      "RelativeMoniker": "D:0:0:{3ED43B2B-B07B-46BD-9BEA-43E6BA7ACCFE}|assignment 1\\ywBookStoreGUI.csproj|solutionrelative:assignment 1\\mainwindow.xaml||{F11ACC28-31D1-4C80-A34B-F4E09D3D753C}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{1c4feeaa-4718-4aa9-859d-94ce25d182ba}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Settings.settings",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\Properties\\Settings.settings",
+              "RelativeDocumentMoniker": "YWUnitTest\\Properties\\Settings.settings",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\Properties\\Settings.settings",
+              "RelativeToolTip": "YWUnitTest\\Properties\\Settings.settings",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.002767|",
+              "WhenOpened": "2025-10-29T15:59:10.931Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "UnitTest2.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\UnitTest2.cs",
+              "RelativeDocumentMoniker": "YWUnitTest\\UnitTest2.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\UnitTest2.cs",
+              "RelativeToolTip": "YWUnitTest\\UnitTest2.cs",
+              "ViewState": "AgIAAC8AAAAAAAAAAAAwwEwAAAAJAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T04:52:07.044Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "DALPriceFilter.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\DALPriceFilter.cs",
+              "RelativeDocumentMoniker": "YWUnitTest\\DALPriceFilter.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\DALPriceFilter.cs",
+              "RelativeToolTip": "YWUnitTest\\DALPriceFilter.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T04:51:13.321Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "MainWindow.xaml",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\assignment 1\\MainWindow.xaml",
+              "RelativeDocumentMoniker": "assignment 1\\MainWindow.xaml",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\assignment 1\\MainWindow.xaml",
+              "RelativeToolTip": "assignment 1\\MainWindow.xaml",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.003549|",
+              "WhenOpened": "2025-10-29T04:45:12.805Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "searchData.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\searchData.cs",
+              "RelativeDocumentMoniker": "YWUnitTest\\searchData.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\searchData.cs",
+              "RelativeToolTip": "YWUnitTest\\searchData.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T04:41:20.664Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "search.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\search.cs",
+              "RelativeDocumentMoniker": "YWUnitTest\\search.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\search.cs",
+              "RelativeToolTip": "YWUnitTest\\search.cs",
+              "ViewState": "AgIAAAwAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T02:06:07.559Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "MainWindow.xaml.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\assignment 1\\MainWindow.xaml.cs",
+              "RelativeDocumentMoniker": "assignment 1\\MainWindow.xaml.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\assignment 1\\MainWindow.xaml.cs",
+              "RelativeToolTip": "assignment 1\\MainWindow.xaml.cs",
+              "ViewState": "AgIAAHoAAAAAAAAAAAAAwAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T04:40:10.162Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "UnitTest3.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\UnitTest3.cs",
+              "RelativeDocumentMoniker": "YWUnitTest\\UnitTest3.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\UnitTest3.cs",
+              "RelativeToolTip": "YWUnitTest\\UnitTest3.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAACQAAAAeAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-29T01:32:16.785Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "PriceFilterData.cs",
+              "DocumentMoniker": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\PriceFilterData.cs",
+              "RelativeDocumentMoniker": "YWUnitTest\\PriceFilterData.cs",
+              "ToolTip": "D:\\UW\\F2025\\COMP 4220\\project\\ywBookstore_A3\\YWUnitTest\\PriceFilterData.cs",
+              "RelativeToolTip": "YWUnitTest\\PriceFilterData.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAABkAAABBAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-10-28T19:17:34.508Z"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
