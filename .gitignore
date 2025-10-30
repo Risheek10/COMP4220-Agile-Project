@@ -1,3 +1,55 @@
-/.vs
+# Solution-wide build output
+bin/
+obj/
+
+# Project-specific (explicit, safe redundancy)
+assignment 1/bin/
+assignment 1/obj/
+YWUnitTest/bin/
+YWUnitTest/obj/
+
+# Visual Studio workspace
+.vs/
+assignment 1/.vs/
+YWUnitTest/.vs/
+
+# User- and machine-specific files
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# WPF/XAML generated sources
+*.g.cs
+*.g.i.cs
+
+# Test results
+TestResult*/
+TestResults/
+*.trx
+
+# NuGet
+# If you're using PackageReference (recommended), do NOT commit packages/.
+packages/
+*.nupkg
+# Global packages cache (kept outside repo by default, listed here just in case)
+# .nuget/packages/
+
+# Logs
+*.log
+
+# Publish output
+publish/
+
+# Rider/ReSharper/JetBrains
+.idea/
+_ReSharper*/
+*.DotSettings.user
+
+# OS junk
+.DS_Store
+Thumbs.db
+desktop.ini
+
 xyBookstoreDB.mdf
 xyBookstoreDB_log.ldf
