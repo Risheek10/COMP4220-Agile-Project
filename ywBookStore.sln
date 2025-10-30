@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		Files4Assign3\xyBookstoreDB_log.ldf = Files4Assign3\xyBookstoreDB_log.ldf
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ShoppingCartTests", "ShoppingCartTests\ShoppingCartTests.csproj", "{4AAAEC0F-BB48-4EC3-828D-CB8DEB1F59F5}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{DD143626-2AF6-4F2D-A64D-70D691058113}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD143626-2AF6-4F2D-A64D-70D691058113}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD143626-2AF6-4F2D-A64D-70D691058113}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4AAAEC0F-BB48-4EC3-828D-CB8DEB1F59F5}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4AAAEC0F-BB48-4EC3-828D-CB8DEB1F59F5}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4AAAEC0F-BB48-4EC3-828D-CB8DEB1F59F5}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4AAAEC0F-BB48-4EC3-828D-CB8DEB1F59F5}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

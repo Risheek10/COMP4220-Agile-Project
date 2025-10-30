@@ -1,0 +1,47 @@
+﻿<Window x:Class="ywBookStoreGUI.ShoppingCartWindow"
+xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+Title="Shopping Cart" Height="400" Width="650">
+    <DockPanel Margin="10">
+        <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,10,0,0">
+            <TextBlock Name="totalTextBlock" VerticalAlignment="Center" FontWeight="Bold" Margin="0,0,20,0">Total: $0.00</TextBlock>
+            <Button Name="checkoutButton" Content="Proceed To Checkout" MinWidth="140" Click="checkoutButton_Click" Margin="0,0,10,0"/>
+            <Button Name="closeButton" Content="Close" MinWidth="80" Click="closeButton_Click"/>
+        </StackPanel>
+
+
+        <DataGrid Name="cartDataGrid" AutoGenerateColumns="False" CanUserAddRows="False" IsReadOnly="False">
+            <DataGrid.Columns>
+                <DataGridTextColumn Header="ISBN" Binding="{Binding BookID}" IsReadOnly="True" Width="100" />
+                <DataGridTextColumn Header="Title" Binding="{Binding BookTitle}" IsReadOnly="True" Width="*" />
+                <DataGridTextColumn Header="Unit Price" Binding="{Binding UnitPrice, StringFormat=C}" IsReadOnly="True" Width="90" />
+
+
+                <!-- Editable quantity column -->
+                <DataGridTemplateColumn Header="Quantity" Width="90">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <TextBox Text="{Binding Quantity, Mode=TwoWay, UpdateSourceTrigger=LostFocus}" HorizontalContentAlignment="Center" />
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+                <DataGridTextColumn Header="Sub Total" Binding="{Binding SubTotal, StringFormat=C}" IsReadOnly="True" Width="110" />
+
+
+                <DataGridTemplateColumn Header="Actions" Width="120">
+                    <DataGridTemplateColumn.CellTemplate>
+                        <DataTemplate>
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+                                <Button Content="Remove item" Click="RemoveItem_Click" Padding="6,2" Tag="{Binding BookID}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </DataGridTemplateColumn.CellTemplate>
+                </DataGridTemplateColumn>
+
+
+            </DataGrid.Columns>
+        </DataGrid>
+    </DockPanel>
+</Window>

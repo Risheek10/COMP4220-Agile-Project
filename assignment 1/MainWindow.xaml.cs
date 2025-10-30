@@ -14,14 +14,12 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Data;
 using ywBookStoreLIB;
 using System.Collections.ObjectModel;
 using ywBookStoreGUI;
 using ywBookStoreLIB;
-using System.Diagnostics;
 
 namespace BookStoreGUI
 {
@@ -39,24 +37,11 @@ namespace BookStoreGUI
             // Process data entered by user if dialog box is accepted
             if (dlg.DialogResult == true)
             {
-                bool loggedIn = userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password);
-                if (loggedIn)
-                {
-                    // Show user id and role (Admin / Regular)
-                    this.statusTextBlock.Text = "User #" + userData.UserID + " (" + userData.Role + ")";
-
-                    // Show admin button only for admins (case-insensitive)
-                    adminButton.Visibility = string.Equals(userData.Role, "Admin", StringComparison.OrdinalIgnoreCase)
-                        ? Visibility.Visible
-                        : Visibility.Collapsed;
-                }
+                if (userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password) == true)
+                    this.statusTextBlock.Text = "You are logged in as User #" +
+                    userData.UserID;
                 else
-                {
-                    // Login failed - hide admin button explicitly
-                    this.statusTextBlock.Text = "Login Failed. Please Try Again.";
-                    adminButton.Visibility = Visibility.Collapsed;
-                    Debug.WriteLine("Failed");
-                }
+                    this.statusTextBlock.Text = "Your login failed. Please try again.";
             }
         }
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
@@ -69,10 +54,6 @@ namespace BookStoreGUI
             bookOrder = new BookOrder();
             userData = new UserData();
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
-
-            // Ensure admin button is hidden until a real admin logs in
-            if (adminButton != null)
-                adminButton.Visibility = Visibility.Collapsed;
         }
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
@@ -101,13 +82,6 @@ namespace BookStoreGUI
                 bookOrder.RemoveItem(selectedOrderItem.BookID);
             }
         }
-
-        private void adminButton_Click(object sender, RoutedEventArgs e)
-        {
-            // TODO: Admin functionality to be implemented later
-            MessageBox.Show("Admin area (placeholder).", "Admin", MessageBoxButton.OK, MessageBoxImage.Information);
-        }
-
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
         {
             int orderId;
@@ -115,11 +89,12 @@ namespace BookStoreGUI
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());
         }
-        private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
-        {
-            RecommendBookWindow recommendWin = new RecommendBookWindow();
-            recommendWin.ShowDialog();
-        }
 
+        private void cartButton_Click(object sender, RoutedEventArgs e)
+        {
+            var win = new ShoppingCartWindow();
+            win.Owner = this;
+            win.ShowDialog();
+        }
     }
 }

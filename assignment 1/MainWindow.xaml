@@ -22,6 +22,8 @@
                 </ComboBox>
                 <Button Content="Login" Height="25" x:Name="loginButton"
 		    Width="75" Margin="28,2,0,0" Click="loginButton_Click" />
+                <Button Name="cartButton" Content="Cart" Height="25" 
+            Width="75" Margin="20,2,0,0" Click="cartButton_Click" />
                 <Button Content="Exit" Height="25" x:Name="exitButton"
 		    Width="75" Margin="20,2,0,0" Click="exitButton_Click" />
             </StackPanel>
@@ -65,23 +67,8 @@
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
 		    Content="Add Book" Click="addButton_Click" />
-        <Button x:Name="adminButton"
-                Content="Admin"
-                MinHeight="25" MinWidth="80" Width="121"
-                Margin="82,0,0,0"
-                Click="adminButton_Click" />
-
-        <Button x:Name="btnRecommendBook"
-                Content="Recommend Book"
-                MinHeight="25" MinWidth="80" Width="121"
-                Margin="50,0,0,0"
-                Click="btnRecommendBook_Click" />
-
-        <Button x:Name="checkoutOrderButton"
-                Content="Proceed to Checkout"
-                MinHeight="25" MinWidth="80" Width="121"
-                Margin="116,0,0,0"
-                Click="chechoutButton_Click" />
+                <Button x:Name="checkoutOrderButton" MinHeight="25" MinWidth="80"
+		    Content="Proceed to Checkout" Click="chechoutButton_Click" Width="121" Margin="286,0,0,0"/>
             </StackPanel>
         </StackPanel>
         <StatusBar VerticalAlignment="Bottom" HorizontalAlignment="Stretch">

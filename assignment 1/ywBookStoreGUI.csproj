@@ -70,8 +70,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="RecommendBookWindow.xaml.cs">
-      <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
+    <Compile Include="ShoppingCartWindow.xaml.cs">
+      <DependentUpon>ShoppingCartWindow.xaml</DependentUpon>
     </Compile>
     <Page Include="LoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -93,7 +93,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="RecommendBookWindow.xaml">
+    <Page Include="ShoppingCartWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
