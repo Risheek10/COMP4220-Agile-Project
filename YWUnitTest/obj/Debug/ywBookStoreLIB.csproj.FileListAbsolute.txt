@@ -78,3 +78,4 @@ C:\Users\Ali\source\repos\COMP4220-Agile-Project\YWUnitTest\obj\Debug\ywBookStor
 C:\Users\Ali\source\repos\COMP4220-Agile-Project\YWUnitTest\obj\Debug\ywBookSt.FEB0CF79.Up2Date
 C:\Users\Ali\source\repos\COMP4220-Agile-Project\YWUnitTest\obj\Debug\ywBookStoreLIB.dll
 C:\Users\Ali\source\repos\COMP4220-Agile-Project\YWUnitTest\obj\Debug\ywBookStoreLIB.pdb
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\YWUnitTest\obj\Debug\ywBookStoreLIB.csproj.AssemblyReference.cache

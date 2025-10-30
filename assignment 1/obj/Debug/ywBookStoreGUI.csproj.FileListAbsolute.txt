@@ -144,3 +144,15 @@ C:\Users\Ali\Source\Repos\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookSt
 C:\Users\Ali\Source\Repos\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookSt.F8D1CACE.Up2Date
 C:\Users\Ali\Source\Repos\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI.exe
 C:\Users\Ali\Source\Repos\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI.pdb
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookStoreGUI.csproj.AssemblyReference.cache
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI.exe.config
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\MainWindow.baml
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\OrderItemDialog.baml
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\RecommendBookWindow.baml
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\LoginDialog.g.cs
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\MainWindow.g.cs
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\OrderItemDialog.g.cs
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\RecommendBookWindow.g.cs
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\App.g.cs
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI_MarkupCompile.cache
+C:\Users\Ali\source\repos\Risheek10\COMP4220-Agile-Project\assignment 1\obj\Debug\ywBookstoreGUI_MarkupCompile.lref
