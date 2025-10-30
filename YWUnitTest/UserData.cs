@@ -18,36 +18,12 @@ namespace ywBookStoreLIB
         public string Password { set; get; }
         public Boolean LoggedIn { set; get; }
 
-        // New properties to hold DB values
-        public string Type { get; private set; }      // e.g. "SA" or "RG"
-        public bool Manager { get; private set; }     // Manager bit
-
-        // Computed role shown in UI
-        public string Role
-        {
-            get
-            {
-                // Treat 'SA' or Manager bit as admin
-                if (!string.IsNullOrEmpty(Type) && Type.Trim().ToUpper() == "SA")
-                    return "Admin";
-                if (Manager)
-                    return "Admin";
-                return "Regular";
-            }
-        }
-
         public Boolean LogIn(string loginName, string passWord)
         {
             var dbUser = new DALUserInfo();
             UserID = dbUser.LogIn(loginName, passWord);
             if (UserID > 0)
             {
-                // Get extra attributes (Type, Manager) and expose them
-                var attrs = dbUser.GetUserTypeAndManager(UserID);
-                Type = attrs.UserType;
-                Manager = attrs.Manager;
-                LoginName = loginName;
-                LoggedIn = true;
                 return true;
             }
             else
@@ -86,7 +62,7 @@ namespace ywBookStoreLIB
                     return false;
                 }
             }
-
+            
 
         }
     }
