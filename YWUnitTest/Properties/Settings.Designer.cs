@@ -23,6 +23,18 @@ namespace ywBookStoreLIB.Properties {
             }
         }
         
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.SpecialSettingAttribute(global::System.Configuration.SpecialSetting.ConnectionString)]
+        [global::System.Configuration.DefaultSettingValueAttribute("Data Source=tfs.cs.uwindsor.ca;Initial Catalog=Agile2422DB25;Persist Security Inf" +
+            "o=True;User ID=Agile2422UNew;Password=Agile2422UNew$;TrustServerCertificate=True" +
+            "")]
+        public string ywConnectionString {
+            get {
+                return ((string)(this["ywConnectionString"]));
+            }
+        }
+        
         [global::System.Configuration.UserScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.Configuration.DefaultSettingValueAttribute("")]
@@ -34,6 +46,7 @@ namespace ywBookStoreLIB.Properties {
                 this["Setting"] = value;
             }
         }
+<<<<<<< HEAD
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -46,5 +59,7 @@ namespace ywBookStoreLIB.Properties {
                 return ((string)(this["ywConnectionString"]));
             }
         }
+=======
+>>>>>>> 78ce4ab3d5188519080d469adaaa48baf2de81d0
     }
 }

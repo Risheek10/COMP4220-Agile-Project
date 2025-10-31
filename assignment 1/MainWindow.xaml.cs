@@ -4,24 +4,25 @@
  * **********************************************************************************/
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Data;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Data;
-using ywBookStoreLIB;
-using System.Collections.ObjectModel;
+using ywBookstoreGUI;
 using ywBookStoreGUI;
 using ywBookStoreLIB;
-using System.Diagnostics;
 
 namespace BookStoreGUI
 {
@@ -51,12 +52,16 @@ namespace BookStoreGUI
                         : Visibility.Collapsed;
                 }
                 else
+<<<<<<< HEAD
                 {
                     // Login failed - hide admin button explicitly
                     this.statusTextBlock.Text = "Login Failed. Please Try Again.";
                     adminButton.Visibility = Visibility.Collapsed;
                     Debug.WriteLine("Failed");
                 }
+=======
+                    this.statusTextBlock.Text = "Your login failed. Please try again.";
+>>>>>>> 78ce4ab3d5188519080d469adaaa48baf2de81d0
             }
         }
         private void exitButton_Click(object sender, RoutedEventArgs e) { this.Close(); }
@@ -125,10 +130,95 @@ namespace BookStoreGUI
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());*/
         }
+<<<<<<< HEAD
         private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
         {
             RecommendBookWindow recommendWin = new RecommendBookWindow();
             recommendWin.ShowDialog();
+=======
+
+        private void searchButton_Click(Object sender, RoutedEventArgs e)
+        {
+            string keyword = searchText.Text;
+            string category = search_category.Text;
+            searchData s = new searchData();
+            if (s.search(keyword, category) == 1)
+            {
+                MessageBox.Show("Please type the keyword. ");
+            }
+            else if (s.search(keyword, category) == 3)
+            {
+                MessageBox.Show("Please type the correct format keyword try again later.");
+            }
+            else if (s.search(keyword, category) == 4)
+            {
+                MessageBox.Show("Please type the year or edition and try again.");
+            }
+            else if(s.search(keyword, category) == 0)
+            {
+                dsBookCat = s.result;
+                if (dsBookCat.Tables.Contains("result") && dsBookCat.Tables["result"].Rows.Count>0)
+                {
+                    ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, we do not have books related with this keyword. Pleas try again.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Sorry, something goes wrong, please try it later.");
+            }
+        }
+
+        private void pricecheckbox_Checked(object sender, RoutedEventArgs e)
+        {
+            minPrice.IsEnabled = true;
+            maxPrice.IsEnabled = true;
+            sortButton.IsEnabled = true;
+        }
+        private void pricecheckbox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            minPrice.IsEnabled = false;
+            maxPrice.IsEnabled = false;
+            sortButton.IsEnabled = false;
+        }
+
+        private void sortButton_Click(object sender, RoutedEventArgs e)
+        {
+            PriceFilterData f = new PriceFilterData();
+            if (f.filter(minPrice.Text, maxPrice.Text) == 0)
+            {
+                dsBookCat = f.result;
+                if (dsBookCat.Tables.Contains("result") && dsBookCat.Tables["result"].Rows.Count>0)
+                {
+                    ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
+                }
+                else
+                {
+                    MessageBox.Show("Sorry, we do not have books in this price range. Pleas try again.");
+                }
+                
+            }
+            else if (f.filter(minPrice.Text, maxPrice.Text) == 1)
+            {
+                MessageBox.Show("Please input the minimum price or maximum price and try again.");
+            }
+            else if (f.filter(minPrice.Text, maxPrice.Text) == 2)
+            {
+                MessageBox.Show("The format of the price with two decimal degits, please input again and try it later. ");
+
+            }
+            else if (f.filter(minPrice.Text, maxPrice.Text) == 3) {
+                MessageBox.Show("Sorry, the price range is incorrect. Pleas try again.");
+
+            }
+            else
+            {
+                MessageBox.Show("Sorry, something goes wrong, please try it later.");
+            }
+>>>>>>> 78ce4ab3d5188519080d469adaaa48baf2de81d0
         }
 
     }
