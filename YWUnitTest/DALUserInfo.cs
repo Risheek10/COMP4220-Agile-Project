@@ -43,5 +43,43 @@ namespace ywBookStoreLIB
                     conn.Close();
             }
         }
+
+        // New: fetch Type and Manager flag for a given user id
+        public (string UserType, bool Manager) GetUserTypeAndManager(int userId)
+        {
+            var conn = new SqlConnection(ywBookStoreLIB.Properties.Settings.Default.ywConnectionString);
+            try
+            {
+                SqlCommand cmd = new SqlCommand();
+                cmd.Connection = conn;
+                cmd.CommandText = "SELECT [Type], [Manager] FROM [UserData] WHERE [UserID] = @UserID";
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                using (var rdr = cmd.ExecuteReader())
+                {
+                    if (rdr.Read())
+                    {
+                        string type = null;
+                        if (!rdr.IsDBNull(0))
+                            type = rdr.GetString(0).Trim();
+                        bool manager = false;
+                        if (!rdr.IsDBNull(1))
+                            manager = Convert.ToBoolean(rdr.GetValue(1));
+                        return (type, manager);
+                    }
+                }
+                return (null, false);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.ToString());
+                return (null, false);
+            }
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
+        }
     }
 }
