@@ -1,0 +1,102 @@
+﻿<Window x:Class="BookStoreGUI.CheckoutWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Proceed to Checkout"
+        Height="660" Width="480"
+        WindowStartupLocation="CenterScreen"
+        ResizeMode="NoResize"
+        Background="#FAFAFA">
+
+    <Grid Margin="20,20,20,4">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <!-- Header -->
+            <RowDefinition Height="*"/>
+            <!-- Form -->
+            <RowDefinition Height="Auto"/>
+            <!-- Buttons -->
+        </Grid.RowDefinitions>
+
+        <!-- Header -->
+        <TextBlock Text="Checkout"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Foreground="#333"
+                   Margin="0,0,0,20"
+                   HorizontalAlignment="Center"/>
+
+        <!-- Shipping Section -->
+        <StackPanel x:Name="BillingSection" Visibility="Visible" Grid.Row="1" Orientation="Vertical" Margin="10,0,10,0">
+
+            <GroupBox Header="Shipping Address" Margin="0,0,0,15">
+                <StackPanel Margin="10">
+                    <Label Content="Full Name:"/>
+                    <TextBox x:Name="FullNameTextBox" Margin="0,0,0,5"/>
+
+                    <Label Content="Street Address:"/>
+                    <TextBox x:Name="StreetTextBox" Margin="0,0,0,5"/>
+
+                    <Label Content="City:"/>
+                    <TextBox x:Name="CityTextBox" Margin="0,0,0,5"/>
+
+                    <Label Content="Postal Code:"/>
+                    <TextBox x:Name="PostalTextBox" Margin="0,0,0,5"/>
+                </StackPanel>
+            </GroupBox>
+
+            
+        </StackPanel>
+
+        <!-- Payment/Billing Section -->
+        <StackPanel x:Name="PaymentSection" Visibility="Collapsed" Grid.Row="1" Orientation="Vertical" Margin="10,0,10,0">
+
+            <GroupBox Header="Billing Information" Margin="0,0,0,15">
+                <StackPanel Margin="10">
+                    <Label Content="Cardholder Name:"/>
+                    <TextBox x:Name="CardNameTextBox" Margin="0,0,0,5"/>
+
+                    <Label Content="Card Number:"/>
+                    <TextBox x:Name="CardNumberTextBox" Margin="0,0,0,5"/>
+
+                    <Label Content="Expiry Date (MM/YY):"/>
+                    <TextBox x:Name="ExpiryTextBox" Width="100" Margin="0,0,0,5"/>
+
+                    <Label Content="CVV:"/>
+                    <PasswordBox x:Name="CvvBox" Width="80"/>
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Payment Summary">
+                <StackPanel Margin="10">
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Subtotal: " FontWeight="SemiBold"/>
+                        <TextBlock x:Name="SubtotalText" Text="$0.00" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Tax (10%): " FontWeight="SemiBold"/>
+                        <TextBlock x:Name="TaxText" Text="$0.00" Margin="10,0,0,0"/>
+                    </StackPanel>
+                    <Separator Margin="0,5,0,5"/>
+                    <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                        <TextBlock Text="Total: " FontSize="16" FontWeight="Bold"/>
+                        <TextBlock x:Name="TotalText" Text="$0.00"
+                                   FontSize="16" FontWeight="Bold" Foreground="#0B8F36" Margin="10,0,0,0"/>
+                    </StackPanel>
+                </StackPanel>
+            </GroupBox>
+
+        </StackPanel>
+
+        <!-- Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0,15,0,0">
+            <Button x:Name="NextButton" Content="Next" Background="Green"
+                    Width="130" Height="35" Foreground="White"
+                    FontWeight="Bold" Margin="0,0,10,0" Click="NextButton_Click"/>
+            <Button x:Name="ConfirmButton" Visibility="Collapsed" Content="Confirm Order" Background="Green"
+            Width="130" Height="35" Foreground="White"
+            FontWeight="Bold" Margin="0,0,10,0" Click="ConfirmButton_Click"/>
+            <Button x:Name="CancelButton" Content="Cancel"
+                    Width="80" Height="35" Click="CancelButton_Click"/>
+        </StackPanel>
+    </Grid>
+</Window>

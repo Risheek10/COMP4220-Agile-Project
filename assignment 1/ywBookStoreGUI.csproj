@@ -70,6 +70,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="CheckoutWindow.xaml.cs">
+      <DependentUpon>CheckoutWindow.xaml</DependentUpon>
     <Compile Include="RecommendBookWindow.xaml.cs">
       <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
     </Compile>
@@ -93,6 +95,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="CheckoutWindow.xaml">
     <Page Include="RecommendBookWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

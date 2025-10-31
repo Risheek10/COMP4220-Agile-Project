@@ -110,10 +110,20 @@ namespace BookStoreGUI
 
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
         {
-            int orderId;
+
+            if (userData.UserID <= 0)
+            {
+                MessageBox.Show("You must log in before you can place an order.");
+                return;
+            }
+
+            CheckoutWindow checkoutDlg = new CheckoutWindow(bookOrder);
+            checkoutDlg.Owner = this;
+            checkoutDlg.ShowDialog();
+            /*int orderId;
             orderId = bookOrder.PlaceOrder(userData.UserID);
             MessageBox.Show("Your order has been placed. Your order id is " +
-            orderId.ToString());
+            orderId.ToString());*/
         }
         private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
         {

@@ -50,3 +50,6 @@ _ReSharper*/
 .DS_Store
 Thumbs.db
 desktop.ini
+
+xyBookstoreDB.mdf
+xyBookstoreDB_log.ldf
