@@ -1,0 +1,21 @@
+# Ignore Visual Studio temporary files
+.vs/
+*.suo
+*.user
+*.cache
+*.log
+
+# Ignore build results
+bin/
+obj/
+
+# Ignore NuGet packages
+packages/
+
+# Ignore database files
+*.mdf
+*.ldf
+
+# Ignore temporary or backup files
+*.tmp
+*.bak
