@@ -82,7 +82,14 @@ Header="Edition" Width="18*" />
                 Content="Proceed to Checkout"
                 MinHeight="25" MinWidth="80"
                 Margin="5,0,5,0"
-                Click="chechoutButton_Click" />
+                Click="checkoutButton_Click" />
+                
+        <Button x:Name="viewOrdersButton"
+                 Content="View Orders"
+                 MinHeight="25" MinWidth="80"
+                 Margin="5,0,5,0"
+                 Visibility="Hidden"
+                 Click="viewOrders_Click" />
             </StackPanel>
         </StackPanel>
         <StatusBar VerticalAlignment="Top" Margin="3,449,1,0" Grid.Row="2" Height="27">

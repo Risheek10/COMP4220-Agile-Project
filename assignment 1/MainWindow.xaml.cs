@@ -67,6 +67,9 @@ namespace BookStoreGUI
                     adminButton.Visibility = string.Equals(userData.Role, "Admin", StringComparison.OrdinalIgnoreCase)
                         ? Visibility.Visible
                         : Visibility.Collapsed;
+
+                    // display view-orders button
+                    viewOrdersButton.Visibility = Visibility.Visible;
                 }
                 else
                 {
@@ -118,7 +121,7 @@ namespace BookStoreGUI
             MessageBox.Show("Admin area (placeholder).", "Admin", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
-        private void chechoutButton_Click(object sender, RoutedEventArgs e)
+        private void checkoutButton_Click(object sender, RoutedEventArgs e)
         {
             if (userData.UserID <= 0)
             {
@@ -133,6 +136,16 @@ namespace BookStoreGUI
             orderId = bookOrder.PlaceOrder(userData.UserID);
             MessageBox.Show("Your order has been placed. Your order id is " +
             orderId.ToString());*/
+        }
+
+        private void viewOrders_Click(object sender, RoutedEventArgs e)
+        {
+            if (userData.UserID <= 0)
+            {
+                MessageBox.Show("You must log in to view your orders.");
+                return;
+            }
+            
         }
 
         private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
