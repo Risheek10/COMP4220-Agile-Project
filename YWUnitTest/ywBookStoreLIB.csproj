@@ -125,6 +125,7 @@
     <Compile Include="BookOrder.cs" />
     <Compile Include="CheckoutValidator.cs" />
     <Compile Include="DALPriceFilter.cs" />
+    <Compile Include="LoadOrders.cs" />
     <Compile Include="PriceFilterData.cs" />
     <Compile Include="search.cs" />
     <Compile Include="DALBookCatalog.cs" />

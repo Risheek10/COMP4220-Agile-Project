@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -20,7 +21,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Diagnostics;
+using System.Xml.Linq;
 using ywBookStoreGUI;
 using ywBookStoreLIB;
 
@@ -145,7 +146,18 @@ namespace BookStoreGUI
                 MessageBox.Show("You must log in to view your orders.");
                 return;
             }
-            
+
+            try
+            {
+                var win = new OrdersWindow(userData.UserID);
+                win.Owner = this;
+                win.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error opening orders window: " + ex);
+                MessageBox.Show("An error occurred while opening the orders window.");
+            }
         }
 
         private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
