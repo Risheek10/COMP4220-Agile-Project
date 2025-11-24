@@ -62,6 +62,38 @@ namespace BookStoreGUI
                 Close();
             }
         }
+
+        // New: handle Details button click
+        private void Details_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var btn = (System.Windows.Controls.Button)sender;
+                var isbn = (btn.CommandParameter as string)?.Trim();
+                if (string.IsNullOrWhiteSpace(isbn))
+                {
+                    MessageBox.Show("ISBN not available for this item.");
+                    return;
+                }
+
+                var loader = new LoadOrders();
+                var book = loader.GetBookByIsbn(isbn);
+                if (book == null)
+                {
+                    MessageBox.Show("Book details not found for ISBN: " + isbn);
+                    return;
+                }
+
+                var detailsWin = new ViewBookDetails(book);
+                detailsWin.Owner = this;
+                detailsWin.ShowDialog();
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine("Error opening details: " + ex);
+                MessageBox.Show("An error occurred while opening book details.");
+            }
+        }
     }
 
     // Simple view models for binding (kept in UI assembly)

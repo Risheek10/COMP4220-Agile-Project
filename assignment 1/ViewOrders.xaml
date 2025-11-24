@@ -34,6 +34,16 @@
                                 <DataGrid.Columns>
                                     <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" Width="Auto" MinWidth="200" />
                                     <DataGridTextColumn Header="Quantity" Binding="{Binding Quantity}" Width="1*" MinWidth="80" />
+                                    
+                                    <!-- Details button column -->
+                                    <DataGridTemplateColumn Header=" " Width="120">
+                                        <DataGridTemplateColumn.CellTemplate>
+                                            <DataTemplate>
+                                                <Button Content="Details" Padding="6,2" CommandParameter="{Binding ISBN}" Click="Details_Click"/>
+                                            </DataTemplate>
+                                        </DataGridTemplateColumn.CellTemplate>
+                                    </DataGridTemplateColumn>
+
                                 </DataGrid.Columns>
                             </DataGrid>
                         </StackPanel>

@@ -1,0 +1,56 @@
+﻿<Window x:Class="BookStoreGUI.ViewBookDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Book Details" Height="350" Width="520" WindowStartupLocation="CenterOwner">
+    <Grid Margin="12">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="110"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+
+        <TextBlock Grid.Row="0" Grid.Column="0" Text="ISBN:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" x:Name="txtISBN" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="1" Grid.Column="0" Text="Title:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" x:Name="txtTitle" TextWrapping="Wrap" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="2" Grid.Column="0" Text="Author:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" x:Name="txtAuthor" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="3" Grid.Column="0" Text="CategoryID:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="3" Grid.Column="1" x:Name="txtCategory" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="4" Grid.Column="0" Text="Price:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="4" Grid.Column="1" x:Name="txtPrice" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="5" Grid.Column="0" Text="SupplierId:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="5" Grid.Column="1" x:Name="txtSupplier" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="6" Grid.Column="0" Text="Year:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="6" Grid.Column="1" x:Name="txtYear" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="7" Grid.Column="0" Text="Edition:" FontWeight="Bold" Margin="0,0,8,6"/>
+        <TextBlock Grid.Row="7" Grid.Column="1" x:Name="txtEdition" Margin="0,0,0,6"/>
+
+        <TextBlock Grid.Row="8" Grid.Column="0" Text="Publisher:" FontWeight="Bold" Margin="0,0,8,6" VerticalAlignment="Top"/>
+        <TextBlock Grid.Row="8" Grid.Column="1" x:Name="txtPublisher" TextWrapping="Wrap" Margin="0,0,0,6"/>
+
+        <StackPanel Grid.Row="9" Grid.ColumnSpan="2" Orientation="Horizontal" HorizontalAlignment="Right">
+            <TextBlock Text="InStock:" FontWeight="Bold" Margin="0,6,8,0" VerticalAlignment="Center"/>
+            <TextBlock x:Name="txtInStock" Margin="0,6,0,0" VerticalAlignment="Center"/>
+            <Button Width="80" Margin="12,4,0,0" Click="Close_Click">Close</Button>
+        </StackPanel>
+    </Grid>
+</Window>

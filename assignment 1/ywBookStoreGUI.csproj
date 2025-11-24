@@ -76,6 +76,9 @@
     <Compile Include="RecommendBookWindow.xaml.cs">
       <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
     </Compile>
+    <Compile Include="ViewBookDetails.xaml.cs">
+      <DependentUpon>ViewBookDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="ViewOrders.xaml.cs">
       <DependentUpon>ViewOrders.xaml</DependentUpon>
     </Compile>
@@ -104,6 +107,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="RecommendBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="ViewBookDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
