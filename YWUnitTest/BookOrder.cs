@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 
 namespace ywBookStoreLIB {
     public class BookOrder {
@@ -59,6 +60,9 @@ namespace ywBookStoreLIB {
         public int PlaceOrder(int userID)
         {
             string xmlOrder;
+            
+            Debug.WriteLine("Placing order for userID: " + userID.ToString());
+
             xmlOrder = "<Order UserID='" + userID.ToString() + "'>";
             foreach (var item in orderItemList)
             {

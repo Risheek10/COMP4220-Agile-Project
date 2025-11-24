@@ -17,13 +17,15 @@ namespace BookStoreGUI
             public double Subtotal { get; set; } = 0.0;
             private const double TaxRate = 0.10;
             BookOrder bookOrder;
+            int UserId;
 
-        public CheckoutWindow(BookOrder BO)
+        public CheckoutWindow(BookOrder BO, int userId)
             {
                 InitializeComponent();
                 Subtotal = BO.GetOrderTotal();
                 UpdateTotals();
                 bookOrder = BO;
+                UserId = userId;
         }
 
             
@@ -157,7 +159,7 @@ namespace BookStoreGUI
                 Debug.WriteLine("Order confirmed:");
                 Debug.WriteLine(bookOrder.OrderItemList);
                 int orderId;
-                orderId = bookOrder.PlaceOrder(1);
+                orderId = bookOrder.PlaceOrder(UserId);
                 MessageBox.Show("Your order has been placed. Your order id is " +
                 orderId.ToString());
 

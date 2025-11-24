@@ -130,7 +130,7 @@ namespace BookStoreGUI
                 return;
             }
 
-            CheckoutWindow checkoutDlg = new CheckoutWindow(bookOrder);
+            CheckoutWindow checkoutDlg = new CheckoutWindow(bookOrder, userData.UserID);
             checkoutDlg.Owner = this;
             checkoutDlg.ShowDialog();
             /*int orderId;

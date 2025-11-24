@@ -3,6 +3,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Windows;
 using ywBookStoreLIB;
+using System.Diagnostics;
 
 namespace BookStoreGUI
 {
@@ -57,7 +58,7 @@ namespace BookStoreGUI
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error loading orders: " + ex);
+                Debug.WriteLine("Error loading orders: " + ex);
                 MessageBox.Show("An error occurred while loading your orders.");
                 Close();
             }
@@ -90,7 +91,7 @@ namespace BookStoreGUI
             }
             catch (Exception ex)
             {
-                System.Diagnostics.Debug.WriteLine("Error opening details: " + ex);
+                Debug.WriteLine("Error opening details: " + ex);
                 MessageBox.Show("An error occurred while opening book details.");
             }
         }
