@@ -259,5 +259,67 @@ namespace BookStoreGUI
             writeWindow.ShowDialog();
         }
 
+        private void row_doubleClick(object sender, RoutedEventArgs e)
+{
+   
+    detailWindow detail = new detailWindow(bookOrder);
+    DataRowView selectedRow;
+    selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
+    detailData check = new detailData();
+    if (check.detailCheck(selectedRow)) 
+    {
+        detail.isbnLabel.Content += selectedRow.Row.ItemArray[0].ToString();
+        detail.authorLabel.Content += selectedRow.Row.ItemArray[3].ToString();
+        detail.titleLabel.Content = selectedRow.Row.ItemArray[2].ToString();
+        detail.publisherLabel.Content += selectedRow.Row.ItemArray[7].ToString();
+        detail.editionLabel.Content += selectedRow.Row.ItemArray[6].ToString();
+        detail.priceLabel.Content = selectedRow.Row.ItemArray[4].ToString();
+        detail.yearLabel.Content += selectedRow.Row.ItemArray[5].ToString();
+        detail.Show();
+    }
+    else
+    {
+        MessageBox.Show("Sorry, something goes wrong, please try it later.");
+    }
+
+}
+
+private void row_rightClick(object sender, RoutedEventArgs e)
+{
+    detailWindow detail = new detailWindow(bookOrder);
+    DataRowView selectedRow;
+    try
+    {
+        BookStockData isInstock = new BookStockData();
+        selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
+        string isbn = selectedRow.Row.ItemArray[0].ToString();
+        string title = selectedRow.Row.ItemArray[2].ToString();
+
+        if (isInstock.stockCheck(isbn))
+        {
+            int quantity = isInstock.quantity;
+            MessageBox.Show(title + " has stock :" + quantity);
+        }
+        else
+        {
+            if (isInstock.quantity == 0 && isbn != null )
+            {
+                MessageBox.Show("Sorry, " + title + " is out of order");
+            }
+            else
+            {
+                MessageBox.Show("Sorry, cannot find the book. Please try a gain later.");
+            }
+
+
+        }
+    }
+    catch (Exception ex) {
+
+        MessageBox.Show("please select the correct row.");
+
+    }
+}
+
     }
 }
