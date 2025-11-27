@@ -24,7 +24,6 @@ namespace ywBookStoreLIB {
                 if (item.BookID == orderItem.BookID)
                 {
                     item.Quantity += orderItem.Quantity;
-
                     return;
                 }
             }

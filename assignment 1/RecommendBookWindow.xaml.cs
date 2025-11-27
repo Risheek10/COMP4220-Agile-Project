@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,10 +14,9 @@ using System.Windows.Shapes;
 using System.Data;
 using System.Diagnostics;
 using ywBookStoreLIB;
-using ywBookStoreGUI;
 using System.Collections.ObjectModel;
 
-namespace BookStoreGUI
+namespace ywBookStoreGUI
 {
     public partial class RecommendBookWindow : Window
     {
