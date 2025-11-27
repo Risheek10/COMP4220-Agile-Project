@@ -1,8 +1,4 @@
-﻿<!--********************************************************************************
- * For use by students taking 60-422 (Fall, 2014) to work on assignments and project.
- * Permission required material. Contact: xyuan@uwindsor.ca 
- * *******************************************************************************-->
-<Window
+﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:Serialization="clr-namespace:System.Xml.Serialization;assembly=System.Xml" x:Class="BookStoreGUI.MainWindow"
@@ -15,23 +11,47 @@
             <RowDefinition Height="523*"/>
             <RowDefinition Height="0*"/>
         </Grid.RowDefinitions>
+
+        <Button x:Name="UserProfileBtn" Grid.Row="0" Width="50" Height="50" 
+                HorizontalAlignment="Right" VerticalAlignment="Top" Margin="0,10,20,0"
+                ToolTip="User Account Settings">
+            
+            <Button.Template>
+                <ControlTemplate TargetType="Button">
+                    <Grid>
+                        <Ellipse Fill="LightBlue" Stroke="Gray" StrokeThickness="1"/>
+                        <TextBlock Text="User" HorizontalAlignment="Center" VerticalAlignment="Center" FontWeight="Bold"/>
+                    </Grid>
+                </ControlTemplate>
+            </Button.Template>
+
+            <Button.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Modify Username"/>
+                    <MenuItem Header="Change Profile Picture"/>
+                    <MenuItem Header="Update Email"/>
+                    <MenuItem Header="Change Password"/>
+                    <Separator/> <MenuItem Header="Update Payment Details"/>
+                </ContextMenu>
+            </Button.ContextMenu>
+        </Button>
         <StackPanel x:Name="LayoutRoot" DataContext="{Binding}"
-	    Orientation="Vertical" HorizontalAlignment="Center" Width="616" Margin="0,23,0,39" Grid.Row="2">
+            Orientation="Vertical" HorizontalAlignment="Center" Width="616" Margin="0,23,0,39" Grid.Row="2">
             <DataGrid AutoGenerateColumns="False" Height="165" 
-		ItemsSource="{Binding drCat_Book}"
-		x:Name="ProductsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected"
-		Width="575" HorizontalAlignment="Left" Margin="20,0,20,10"
-		SelectionMode="Single">
+        ItemsSource="{Binding drCat_Book}"
+        x:Name="ProductsDataGrid" RowDetailsVisibilityMode="VisibleWhenSelected"
+        Width="575" HorizontalAlignment="Left" Margin="20,0,20,10"
+        SelectionMode="Single">
                 <DataGrid.Columns>
                     <DataGridTextColumn
 x:Name="isbnColumn" Binding="{Binding ISBN}"
 Header="ISBN" Width="20*" />
                     <DataGridTextColumn
-			x:Name="titleColumn" Binding="{Binding Title}"
-			Header="Title" Width="30*" />
+            x:Name="titleColumn" Binding="{Binding Title}"
+            Header="Title" Width="30*" />
                     <DataGridTextColumn
-			x:Name="authorColumn" Binding="{Binding Author}"
-			Header="Author" Width="18*" />
+            x:Name="authorColumn" Binding="{Binding Author}"
+            Header="Author" Width="18*" />
                     <DataGridTextColumn
 x:Name="publisherColumn" Binding="{Binding Publisher}"
 Header="Publisher" Width="18*" />
@@ -39,46 +59,46 @@ Header="Publisher" Width="18*" />
 x:Name="editionColumn" Binding="{Binding Edition}"
 Header="Edition" Width="18*" />
                     <DataGridTextColumn
-			x:Name="priceColumn" Binding="{Binding Price}"
-			Header="Price" Width="12*" CanUserSort="False" />
+            x:Name="priceColumn" Binding="{Binding Price}"
+            Header="Price" Width="12*" CanUserSort="False" />
                     <DataGridTextColumn
-			x:Name="yearColumn" Binding="{Binding Year}"
-			Header="Year" Width="8*" />
+            x:Name="yearColumn" Binding="{Binding Year}"
+            Header="Year" Width="8*" />
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Vertical">
                 <ListView x:Name="orderListView" MinHeight="150" Width="573"
-		    ItemsSource="{Binding}" SelectionMode="Single">
+            ItemsSource="{Binding}" SelectionMode="Single">
                     <ListView.View>
                         <GridView>
                             <GridViewColumn Width="80" Header="ISBN"
-				DisplayMemberBinding="{Binding BookID}" />
+                DisplayMemberBinding="{Binding BookID}" />
                             <GridViewColumn Width="285" Header="Title"
-				DisplayMemberBinding="{Binding BookTitle}" />
+                DisplayMemberBinding="{Binding BookTitle}" />
                             <GridViewColumn Width="60" Header="Quantity"
-				DisplayMemberBinding="{Binding Quantity}" />
+                DisplayMemberBinding="{Binding Quantity}" />
                             <GridViewColumn Width="60" Header="Subtotal"
-				DisplayMemberBinding="{Binding SubTotal}" />
+                DisplayMemberBinding="{Binding SubTotal}" />
                         </GridView>
                     </ListView.View>
                 </ListView>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="10">
                 <Button x:Name="addButton" MinHeight="25" MinWidth="80"
-		    Content="Add Book" Click="addButton_Click" Margin="5,0,5,0" />
-        <Button x:Name="adminButton"
+            Content="Add Book" Click="addButton_Click" Margin="5,0,5,0" />
+                <Button x:Name="adminButton"
                 Content="Admin"
                 MinHeight="25" MinWidth="80"
                 Margin="5,0,5,0"
                 Click="adminButton_Click" />
 
-        <Button x:Name="btnRecommendBook"
+                <Button x:Name="btnRecommendBook"
                 Content="Recommend Book"
                 MinHeight="25" MinWidth="80"
                 Margin="5,0,5,0"
                 Click="btnRecommendBook_Click" />
 
-        <Button x:Name="checkoutOrderButton"
+                <Button x:Name="checkoutOrderButton"
                 Content="Proceed to Checkout"
                 MinHeight="25" MinWidth="80"
                 Margin="5,0,5,0"
@@ -89,7 +109,7 @@ Header="Edition" Width="18*" />
             <TextBlock x:Name="statusTextBlock"><Run Text="Please login before proceeding to checkout."/></TextBlock>
         </StatusBar>
         <Button Content="Search" HorizontalAlignment="Left" Margin="442,13,0,0" VerticalAlignment="Top" Height="25" x:Name="searchButton"
-		    Width="75" Click="searchButton_Click" Grid.Row="1"/>
+            Width="75" Click="searchButton_Click" Grid.Row="1"/>
         <ComboBox x:Name="search_category" HorizontalAlignment="Left" Margin="86,18,0,0" VerticalAlignment="Top" Height="23" Width="93" IsSynchronizedWithCurrentItem="True" Grid.Row="1">
             <ComboBoxItem Content="Title" IsSelected="True"/>
             <ComboBoxItem Content="Author"/>

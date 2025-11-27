@@ -26,7 +26,9 @@ using ywBookStoreLIB;
 
 namespace BookStoreGUI
 {
+    /// <summary>
     /// Interaction logic for MainWindow.xaml
+    /// </summary>
     public partial class MainWindow : Window
     {
         DataSet dsBookCat;
@@ -48,6 +50,23 @@ namespace BookStoreGUI
             if (adminButton != null)
                 adminButton.Visibility = Visibility.Collapsed;
         }
+
+        // ***************************************************************
+        //  NEW CODE: This handles the "User" button click
+        // ***************************************************************
+        private void UserProfileBtn_Click(object sender, RoutedEventArgs e)
+        {
+            // This gets the button that was clicked
+            Button btn = sender as Button;
+
+            // This tells the code: "Open the menu attached to this button right now"
+            if (btn != null && btn.ContextMenu != null)
+            {
+                btn.ContextMenu.PlacementTarget = btn;
+                btn.ContextMenu.IsOpen = true;
+            }
+        }
+        // ***************************************************************
 
         private void loginButton_Click(object sender, RoutedEventArgs e)
         {
