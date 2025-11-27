@@ -8,19 +8,17 @@ using System.Collections.ObjectModel;
 using System.Data;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Markup;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Diagnostics;
+using Microsoft.Win32; // <--- THIS IS THE MISSING PIECE FOR THE FILE PICKER
 using ywBookStoreGUI;
 using ywBookStoreLIB;
 
@@ -46,24 +44,55 @@ namespace BookStoreGUI
             userData = new UserData();
             this.orderListView.ItemsSource = bookOrder.OrderItemList;
 
-            // Ensure admin button is hidden until a real admin logs in
             if (adminButton != null)
                 adminButton.Visibility = Visibility.Collapsed;
         }
 
         // ***************************************************************
-        //  NEW CODE: This handles the "User" button click
+        //  USER PROFILE FEATURES (Menu & Picture)
         // ***************************************************************
+
+        // 1. Opens the dropdown menu when you click the User circle
         private void UserProfileBtn_Click(object sender, RoutedEventArgs e)
         {
-            // This gets the button that was clicked
             Button btn = sender as Button;
-
-            // This tells the code: "Open the menu attached to this button right now"
             if (btn != null && btn.ContextMenu != null)
             {
                 btn.ContextMenu.PlacementTarget = btn;
                 btn.ContextMenu.IsOpen = true;
+            }
+        }
+
+        // 2. Handles changing the Profile Picture
+        private void ChangeProfilePic_Click(object sender, RoutedEventArgs e)
+        {
+            // Check if user is logged in first
+            if (userData.UserID <= 0)
+            {
+                MessageBox.Show("Please login to change your profile picture.");
+                return;
+            }
+
+            // Open the file chooser
+            OpenFileDialog op = new OpenFileDialog();
+            op.Title = "Select a picture";
+            op.Filter = "All supported graphics|*.jpg;*.jpeg;*.png|" +
+                        "JPEG (*.jpg;*.jpeg)|*.jpg;*.jpeg|" +
+                        "Portable Network Graphic (*.png)|*.png";
+
+            if (op.ShowDialog() == true)
+            {
+                // Find the Ellipse (circle) inside the Button structure
+                // Note: This relies on you having named the ellipse "UserAvatarShape" in the XAML!
+                Ellipse avatarShape = UserProfileBtn.Template.FindName("UserAvatarShape", UserProfileBtn) as Ellipse;
+
+                if (avatarShape != null)
+                {
+                    ImageBrush imgBrush = new ImageBrush();
+                    imgBrush.ImageSource = new BitmapImage(new Uri(op.FileName));
+                    imgBrush.Stretch = Stretch.UniformToFill;
+                    avatarShape.Fill = imgBrush;
+                }
             }
         }
         // ***************************************************************
@@ -73,23 +102,20 @@ namespace BookStoreGUI
             LoginDialog dlg = new LoginDialog();
             dlg.Owner = this;
             dlg.ShowDialog();
-            // Process data entered by user if dialog box is accepted
+
             if (dlg.DialogResult == true)
             {
                 bool loggedIn = userData.LogIn(dlg.nameTextBox.Text, dlg.passwordTextBox.Password);
                 if (loggedIn)
                 {
-                    // Show user id and role (Admin / Regular)
                     this.statusTextBlock.Text = "User #" + userData.UserID + " (" + userData.Role + ")";
 
-                    // Show admin button only for admins (case-insensitive)
                     adminButton.Visibility = string.Equals(userData.Role, "Admin", StringComparison.OrdinalIgnoreCase)
                         ? Visibility.Visible
                         : Visibility.Collapsed;
                 }
                 else
                 {
-                    // Login failed - hide admin button explicitly and show message
                     this.statusTextBlock.Text = "Your login failed. Please try again.";
                     if (adminButton != null)
                         adminButton.Visibility = Visibility.Collapsed;
@@ -133,7 +159,6 @@ namespace BookStoreGUI
 
         private void adminButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Admin functionality to be implemented later
             MessageBox.Show("Admin area (placeholder).", "Admin", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
@@ -148,15 +173,10 @@ namespace BookStoreGUI
             CheckoutWindow checkoutDlg = new CheckoutWindow(bookOrder);
             checkoutDlg.Owner = this;
             checkoutDlg.ShowDialog();
-            /*int orderId;
-            orderId = bookOrder.PlaceOrder(userData.UserID);
-            MessageBox.Show("Your order has been placed. Your order id is " +
-            orderId.ToString());*/
         }
 
         private void btnRecommendBook_Click(object sender, RoutedEventArgs e)
         {
-            // Open the recommend window (implemented in ywBookStoreGUI)
             RecommendBookWindow recommendWin = new RecommendBookWindow();
             recommendWin.Owner = this;
             recommendWin.ShowDialog();
@@ -168,34 +188,18 @@ namespace BookStoreGUI
             string category = search_category.Text;
             searchData s = new searchData();
             int rc = s.search(keyword, category);
-            if (rc == 1)
-            {
-                MessageBox.Show("Please type the keyword.");
-            }
-            else if (rc == 3)
-            {
-                MessageBox.Show("Please type the correct format keyword try again later.");
-            }
-            else if (rc == 4)
-            {
-                MessageBox.Show("Please type the year or edition and try again.");
-            }
+            if (rc == 1) MessageBox.Show("Please type the keyword.");
+            else if (rc == 3) MessageBox.Show("Please type the correct format keyword try again later.");
+            else if (rc == 4) MessageBox.Show("Please type the year or edition and try again.");
             else if (rc == 0)
             {
                 dsBookCat = s.result;
                 if (dsBookCat.Tables.Contains("result") && dsBookCat.Tables["result"].Rows.Count > 0)
-                {
                     ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
-                }
                 else
-                {
                     MessageBox.Show("Sorry, we do not have books related with this keyword. Please try again.");
-                }
             }
-            else
-            {
-                MessageBox.Show("Sorry, something goes wrong, please try it later.");
-            }
+            else MessageBox.Show("Sorry, something goes wrong, please try it later.");
         }
 
         private void pricecheckbox_Checked(object sender, RoutedEventArgs e)
@@ -219,32 +223,14 @@ namespace BookStoreGUI
             {
                 dsBookCat = f.result;
                 if (dsBookCat.Tables.Contains("result") && dsBookCat.Tables["result"].Rows.Count > 0)
-                {
                     ProductsDataGrid.ItemsSource = dsBookCat.Tables["result"].DefaultView;
-                }
                 else
-                {
                     MessageBox.Show("Sorry, we do not have books in this price range. Please try again.");
-                }
-
             }
-            else if (rc == 1)
-            {
-                MessageBox.Show("Please input the minimum price or maximum price and try again.");
-            }
-            else if (rc == 2)
-            {
-                MessageBox.Show("The format of the price must have two decimal digits, please input again and try it later.");
-            }
-            else if (rc == 3)
-            {
-                MessageBox.Show("Sorry, the price range is incorrect. Please try again.");
-            }
-            else
-            {
-                MessageBox.Show("Sorry, something goes wrong, please try it later.");
-            }
+            else if (rc == 1) MessageBox.Show("Please input the minimum price or maximum price and try again.");
+            else if (rc == 2) MessageBox.Show("The format of the price must have two decimal digits, please input again and try it later.");
+            else if (rc == 3) MessageBox.Show("Sorry, the price range is incorrect. Please try again.");
+            else MessageBox.Show("Sorry, something goes wrong, please try it later.");
         }
-
     }
 }
