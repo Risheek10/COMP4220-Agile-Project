@@ -1,3 +1,5 @@
+name: Build and Publish
+
 on:
   push:
     branches: [ main ]
@@ -12,14 +14,18 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download nuget.exe
-        run: |
-          Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile nuget.exe
-        shell: pwsh
+      # 1. Setup MSBuild (Fixes the original error)
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      # 2. Setup NuGet (Replaces the manual Invoke-WebRequest step)
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
 
       - name: Restore NuGet packages
         run: |
-          .\nuget.exe restore "ywBookStore.sln"
+          # 'nuget' is now in the global PATH, so we don't need '.\nuget.exe'
+          nuget restore "ywBookStore.sln"
         shell: pwsh
 
       - name: Build solution (Release)
@@ -34,13 +40,14 @@ jobs:
           if (Test-Path $publishDir) { Remove-Item $publishDir -Recurse -Force }
           New-Item -ItemType Directory -Path $publishDir -Force | Out-Null
 
-          # Find all bin\Release folders (common for classic .NET projects)
+          # Find all bin\Release folders
           $releaseDirs = Get-ChildItem -Path $workspace -Recurse -Directory | Where-Object { $_.FullName -match '\\bin\\Release$' }
+          
           if ($releaseDirs.Count -eq 0) {
             Write-Host "No bin\\Release folders found. Build may be SDK-style or output folder differs."
           } else {
             foreach ($d in $releaseDirs) {
-              # create a unique subfolder name for each project output
+              # Create a unique subfolder name for each project output
               $rel = $d.FullName.Replace($workspace, '').TrimStart('\')
               $safeName = $rel -replace '[\\/:*?"<>|]','_'
               $dest = Join-Path $publishDir $safeName
@@ -51,11 +58,11 @@ jobs:
 
           $zipPath = Join-Path $workspace "artifacts\build-output.zip"
           if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          
           if ((Get-ChildItem -Path $publishDir -Recurse | Measure-Object).Count -gt 0) {
             Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $zipPath -Force
             Write-Host "Created $zipPath"
           } else {
-            # If no bin\Release was found, create an empty marker file so we can debug logs
             New-Item -Path $workspace\artifacts -ItemType Directory -Force | Out-Null
             New-Item -Path $zipPath -ItemType File -Force | Out-Null
             Write-Host "No build outputs to zip; uploading empty artifact as marker."
