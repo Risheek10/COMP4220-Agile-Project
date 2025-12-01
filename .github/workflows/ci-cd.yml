@@ -1,0 +1,69 @@
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+    name: Build ywBookStore.sln (Windows)
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download nuget.exe
+        run: |
+          Invoke-WebRequest -Uri https://dist.nuget.org/win-x86-commandline/latest/nuget.exe -OutFile nuget.exe
+        shell: pwsh
+
+      - name: Restore NuGet packages
+        run: |
+          .\nuget.exe restore "ywBookStore.sln"
+        shell: pwsh
+
+      - name: Build solution (Release)
+        run: |
+          msbuild "ywBookStore.sln" /m /p:Configuration=Release
+        shell: pwsh
+
+      - name: Collect bin\Release outputs and zip them
+        run: |
+          $workspace = $Env:GITHUB_WORKSPACE
+          $publishDir = Join-Path $workspace "artifacts\publish"
+          if (Test-Path $publishDir) { Remove-Item $publishDir -Recurse -Force }
+          New-Item -ItemType Directory -Path $publishDir -Force | Out-Null
+
+          # Find all bin\Release folders (common for classic .NET projects)
+          $releaseDirs = Get-ChildItem -Path $workspace -Recurse -Directory | Where-Object { $_.FullName -match '\\bin\\Release$' }
+          if ($releaseDirs.Count -eq 0) {
+            Write-Host "No bin\\Release folders found. Build may be SDK-style or output folder differs."
+          } else {
+            foreach ($d in $releaseDirs) {
+              # create a unique subfolder name for each project output
+              $rel = $d.FullName.Replace($workspace, '').TrimStart('\')
+              $safeName = $rel -replace '[\\/:*?"<>|]','_'
+              $dest = Join-Path $publishDir $safeName
+              New-Item -ItemType Directory -Path $dest -Force | Out-Null
+              Copy-Item -Path (Join-Path $d.FullName '*') -Destination $dest -Recurse -Force
+            }
+          }
+
+          $zipPath = Join-Path $workspace "artifacts\build-output.zip"
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          if ((Get-ChildItem -Path $publishDir -Recurse | Measure-Object).Count -gt 0) {
+            Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $zipPath -Force
+            Write-Host "Created $zipPath"
+          } else {
+            # If no bin\Release was found, create an empty marker file so we can debug logs
+            New-Item -Path $workspace\artifacts -ItemType Directory -Force | Out-Null
+            New-Item -Path $zipPath -ItemType File -Force | Out-Null
+            Write-Host "No build outputs to zip; uploading empty artifact as marker."
+          }
+        shell: pwsh
+
+      - name: Upload build artifact (zip)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ywbookstore-build
+          path: artifacts/build-output.zip
