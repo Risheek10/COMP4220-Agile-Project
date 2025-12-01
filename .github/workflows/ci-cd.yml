@@ -1,4 +1,4 @@
-name: Build and Publish
+name: Build, Lint, and Publish
 
 on:
   push:
@@ -14,24 +14,37 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # 1. Setup MSBuild (Fixes the original error)
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
-      # 2. Setup NuGet (Replaces the manual Invoke-WebRequest step)
       - name: Setup NuGet
         uses: nuget/setup-nuget@v2
 
       - name: Restore NuGet packages
-        run: |
-          # 'nuget' is now in the global PATH, so we don't need '.\nuget.exe'
-          nuget restore "ywBookStore.sln"
+        run: nuget restore "ywBookStore.sln"
         shell: pwsh
 
+      # --- NEW STEP: LINTING ---
+      # 'dotnet format' checks your code against standard C# style rules.
+      # The '--verify-no-changes' flag makes the CI fail if code is messy.
+      - name: Verify Code Formatting
+        run: |
+          dotnet format "ywBookStore.sln" --verify-no-changes --severity warn
+        shell: pwsh
+
+      # --- UPDATED STEP: STRICT BUILD ---
+      # Added '/p:TreatWarningsAsErrors=true'
+      # This forces the build to fail if there are any warnings (e.g., unused variables).
       - name: Build solution (Release)
         run: |
-          msbuild "ywBookStore.sln" /m /p:Configuration=Release
+          msbuild "ywBookStore.sln" /m /p:Configuration=Release /p:TreatWarningsAsErrors=true
         shell: pwsh
+
+      # --- OPTIONAL: UNIT TESTS ---
+      # If you have test projects, uncomment the lines below:
+      # - name: Run Unit Tests
+      #   run: dotnet test "ywBookStore.sln" --no-build --verbosity normal
+      #   shell: pwsh
 
       - name: Collect bin\Release outputs and zip them
         run: |
@@ -40,14 +53,12 @@ jobs:
           if (Test-Path $publishDir) { Remove-Item $publishDir -Recurse -Force }
           New-Item -ItemType Directory -Path $publishDir -Force | Out-Null
 
-          # Find all bin\Release folders
           $releaseDirs = Get-ChildItem -Path $workspace -Recurse -Directory | Where-Object { $_.FullName -match '\\bin\\Release$' }
           
           if ($releaseDirs.Count -eq 0) {
-            Write-Host "No bin\\Release folders found. Build may be SDK-style or output folder differs."
+            Write-Host "No bin\\Release folders found."
           } else {
             foreach ($d in $releaseDirs) {
-              # Create a unique subfolder name for each project output
               $rel = $d.FullName.Replace($workspace, '').TrimStart('\')
               $safeName = $rel -replace '[\\/:*?"<>|]','_'
               $dest = Join-Path $publishDir $safeName
@@ -65,7 +76,6 @@ jobs:
           } else {
             New-Item -Path $workspace\artifacts -ItemType Directory -Force | Out-Null
             New-Item -Path $zipPath -ItemType File -Force | Out-Null
-            Write-Host "No build outputs to zip; uploading empty artifact as marker."
           }
         shell: pwsh
 
