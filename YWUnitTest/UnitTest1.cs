@@ -27,7 +27,8 @@ namespace ywBookStoreLIB
 
         }
         [TestMethod]
-        public void TestMethod2() { //black string
+        public void TestMethod2()
+        { //black string
             //specify the value of test inputs
             inputName = "";
             inputPassword = "dc1234";

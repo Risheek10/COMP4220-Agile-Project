@@ -8,8 +8,10 @@ using System.Linq;
 using System.Text;
 using System.ComponentModel;
 
-namespace ywBookStoreLIB {
-    public class OrderItem : INotifyPropertyChanged {
+namespace ywBookStoreLIB
+{
+    public class OrderItem : INotifyPropertyChanged
+    {
         #region INotifyPropertyChanged Members
         public event PropertyChangedEventHandler PropertyChanged;
         protected void Notify(string propName)
@@ -27,15 +29,17 @@ namespace ywBookStoreLIB {
         public double UnitPrice { get; set; }
         public double SubTotal { get; set; }
 
-        public OrderItem(String isbn, String title, 
-            double unitPrice, int quantity) {
+        public OrderItem(String isbn, String title,
+            double unitPrice, int quantity)
+        {
             BookID = isbn;
             BookTitle = title;
             UnitPrice = unitPrice;
             Quantity = quantity;
             SubTotal = UnitPrice * Quantity;
         }
-        public override string ToString() {
+        public override string ToString()
+        {
             string xml = "<OrderItem ISBN='" + BookID + "'";
             xml += " Quantity='" + Quantity + "' />";
             return xml;

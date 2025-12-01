@@ -9,8 +9,10 @@ using System.Text;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
 
-namespace ywBookStoreLIB {
-    public class BookOrder {
+namespace ywBookStoreLIB
+{
+    public class BookOrder
+    {
         ObservableCollection<OrderItem> orderItemList = new
             ObservableCollection<OrderItem>();
         public ObservableCollection<OrderItem> OrderItemList

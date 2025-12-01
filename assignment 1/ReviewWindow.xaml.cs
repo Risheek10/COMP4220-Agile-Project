@@ -13,7 +13,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 using ywBookStoreLIB;
 
-namespace BookStoreGUI{
+namespace BookStoreGUI
+{
     /// <summary>
     /// Interaction logic for ReviewWindow.xaml
     /// </summary>

@@ -49,7 +49,7 @@ namespace BookStoreTests
             var result = CallPrivateMethod("GetGuessYouLikeBooks", userId) as List<dynamic>;
 
             Assert.IsNotNull(result, "Result should not be null");
-            Assert.IsTrue(result.Count <= 3, "Should return at most 3 books");
+            Assert.IsLessThanOrEqualTo(3, result.Count, "Should return at most 3 books");
         }
 
         [TestMethod]
@@ -60,7 +60,7 @@ namespace BookStoreTests
             var result = CallPrivateMethod("GetGuessYouLikeBooks", fakeUserId) as List<dynamic>;
 
             Assert.IsNotNull(result, "Fallback should still return something");
-            Assert.IsTrue(result.Count > 0, "Should return fallback random books");
+            Assert.IsNotEmpty(result, "Should return fallback random books");
         }
 
         [TestMethod]
@@ -69,7 +69,7 @@ namespace BookStoreTests
             var result = CallPrivateMethod("GetMostPopularBooks") as List<dynamic>;
 
             Assert.IsNotNull(result);
-            Assert.IsTrue(result.Count <= 3, "Should return at most 3 books");
+            Assert.IsLessThanOrEqualTo(3, result.Count, "Should return at most 3 books");
         }
     }
 }
