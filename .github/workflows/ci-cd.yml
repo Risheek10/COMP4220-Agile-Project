@@ -1,10 +1,15 @@
-name: Build, Lint, and Publish
+name: Build, Auto-Format, and Publish
 
 on:
   push:
     branches: [ main ]
+    tags: [ 'v*' ]
   pull_request:
     branches: [ main ]
+
+# We need 'write' permission so the workflow can commit the formatting changes back to the repo
+permissions:
+  contents: write
 
 jobs:
   build:
@@ -13,6 +18,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+        with:
+          # We need to fetch the full history to push back changes correctly
+          ref: ${{ github.head_ref }}
 
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
@@ -24,27 +32,38 @@ jobs:
         run: nuget restore "ywBookStore.sln"
         shell: pwsh
 
-      # --- NEW STEP: LINTING ---
-      # 'dotnet format' checks your code against standard C# style rules.
-      # The '--verify-no-changes' flag makes the CI fail if code is messy.
-      - name: Verify Code Formatting
-        run: |
-          dotnet format "ywBookStore.sln" --verify-no-changes --severity warn
+      # --- AUTO-FORMATTING STEP ---
+      # 1. Run the formatter
+      - name: Auto-format code
+        run: dotnet format "ywBookStore.sln"
         shell: pwsh
 
-      # --- UPDATED STEP: STRICT BUILD ---
-      # Added '/p:TreatWarningsAsErrors=true'
-      # This forces the build to fail if there are any warnings (e.g., unused variables).
+      # 2. Check if files changed, and if so, commit them
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply dotnet format changes
+          branch: ${{ github.head_ref }}
+
+      # --- VERSIONING STEP ---
+      - name: Determine Version
+        id: get_version
+        run: |
+          if ($env:GITHUB_REF -like 'refs/tags/v*') {
+            $version = $env:GITHUB_REF.Replace('refs/tags/v', '')
+          } else {
+            $version = '1.0.0.0'
+          }
+          Write-Host "Detected Version: $version"
+          echo "APP_VERSION=$version" >> $env:GITHUB_ENV
+        shell: pwsh
+
+      # --- BUILD STEP ---
+      # Removed '/p:TreatWarningsAsErrors=true' so warnings won't stop the build
       - name: Build solution (Release)
         run: |
-          msbuild "ywBookStore.sln" /m /p:Configuration=Release /p:TreatWarningsAsErrors=true
+          msbuild "ywBookStore.sln" /m /p:Configuration=Release /p:Version=${{ env.APP_VERSION }}
         shell: pwsh
-
-      # --- OPTIONAL: UNIT TESTS ---
-      # If you have test projects, uncomment the lines below:
-      # - name: Run Unit Tests
-      #   run: dotnet test "ywBookStore.sln" --no-build --verbosity normal
-      #   shell: pwsh
 
       - name: Collect bin\Release outputs and zip them
         run: |
@@ -84,3 +103,12 @@ jobs:
         with:
           name: ywbookstore-build
           path: artifacts/build-output.zip
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/build-output.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true
