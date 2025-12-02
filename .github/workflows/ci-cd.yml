@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    name: Build Portable EXE
+    name: Build Release
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -20,7 +20,6 @@ jobs:
         with:
           ref: ${{ github.head_ref }}
 
-      # We still need MSBuild for some dependencies, but 'dotnet' does the heavy lifting now
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
@@ -55,22 +54,25 @@ jobs:
           echo "APP_VERSION=$version" >> $env:GITHUB_ENV
         shell: pwsh
       
-      - name: Build legacy projects with MSBuild
+      # This ensures the whole solution (including WPF/XAML) compiles correctly
+      - name: Build Solution
         run: |
-          echo "Building solution with MSBuild to ensure WPF XAML is compiled..."
-          msbuild "ywBookStore.sln" /p:Configuration=Release /m
+          msbuild "ywBookStore.sln" /p:Configuration=Release /m /p:Version=${{ env.APP_VERSION }}
         shell: pwsh
       
-      - name: Publish Portable EXE
+      # --- PUBLISH ---
+      # CHANGED: Removed "SingleFile" and "SelfContained". 
+      # This now creates a standard folder with the EXE and DLLs.
+      - name: Publish Files
         run: |
-          dotnet publish "assignment 1/ywBookStoreGUI.csproj" -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ env.APP_VERSION }} -o ./artifacts/publish
+          dotnet publish "assignment 1/ywBookStoreGUI.csproj" -c Release -o ./artifacts/publish -p:Version=${{ env.APP_VERSION }}
         shell: pwsh
+
       # --- ZIP AND UPLOAD ---
-      # Much simpler now because we know exactly where the files are (./artifacts/publish)
       - name: Zip Release
         run: |
           $publishDir = ".\artifacts\publish"
-          $zipPath = ".\artifacts\portable-build.zip"
+          $zipPath = ".\artifacts\release-build.zip"
           
           if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
 
@@ -81,14 +83,14 @@ jobs:
       - name: Upload build artifact (zip)
         uses: actions/upload-artifact@v4
         with:
-          name: ywbookstore-portable
-          path: artifacts/portable-build.zip
+          name: ywbookstore-release
+          path: artifacts/release-build.zip
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/portable-build.zip
+          files: artifacts/release-build.zip
           draft: false
           prerelease: false
           generate_release_notes: true
