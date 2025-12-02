@@ -41,7 +41,7 @@ namespace BookStoreTests
             var result = recommender.GetGuessYouLikeBooks(fakeUserId);
 
             Assert.IsNotNull(result, "Fallback should still return something");
-            Assert.IsTrue(result.Count > 0, "Should return fallback random books");
+            Assert.IsNotEmpty(result, "Should return fallback random books");
         }
 
         [TestMethod]
