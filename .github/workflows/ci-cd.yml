@@ -54,18 +54,17 @@ jobs:
           Write-Host "Detected Version: $version"
           echo "APP_VERSION=$version" >> $env:GITHUB_ENV
         shell: pwsh
-
-      # --- PUBLISH SINGLE FILE ---
-      # This command replaces the old 'msbuild' step.
-      # -r win-x64: Target Windows 64-bit
-      # --self-contained: Include .NET runtime (portable)
-      # /p:PublishSingleFile=true: Merge into one EXE
-      # -o: Send output directly to the artifacts folder
+      
+      - name: Build legacy projects with MSBuild
+        run: |
+          echo "Building solution with MSBuild to ensure WPF XAML is compiled..."
+          msbuild "ywBookStore.sln" /p:Configuration=Release /m
+        shell: pwsh
+      
       - name: Publish Portable EXE
         run: |
           dotnet publish "assignment 1/ywBookStoreGUI.csproj" -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ env.APP_VERSION }} -o ./artifacts/publish
         shell: pwsh
-
       # --- ZIP AND UPLOAD ---
       # Much simpler now because we know exactly where the files are (./artifacts/publish)
       - name: Zip Release
