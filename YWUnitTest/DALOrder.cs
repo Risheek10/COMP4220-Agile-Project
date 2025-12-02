@@ -10,12 +10,16 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
 
-namespace ywBookStoreLIB {
-    class DALOrder {
-        public int Proceed2Order(string xmlOrder) {
+namespace ywBookStoreLIB
+{
+    class DALOrder
+    {
+        public int Proceed2Order(string xmlOrder)
+        {
             SqlConnection cn = new SqlConnection(
                 Properties.Settings.Default.ywConnectionString);
-            try {
+            try
+            {
                 SqlCommand cmd = cn.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "down_PlaceOrder";
@@ -34,11 +38,13 @@ namespace ywBookStoreLIB {
                 cn.Close();
                 return (int)cmd.Parameters["@OrderID"].Value;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.ToString());
                 return 0;
             }
-            finally {
+            finally
+            {
                 if (cn.State == ConnectionState.Open)
                     cn.Close();
             }

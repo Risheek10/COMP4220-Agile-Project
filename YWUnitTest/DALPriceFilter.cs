@@ -21,7 +21,7 @@ namespace ywBookStoreLIB
             {
                 cmdtext = "SELECT ISBN, Title, Author, Year, Price, Publisher, Edition FROM BookData WHERE Price <= @max";
             }
-            else if(String.IsNullOrEmpty(max))
+            else if (String.IsNullOrEmpty(max))
             {
                 cmdtext = "SELECT ISBN, Title, Author, Year, Price, Publisher, Edition FROM BookData WHERE Price >= @min";
             }

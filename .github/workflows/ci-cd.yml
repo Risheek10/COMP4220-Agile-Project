@@ -1,0 +1,94 @@
+name: Build, Auto-Format, and Publish
+
+on:
+  push:
+    branches: [ main ]
+    tags: [ 'v*' ]
+  pull_request:
+    branches: [ main ]
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    name: Build Portable EXE
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ github.head_ref }}
+
+      # We still need MSBuild for some dependencies, but 'dotnet' does the heavy lifting now
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: nuget/setup-nuget@v2
+
+      - name: Restore NuGet packages
+        run: nuget restore "ywBookStore.sln"
+        shell: pwsh
+
+      # --- AUTO-FORMAT ---
+      - name: Auto-format code
+        run: dotnet format "ywBookStore.sln"
+        shell: pwsh
+
+      - name: Commit changes
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: Apply dotnet format changes
+          branch: ${{ github.head_ref }}
+
+      # --- VERSIONING ---
+      - name: Determine Version
+        id: get_version
+        run: |
+          if ($env:GITHUB_REF -like 'refs/tags/v*') {
+            $version = $env:GITHUB_REF.Replace('refs/tags/v', '')
+          } else {
+            $version = '1.0.0.0'
+          }
+          Write-Host "Detected Version: $version"
+          echo "APP_VERSION=$version" >> $env:GITHUB_ENV
+        shell: pwsh
+      
+      - name: Build legacy projects with MSBuild
+        run: |
+          echo "Building solution with MSBuild to ensure WPF XAML is compiled..."
+          msbuild "ywBookStore.sln" /p:Configuration=Release /m
+        shell: pwsh
+      
+      - name: Publish Portable EXE
+        run: |
+          dotnet publish "assignment 1/ywBookStoreGUI.csproj" -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ env.APP_VERSION }} -o ./artifacts/publish
+        shell: pwsh
+      # --- ZIP AND UPLOAD ---
+      # Much simpler now because we know exactly where the files are (./artifacts/publish)
+      - name: Zip Release
+        run: |
+          $publishDir = ".\artifacts\publish"
+          $zipPath = ".\artifacts\portable-build.zip"
+          
+          if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+
+          Compress-Archive -Path "$publishDir\*" -DestinationPath $zipPath -Force
+          Write-Host "Created $zipPath"
+        shell: pwsh
+
+      - name: Upload build artifact (zip)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ywbookstore-portable
+          path: artifacts/portable-build.zip
+
+      - name: Create Release
+        if: startsWith(github.ref, 'refs/tags/v')
+        uses: softprops/action-gh-release@v1
+        with:
+          files: artifacts/portable-build.zip
+          draft: false
+          prerelease: false
+          generate_release_notes: true

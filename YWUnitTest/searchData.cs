@@ -37,11 +37,11 @@ namespace ywBookStoreLIB
                         continue;
                     }
                 }
-                if (category=="Year" || category=="Edition")
+                if (category == "Year" || category == "Edition")
                 {
                     for (int i = 0; i < keyword.Length; i++)
                     {
-                        if (keyword[i]< 48 || keyword[i] > 57)
+                        if (keyword[i] < 48 || keyword[i] > 57)
                         {
                             return 4;//format fail
                         }
@@ -53,10 +53,10 @@ namespace ywBookStoreLIB
                 }
                 var srh_function = new search();
                 result = srh_function.search_keyword(category, keyword);
-                return 0; 
+                return 0;
             }
-            
-                    
+
+
         }
     }
 }

@@ -44,6 +44,28 @@ Header="Edition" Width="18*" />
                     <DataGridTextColumn
 			x:Name="yearColumn" Binding="{Binding Year}"
 			Header="Year" Width="8*" />
+                    <DataGridTemplateColumn Header="Reviews" Width="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="View Reviews"
+                    Padding="6"
+                    Margin="4"
+                    Tag="{Binding ISBN}" 
+                    Click="ViewReviews_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTemplateColumn Header="Write Review" Width="50">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button Content="Write Review"
+                    Padding="6"
+                    Margin="4"
+                    Tag="{Binding ISBN}"
+                    Click="WriteReview_Click"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
                 </DataGrid.Columns>
             </DataGrid>
             <StackPanel Orientation="Vertical">

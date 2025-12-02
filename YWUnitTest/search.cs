@@ -27,10 +27,10 @@ namespace ywBookStoreLIB
                         break;
                     case "Title":
                         cmdtext = "SELECT ISBN, Title, Author, Year, Price, Publisher, Edition FROM BookData WHERE Title LIKE @keyword";
-                        break ;
+                        break;
                     case "Author":
                         cmdtext = "SELECT ISBN, Title, Author, Year, Price, Publisher, Edition FROM BookData WHERE Author LIKE @keyword";
-                        break ;
+                        break;
                     case "Year":
                         cmdtext = "SELECT ISBN, Title, Author, Year, Price, Publisher, Edition FROM BookData WHERE Year LIKE @keyword";
                         break;
@@ -44,13 +44,14 @@ namespace ywBookStoreLIB
                         cmdtext = "SELECT ISBN, Title, Author, Year, Price, Publisher, Edition FROM BookData WHERE 1=0";
                         break;
                 }
-                    SqlCommand cmd = new SqlCommand(cmdtext, conn);
-                    SqlDataAdapter adapter = new SqlDataAdapter(cmd);
-                    cmd.Parameters.AddWithValue("@keyword", "%" + keyword + "%");
-                    adapter.Fill(ds, "result");
-                    return ds;
+                SqlCommand cmd = new SqlCommand(cmdtext, conn);
+                SqlDataAdapter adapter = new SqlDataAdapter(cmd);
+                cmd.Parameters.AddWithValue("@keyword", "%" + keyword + "%");
+                adapter.Fill(ds, "result");
+                return ds;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.Message);
             }
             finally

@@ -10,15 +10,20 @@ using System.Data.SqlClient;
 using System.Data;
 using System.Diagnostics;
 
-namespace ywBookStoreLIB {
-    class DALBookCatalog {
+namespace ywBookStoreLIB
+{
+    class DALBookCatalog
+    {
         SqlConnection conn;
         DataSet dsBooks;
-        public DALBookCatalog() {
+        public DALBookCatalog()
+        {
             conn = new SqlConnection(Properties.Settings.Default.ywConnectionString);
         }
-        public DataSet GetBookInfo() {
-            try {
+        public DataSet GetBookInfo()
+        {
+            try
+            {
                 String strSQL = "Select CategoryID, Name, Description from Category";
                 SqlCommand cmdSelCategory = new SqlCommand(strSQL, conn);
                 SqlDataAdapter daCatagory = new SqlDataAdapter(cmdSelCategory);
@@ -34,7 +39,7 @@ namespace ywBookStoreLIB {
                 dsBooks.Tables["Books"].Columns["CategoryID"], false);
                 dsBooks.Relations.Add(drCat_Book);       //Set up the table relation
             }
-            catch (Exception ex) { Debug.WriteLine(ex.Message);  }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
             return dsBooks;
         }
     }
