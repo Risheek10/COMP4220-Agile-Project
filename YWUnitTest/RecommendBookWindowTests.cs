@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Reflection;
-using ywBookStoreGUI;
+using BookStoreGUI;
 using ywBookStoreLIB;
 
 namespace BookStoreTests

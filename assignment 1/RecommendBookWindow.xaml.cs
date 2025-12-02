@@ -16,7 +16,7 @@ using System.Diagnostics;
 using ywBookStoreLIB;
 using System.Collections.ObjectModel;
 
-namespace ywBookStoreGUI
+namespace BookStoreGUI
 {
     public partial class RecommendBookWindow : Window
     {
