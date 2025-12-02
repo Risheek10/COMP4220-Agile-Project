@@ -114,8 +114,10 @@ namespace BookStoreGUI
 
         private void adminButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Admin functionality to be implemented later
-            MessageBox.Show("Admin area (placeholder).", "Admin", MessageBoxButton.OK, MessageBoxImage.Information);
+            // Open the Admin Panel window
+            AdminPanel adminPanel = new AdminPanel();
+            adminPanel.Owner = this;
+            adminPanel.ShowDialog();
         }
 
         private void chechoutButton_Click(object sender, RoutedEventArgs e)

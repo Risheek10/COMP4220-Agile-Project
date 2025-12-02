@@ -70,12 +70,18 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="AdminPanel.xaml.cs">
+      <DependentUpon>AdminPanel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="CheckoutWindow.xaml.cs">
       <DependentUpon>CheckoutWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="RecommendBookWindow.xaml.cs">
       <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
     </Compile>
+    <Page Include="AdminPanel.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Compile Include="ReviewWindow.xaml.cs">
       <DependentUpon>ReviewWindow.xaml</DependentUpon>
     </Compile>
