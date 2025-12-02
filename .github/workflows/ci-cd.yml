@@ -7,21 +7,20 @@ on:
   pull_request:
     branches: [ main ]
 
-# We need 'write' permission so the workflow can commit the formatting changes back to the repo
 permissions:
   contents: write
 
 jobs:
   build:
-    name: Build ywBookStore.sln (Windows)
+    name: Build Portable EXE
     runs-on: windows-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          # We need to fetch the full history to push back changes correctly
           ref: ${{ github.head_ref }}
 
+      # We still need MSBuild for some dependencies, but 'dotnet' does the heavy lifting now
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
@@ -32,20 +31,18 @@ jobs:
         run: nuget restore "ywBookStore.sln"
         shell: pwsh
 
-      # --- AUTO-FORMATTING STEP ---
-      # 1. Run the formatter
+      # --- AUTO-FORMAT ---
       - name: Auto-format code
         run: dotnet format "ywBookStore.sln"
         shell: pwsh
 
-      # 2. Check if files changed, and if so, commit them
       - name: Commit changes
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Apply dotnet format changes
           branch: ${{ github.head_ref }}
 
-      # --- VERSIONING STEP ---
+      # --- VERSIONING ---
       - name: Determine Version
         id: get_version
         run: |
@@ -58,57 +55,41 @@ jobs:
           echo "APP_VERSION=$version" >> $env:GITHUB_ENV
         shell: pwsh
 
-      # --- BUILD STEP ---
-      # Removed '/p:TreatWarningsAsErrors=true' so warnings won't stop the build
-      - name: Build solution (Release)
+      # --- PUBLISH SINGLE FILE ---
+      # This command replaces the old 'msbuild' step.
+      # -r win-x64: Target Windows 64-bit
+      # --self-contained: Include .NET runtime (portable)
+      # /p:PublishSingleFile=true: Merge into one EXE
+      # -o: Send output directly to the artifacts folder
+      - name: Publish Portable EXE
         run: |
-          msbuild "ywBookStore.sln" /m /p:Configuration=Release /p:Version=${{ env.APP_VERSION }}
+          dotnet publish "ywBookStore.sln" -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ env.APP_VERSION }} -o ./artifacts/publish
         shell: pwsh
 
-      - name: Collect bin\Release outputs and zip them
+      # --- ZIP AND UPLOAD ---
+      # Much simpler now because we know exactly where the files are (./artifacts/publish)
+      - name: Zip Release
         run: |
-          $workspace = $Env:GITHUB_WORKSPACE
-          $publishDir = Join-Path $workspace "artifacts\publish"
-          if (Test-Path $publishDir) { Remove-Item $publishDir -Recurse -Force }
-          New-Item -ItemType Directory -Path $publishDir -Force | Out-Null
-
-          $releaseDirs = Get-ChildItem -Path $workspace -Recurse -Directory | Where-Object { $_.FullName -match '\\bin\\Release$' }
+          $publishDir = ".\artifacts\publish"
+          $zipPath = ".\artifacts\portable-build.zip"
           
-          if ($releaseDirs.Count -eq 0) {
-            Write-Host "No bin\\Release folders found."
-          } else {
-            foreach ($d in $releaseDirs) {
-              $rel = $d.FullName.Replace($workspace, '').TrimStart('\')
-              $safeName = $rel -replace '[\\/:*?"<>|]','_'
-              $dest = Join-Path $publishDir $safeName
-              New-Item -ItemType Directory -Path $dest -Force | Out-Null
-              Copy-Item -Path (Join-Path $d.FullName '*') -Destination $dest -Recurse -Force
-            }
-          }
-
-          $zipPath = Join-Path $workspace "artifacts\build-output.zip"
           if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
-          
-          if ((Get-ChildItem -Path $publishDir -Recurse | Measure-Object).Count -gt 0) {
-            Compress-Archive -Path (Join-Path $publishDir '*') -DestinationPath $zipPath -Force
-            Write-Host "Created $zipPath"
-          } else {
-            New-Item -Path $workspace\artifacts -ItemType Directory -Force | Out-Null
-            New-Item -Path $zipPath -ItemType File -Force | Out-Null
-          }
+
+          Compress-Archive -Path "$publishDir\*" -DestinationPath $zipPath -Force
+          Write-Host "Created $zipPath"
         shell: pwsh
 
       - name: Upload build artifact (zip)
         uses: actions/upload-artifact@v4
         with:
-          name: ywbookstore-build
-          path: artifacts/build-output.zip
+          name: ywbookstore-portable
+          path: artifacts/portable-build.zip
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/build-output.zip
+          files: artifacts/portable-build.zip
           draft: false
           prerelease: false
           generate_release_notes: true
