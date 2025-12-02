@@ -23,26 +23,26 @@ namespace ywBookStoreGUI
     {
         public AdminPanel()
         {
-   InitializeComponent();
-    LoadData();
+            InitializeComponent();
+            LoadData();
         }
 
-     /// <summary>
-     /// Load initial data for the admin panel
+        /// <summary>
+        /// Load initial data for the admin panel
         /// </summary>
         private void LoadData()
         {
-      // Load users data into UsersDataGrid
-      LoadSampleUsers();
+            // Load users data into UsersDataGrid
+            LoadSampleUsers();
 
             // Load inventory data into InventoryDataGrid
-LoadSampleInventory();
-     }
+            LoadSampleInventory();
+        }
 
         /// <summary>
         /// Load sample user data for demonstration
         /// </summary>
- private void LoadSampleUsers()
+        private void LoadSampleUsers()
         {
             var users = new ObservableCollection<UserInfo>
      {
@@ -55,7 +55,7 @@ LoadSampleInventory();
         }
 
         /// <summary>
- /// Load sample inventory data for demonstration
+        /// Load sample inventory data for demonstration
         /// </summary>
         private void LoadSampleInventory()
         {
@@ -67,25 +67,25 @@ new BookInfo { ISBN = "978-0-987654-32-1", Title = "Database Design", Author = "
     new BookInfo { ISBN = "978-0-111222-33-4", Title = "Advanced C# Topics", Author = "Mike Brown", StockQuantity = 28, Price = 54.99m }
      };
             InventoryDataGrid.ItemsSource = books;
-}
+        }
 
         /// <summary>
         /// Retrieve users from the database
-/// </summary>
+        /// </summary>
         private List<UserInfo> GetUsersFromDatabase()
         {
-  // TODO: Implement database call to fetch user data
-         return new List<UserInfo>();
- }
+            // TODO: Implement database call to fetch user data
+            return new List<UserInfo>();
+        }
 
         /// <summary>
         /// Retrieve inventory from the database
-      /// </summary>
+        /// </summary>
         private List<BookInfo> GetInventoryFromDatabase()
         {
-       // TODO: Implement database call to fetch inventory data
-return new List<BookInfo>();
-    }
+            // TODO: Implement database call to fetch inventory data
+            return new List<BookInfo>();
+        }
     }
 
     /// <summary>
@@ -99,7 +99,7 @@ return new List<BookInfo>();
         public DateTime JoinedDate { get; set; }
     }
 
-  /// <summary>
+    /// <summary>
     /// Book data model for inventory management
     /// </summary>
     public class BookInfo
