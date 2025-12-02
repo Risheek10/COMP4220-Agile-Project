@@ -63,7 +63,7 @@ jobs:
       # -o: Send output directly to the artifacts folder
       - name: Publish Portable EXE
         run: |
-          dotnet publish "ywBookStore.sln" -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ env.APP_VERSION }} -o ./artifacts/publish
+          dotnet publish "assignment 1/ywBookStoreGUI.csproj" -c Release -r win-x64 --self-contained -p:PublishSingleFile=true -p:Version=${{ env.APP_VERSION }} -o ./artifacts/publish
         shell: pwsh
 
       # --- ZIP AND UPLOAD ---
