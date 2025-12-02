@@ -123,6 +123,7 @@
     <Compile Include="AdminLoginTests.cs" />
     <Compile Include="BookCatalog.cs" />
     <Compile Include="BookOrder.cs" />
+    <Compile Include="BookRecommender.cs" />
     <Compile Include="CheckoutValidator.cs" />
     <Compile Include="DALPriceFilter.cs" />
     <Compile Include="DALReviews.cs" />
@@ -134,13 +135,6 @@
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALUserInfo.cs" />
     <Compile Include="OrderItem.cs" />
-    <Page Include="..\assignment 1\RecommendBookWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="..\assignment 1\RecommendBookWindow.xaml.cs">
-      <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
