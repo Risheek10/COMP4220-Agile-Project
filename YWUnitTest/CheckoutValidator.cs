@@ -7,6 +7,9 @@ namespace BookStoreGUI
     // UI-free validator so it can be unit tested.
     public static class CheckoutValidator
     {
+        private const int MaxNameLength = 25;
+        private const int MaxStreetLength = 25;
+
         // Returns (IsValid, ErrorMessage). ErrorMessage is empty on success.
         public static (bool IsValid, string Error) ValidateShippingInput(string fullName, string streetName, string city, string postalCode)
         {
@@ -15,13 +18,22 @@ namespace BookStoreGUI
                 string.IsNullOrWhiteSpace(city) ||
                 string.IsNullOrWhiteSpace(postalCode))
             {
-                return (false, "Please fill in all Shipping Address fields.");
+                return (false, "Please fill in all shipping address fields.");
+            }
+
+            if (fullName.Length > MaxNameLength)
+            {
+                return (false, "Full Name is too long.");
+            }
+            if (streetName.Length > MaxStreetLength)
+            {
+                return (false, "Street Name is too long.");
             }
 
             var postal = postalCode.Trim();
             if (postal.Length < 3 || postal.Length > 10)
             {
-                return (false, "Please enter a valid Postal Code.");
+                return (false, "Please enter a valid postal Code.");
             }
 
             return (true, string.Empty);
@@ -35,6 +47,11 @@ namespace BookStoreGUI
                 string.IsNullOrWhiteSpace(cvvT))
             {
                 return (false, "Please fill in all payment fields.");
+            }
+
+            if (cardName.Length > MaxNameLength)
+            {
+                return (false, "Cardholder name is too long.");
             }
 
             var cardNumber = cardNum.Replace(" ", "").Replace("-", "");
