@@ -17,8 +17,11 @@ jobs:
       with:
         dotnet-version: 6.0.x # Or the appropriate version for your project
 
+    - name: Clear NuGet cache
+      run: dotnet nuget locals all --clear
+
     - name: Restore dependencies
-      run: dotnet restore ywBookStore.sln
+      run: dotnet restore YWUnitTest/ywBookStoreLIB.csproj
 
     - name: Build
       run: dotnet build YWUnitTest/ywBookStoreLIB.csproj --no-restore
