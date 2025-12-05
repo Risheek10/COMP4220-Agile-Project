@@ -1,4 +1,4 @@
-# ywBookStore
+# BookStore
 
 ## Project Description
 A desktop application for a book store, developed as a project for COMP4220 (Agile Software Development). This application allows users to browse books, manage orders, and provides administrative functionalities.
