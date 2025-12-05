@@ -6,6 +6,7 @@ using System;
 namespace YWUnitTest
 {
     [TestClass]
+    [TestCategory("Database")]
     public class AdminPanelTests
     {
         private static readonly object dbLock = new object();

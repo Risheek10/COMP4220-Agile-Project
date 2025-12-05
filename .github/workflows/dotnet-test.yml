@@ -46,7 +46,7 @@ jobs:
             throw "Test assembly '$testAssemblyPath' not found. Please ensure your project builds successfully and the path is correct."
         }
 
-        & $vstestPath $testAssemblyPath /Logger:trx /EnableCodeCoverage
+        & $vstestPath $testAssemblyPath /Logger:trx /EnableCodeCoverage /TestCaseFilter:"TestCategory!=Database"
       shell: powershell
       # Note: The ywBookStoreGUI project is intentionally skipped during this CI build
       # due to compatibility issues with building .NET Framework WPF projects
