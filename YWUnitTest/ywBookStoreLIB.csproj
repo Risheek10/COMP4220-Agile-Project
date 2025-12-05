@@ -15,12 +15,8 @@
     <AssemblyName>ywBookStoreLIB</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
-    <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">15.0</VisualStudioVersion>
-    <VSToolsPath Condition="'$(VSToolsPath)' == ''">$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v$(VisualStudioVersion)</VSToolsPath>
-    <ReferencePath>$(ProgramFiles)\Common Files\microsoft shared\VSTT\$(VisualStudioVersion)\UITestExtensionPackages</ReferencePath>
-    <IsCodedUITest>False</IsCodedUITest>
     <TestProjectType>UnitTest</TestProjectType>
+    <IsTestProject>true</IsTestProject>
     <NuGetPackageImportStamp>
     </NuGetPackageImportStamp>
   </PropertyGroup>
@@ -121,7 +117,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminLoginTests.cs" />
+    <Compile Include="AdminPanelTests.cs" />
     <Compile Include="BookCatalog.cs" />
+    <Compile Include="Book.cs" />
     <Compile Include="BookOrder.cs" />
     <Compile Include="CheckoutValidator.cs" />
     <Compile Include="DALPriceFilter.cs" />
@@ -134,13 +132,6 @@
     <Compile Include="DALOrder.cs" />
     <Compile Include="DALUserInfo.cs" />
     <Compile Include="OrderItem.cs" />
-    <Page Include="..\assignment 1\RecommendBookWindow.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
-    <Compile Include="..\assignment 1\RecommendBookWindow.xaml.cs">
-      <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Properties\Settings.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
@@ -151,10 +142,10 @@
     <Compile Include="UnitTest1.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="CheckoutUnitTest.cs" />
-    <Compile Include="RecommendBookWindowTests.cs" />
     <Compile Include="UnitTest2.cs" />
     <Compile Include="UnitTest3.cs" />
     <Compile Include="UserData.cs" />
+    <Compile Include="SettingsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

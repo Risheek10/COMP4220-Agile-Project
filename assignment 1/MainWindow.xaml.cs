@@ -114,8 +114,8 @@ namespace BookStoreGUI
 
         private void adminButton_Click(object sender, RoutedEventArgs e)
         {
-            // TODO: Admin functionality to be implemented later
-            MessageBox.Show("Admin area (placeholder).", "Admin", MessageBoxButton.OK, MessageBoxImage.Information);
+            AdminWindow adminWindow = new AdminWindow();
+            adminWindow.ShowDialog();
         }
 
         private void chechoutButton_Click(object sender, RoutedEventArgs e)
@@ -226,38 +226,5 @@ namespace BookStoreGUI
                 MessageBox.Show("Sorry, something goes wrong, please try it later.");
             }
         }
-        private void ViewReviews_Click(object sender, RoutedEventArgs e)
-        {
-            Button btn = sender as Button;
-            if (btn == null) return;
-
-            string isbn = btn.Tag?.ToString();
-
-            if (string.IsNullOrEmpty(isbn))
-            {
-                MessageBox.Show("Invalid book row.", "Error", MessageBoxButton.OK, MessageBoxImage.Warning);
-                return;
-            }
-
-            ReviewWindow reviewWindow = new ReviewWindow(isbn);
-            reviewWindow.ShowDialog();
-        }
-        private void WriteReview_Click(object sender, RoutedEventArgs e)
-        {
-            if (userData.UserID <= 0)
-            {
-                MessageBox.Show("Please log in before writing a review.");
-                return;
-            }
-
-            var btn = sender as Button;
-            if (btn == null) return;
-
-            string isbn = btn.Tag.ToString();
-
-            WriteReviewWindow writeWindow = new WriteReviewWindow(isbn, userData.UserID);
-            writeWindow.ShowDialog();
-        }
-
     }
 }

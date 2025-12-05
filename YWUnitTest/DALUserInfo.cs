@@ -10,18 +10,24 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace ywBookStoreLIB
 {
-    class DALUserInfo
+    public class DALUserInfo
     {
-        public int LogIn(string userName, string password)
+        SqlConnection conn;
+
+        public DALUserInfo()
         {
-            var conn = new SqlConnection(ywBookStoreLIB.Properties.Settings.Default.ywConnectionString);
+            conn = new SqlConnection(Properties.Settings.Default.ywConnectionString);
+        }
+
+        public int LogIn(string loginName, string password)
+        {
             try
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandText = "Select UserID from UserData where "
-                    + " UserName = @UserName and Password = @Password ";
-                cmd.Parameters.AddWithValue("@UserName", userName);
+                    + "UserName = @UserName and Password = @Password ";
+                cmd.Parameters.AddWithValue("@UserName", loginName);
                 cmd.Parameters.AddWithValue("@Password", password);
                 conn.Open();
                 var userId = cmd.ExecuteScalar();
@@ -47,7 +53,6 @@ namespace ywBookStoreLIB
         // New: fetch Type and Manager flag for a given user id
         public (string UserType, bool Manager) GetUserTypeAndManager(int userId)
         {
-            var conn = new SqlConnection(ywBookStoreLIB.Properties.Settings.Default.ywConnectionString);
             try
             {
                 SqlCommand cmd = new SqlCommand();
@@ -79,6 +84,185 @@ namespace ywBookStoreLIB
             {
                 if (conn.State == ConnectionState.Open)
                     conn.Close();
+            }
+        }
+
+        public DataSet GetUsers()
+        {
+            try
+            {
+                String strSQL = "Select UserID, UserName, Type, Manager from UserData";
+                SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
+                DataSet dsUsers = new DataSet("Users");
+                daUsers.Fill(dsUsers, "Users");
+                return dsUsers;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+
+        public DataSet GetUsers(string searchTerm)
+        {
+            try
+            {
+                String strSQL = "Select UserID, UserName, Type, Manager from UserData WHERE UserName LIKE @SearchTerm";
+                SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                cmdSelUsers.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
+                SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
+                DataSet dsUsers = new DataSet("Users");
+                daUsers.Fill(dsUsers, "Users");
+                return dsUsers;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+
+        public UserData GetUser(int userId)
+        {
+            try
+            {
+                String strSQL = "SELECT * FROM UserData WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new UserData
+                    {
+                        UserID = (int)reader["UserID"],
+                        UserName = reader["UserName"].ToString(),
+                        Password = reader["Password"].ToString()
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return null;
+        }
+
+        public bool AddUser(UserData user)
+        {
+            try
+            {
+                String strSQL = "INSERT INTO UserData (UserID, UserName, Password, Type, Manager) VALUES (@UserID, @UserName, @Password, @Type, @Manager)";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserID", user.UserID);
+                cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Type", user.Type);
+                cmd.Parameters.AddWithValue("@Manager", user.Manager);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool UpdateUser(UserData user)
+        {
+            try
+            {
+                String strSQL = "UPDATE UserData SET UserName = @UserName, Password = @Password, Type = @Type, Manager = @Manager WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Type", user.Type);
+                cmd.Parameters.AddWithValue("@Manager", user.Manager);
+                cmd.Parameters.AddWithValue("@UserID", user.UserID);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            try
+            {
+                String strSQL = "DELETE FROM UserData WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public DataSet GetUsers(string searchTerm, string userType)
+        {
+            try
+            {
+                string strSQL = "Select UserID, UserName, Type, Manager from UserData WHERE UserName LIKE @SearchTerm";
+                if (userType != "All")
+                {
+                    strSQL += " AND Type = @UserType";
+                }
+                SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                cmdSelUsers.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
+                if (userType != "All")
+                {
+                    cmdSelUsers.Parameters.AddWithValue("@UserType", userType);
+                }
+                SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
+                DataSet dsUsers = new DataSet("Users");
+                daUsers.Fill(dsUsers, "Users");
+                return dsUsers;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+        public int GetTotalUsers()
+        {
+            try
+            {
+                String strSQL = "SELECT COUNT(*) FROM UserData";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                int totalUsers = (int)cmd.ExecuteScalar();
+                return totalUsers;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return -1; // Indicate error
+            }
+            finally
+            {
+                conn.Close();
             }
         }
     }

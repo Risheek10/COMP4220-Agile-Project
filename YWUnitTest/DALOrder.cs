@@ -1,26 +1,24 @@
-/* **********************************************************************************
- * For use by students taking 60-422 (Fall, 2014) to work on assignments and project.
- * Permission required material. Contact: xyuan@uwindsor.ca 
- * **********************************************************************************/
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
 using System.Data;
-using System.Diagnostics;
+using System.Data.SqlClient;
 
+using System.Diagnostics;
 namespace ywBookStoreLIB
 {
-    class DALOrder
+    public class DALOrder
     {
+        SqlConnection conn;
+
+        public DALOrder()
+        {
+            conn = new SqlConnection(Properties.Settings.Default.ywConnectionString);
+        }
+
         public int Proceed2Order(string xmlOrder)
         {
-            SqlConnection cn = new SqlConnection(
-                Properties.Settings.Default.ywConnectionString);
             try
             {
-                SqlCommand cmd = cn.CreateCommand();
+                SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "down_PlaceOrder";
                 SqlParameter inParameter = new SqlParameter();
@@ -33,9 +31,9 @@ namespace ywBookStoreLIB
                 ReturnParameter.ParameterName = "@OrderID";
                 ReturnParameter.Direction = ParameterDirection.ReturnValue;
                 cmd.Parameters.Add(ReturnParameter);
-                cn.Open();
+                conn.Open();
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                conn.Close();
                 return (int)cmd.Parameters["@OrderID"].Value;
             }
             catch (Exception ex)
@@ -45,8 +43,146 @@ namespace ywBookStoreLIB
             }
             finally
             {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
+            }
+        }
+
+        public DataSet GetOrders()
+        {
+            try
+            {
+                String strSQL = "Select OrderID, UserID, OrderDate from OrderData";
+                SqlCommand cmdSelOrders = new SqlCommand(strSQL, conn);
+                SqlDataAdapter daOrders = new SqlDataAdapter(cmdSelOrders);
+                DataSet dsOrders = new DataSet("Orders");
+                daOrders.Fill(dsOrders, "Orders");
+                return dsOrders;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+
+        public bool UpdateOrder(int orderId, DateTime orderDate)
+        {
+            try
+            {
+                String strSQL = "UPDATE OrderData SET OrderDate = @OrderDate WHERE OrderID = @OrderID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@OrderDate", orderDate);
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool DeleteOrder(int orderId)
+        {
+            try
+            {
+                String strSQL = "DELETE FROM OrderData WHERE OrderID = @OrderID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public decimal GetTotalSales()
+        {
+            try
+            {
+                String strSQL = "SELECT SUM(OI.Quantity * BD.Price) FROM OrderItem OI INNER JOIN BookData BD ON OI.ISBN = BD.ISBN";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    return (decimal)result;
+                }
+                return 0m;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return 0m;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public int GetTotalOrders()
+        {
+            try
+            {
+                String strSQL = "SELECT COUNT(*) FROM Orders";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                int totalOrders = (int)cmd.ExecuteScalar();
+                return totalOrders;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return -1; // Indicate error
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public DataTable GetSalesDataForLast30Days()
+        {
+            try
+            {
+                String strSQL = @"
+                    SELECT 
+                        CAST(O.OrderDate AS DATE) AS OrderDay,
+                        SUM(OI.Quantity * BD.Price) AS DailySales
+                    FROM Orders O
+                    JOIN OrderItem OI ON O.OrderID = OI.OrderID
+                    JOIN BookData BD ON OI.ISBN = BD.ISBN
+                    WHERE O.OrderDate >= DATEADD(day, -30, GETDATE())
+                    GROUP BY CAST(O.OrderDate AS DATE)
+                    ORDER BY OrderDay";
+
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+            finally
+            {
+                conn.Close();
             }
         }
     }

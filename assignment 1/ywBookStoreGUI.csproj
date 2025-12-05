@@ -76,11 +76,25 @@
     <Compile Include="RecommendBookWindow.xaml.cs">
       <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="ReviewWindow.xaml.cs">
-      <DependentUpon>ReviewWindow.xaml</DependentUpon>
+    <Compile Include="AdminWindow.xaml.cs">
+      <DependentUpon>AdminWindow.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
-    <Compile Include="WriteReviewWindow.xaml.cs">
-      <DependentUpon>WriteReviewWindow.xaml</DependentUpon>
+    <Compile Include="BookDialog.xaml.cs">
+      <DependentUpon>BookDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserDialog.xaml.cs">
+      <DependentUpon>UserDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="UserDetailDialog.xaml.cs">
+      <DependentUpon>UserDetailDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="ResetPasswordDialog.xaml.cs">
+      <DependentUpon>ResetPasswordDialog.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Page Include="LoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -110,13 +124,25 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="ReviewWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="AdminWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
-    <Page Include="WriteReviewWindow.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="BookDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="UserDetailDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="ResetPasswordDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>

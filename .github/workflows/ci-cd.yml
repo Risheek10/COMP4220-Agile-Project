@@ -12,7 +12,7 @@ permissions:
 
 jobs:
   build:
-    name: Build Release
+    name: Build Portable EXE
     runs-on: windows-latest
     steps:
       - name: Checkout repository
@@ -59,38 +59,34 @@ jobs:
         run: |
           msbuild "ywBookStore.sln" /p:Configuration=Release /m /p:Version=${{ env.APP_VERSION }}
         shell: pwsh
-      
-      # --- PUBLISH ---
-      # CHANGED: Removed "SingleFile" and "SelfContained". 
-      # This now creates a standard folder with the EXE and DLLs.
-      - name: Publish Files
-        run: |
-          dotnet publish "assignment 1/ywBookStoreGUI.csproj" -c Release -o ./artifacts/publish -p:Version=${{ env.APP_VERSION }}
-        shell: pwsh
 
       # --- ZIP AND UPLOAD ---
       - name: Zip Release
         run: |
-          $publishDir = ".\artifacts\publish"
-          $zipPath = ".\artifacts\release-build.zip"
+          $sourceDir = ".\assignment 1\bin\Release"
+          $zipPath = ".\artifacts\portable-build.zip"
           
           if (Test-Path $zipPath) { Remove-Item $zipPath -Force }
+          if (-not (Test-Path $sourceDir)) { throw "Source directory '$sourceDir' not found." }
 
-          Compress-Archive -Path "$publishDir\*" -DestinationPath $zipPath -Force
+          # Ensure the artifacts directory exists
+          New-Item -ItemType Directory -Force -Path ".\artifacts"
+
+          Compress-Archive -Path "$sourceDir\*" -DestinationPath $zipPath -Force
           Write-Host "Created $zipPath"
         shell: pwsh
 
       - name: Upload build artifact (zip)
         uses: actions/upload-artifact@v4
         with:
-          name: ywbookstore-release
-          path: artifacts/release-build.zip
+          name: ywbookstore-portable
+          path: artifacts/portable-build.zip
 
       - name: Create Release
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v1
         with:
-          files: artifacts/release-build.zip
+          files: artifacts/portable-build.zip
           draft: false
           prerelease: false
           generate_release_notes: true

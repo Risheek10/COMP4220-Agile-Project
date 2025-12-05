@@ -4,6 +4,7 @@ using System;
 namespace ywBookStoreLIB
 {
     [TestClass]
+    [TestCategory("Database")]
     public class UnitTest1
     {
         UserData userdata = new UserData();

@@ -1,10 +1,8 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-
-using System;
 using System.Data;
 using System.Data.SqlClient;
 
@@ -48,6 +46,56 @@ namespace ywBookStoreLIB
 
                 conn.Open();
                 cmd.ExecuteNonQuery();
+            }
+        }
+
+        public DataTable GetReviews()
+        {
+            string query = @"SELECT ReviewID, ISBN, UserID, Rating, ReviewText, CreatedAt
+                             FROM Reviews
+                             ORDER BY CreatedAt DESC";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                DataTable dt = new DataTable();
+                conn.Open();
+                new SqlDataAdapter(cmd).Fill(dt);
+                return dt;
+            }
+        }
+
+        public bool UpdateReview(int reviewId, int rating, string reviewText)
+        {
+            string query = @"UPDATE Reviews
+                             SET Rating = @rating, ReviewText = @reviewText
+                             WHERE ReviewID = @reviewId";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@reviewId", reviewId);
+                cmd.Parameters.AddWithValue("@rating", rating);
+                cmd.Parameters.AddWithValue("@reviewText", reviewText);
+
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+        }
+
+        public bool DeleteReview(int reviewId)
+        {
+            string query = @"DELETE FROM Reviews WHERE ReviewID = @reviewId";
+
+            using (SqlConnection conn = new SqlConnection(connStr))
+            using (SqlCommand cmd = new SqlCommand(query, conn))
+            {
+                cmd.Parameters.AddWithValue("@reviewId", reviewId);
+
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
             }
         }
     }

@@ -4,6 +4,7 @@ using System;
 namespace ywBookStoreLIB
 {
     [TestClass]
+    [TestCategory("Database")]
     public class AdminLoginTests
     {
         private UserData userdata;
