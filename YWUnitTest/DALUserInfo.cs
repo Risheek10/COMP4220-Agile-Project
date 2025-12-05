@@ -19,15 +19,15 @@ namespace ywBookStoreLIB
             conn = new SqlConnection(Properties.Settings.Default.ywConnectionString);
         }
 
-        public int LogIn(string userName, string password)
+        public int LogIn(string loginName, string password)
         {
             try
             {
                 SqlCommand cmd = new SqlCommand();
                 cmd.Connection = conn;
                 cmd.CommandText = "Select UserID from UserData where "
-                    + " UserName = @UserName and Password = @Password ";
-                cmd.Parameters.AddWithValue("@UserName", userName);
+                    + "UserName = @UserName and Password = @Password ";
+                cmd.Parameters.AddWithValue("@UserName", loginName);
                 cmd.Parameters.AddWithValue("@Password", password);
                 conn.Open();
                 var userId = cmd.ExecuteScalar();
@@ -91,7 +91,7 @@ namespace ywBookStoreLIB
         {
             try
             {
-                String strSQL = "Select UserID, UserName, Type, Manager from UserData";
+                String strSQL = "Select UserID, UserName from UserData";
                 SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
                 SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
                 DataSet dsUsers = new DataSet("Users");
@@ -117,9 +117,7 @@ namespace ywBookStoreLIB
                     {
                         UserID = (int)reader["UserID"],
                         UserName = reader["UserName"].ToString(),
-                        Password = reader["Password"].ToString(),
-                        Type = reader["Type"].ToString(),
-                        Manager = (bool)reader["Manager"]
+                        Password = reader["Password"].ToString()
                     };
                 }
             }
@@ -138,8 +136,9 @@ namespace ywBookStoreLIB
         {
             try
             {
-                String strSQL = "INSERT INTO UserData (UserName, Password, Type, Manager) VALUES (@UserName, @Password, @Type, @Manager)";
+                String strSQL = "INSERT INTO UserData (UserID, UserName, Password, Type, Manager) VALUES (@UserID, @UserName, @Password, @Type, @Manager)";
                 SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserID", user.UserID);
                 cmd.Parameters.AddWithValue("@UserName", user.UserName);
                 cmd.Parameters.AddWithValue("@Password", user.Password);
                 cmd.Parameters.AddWithValue("@Type", user.Type);

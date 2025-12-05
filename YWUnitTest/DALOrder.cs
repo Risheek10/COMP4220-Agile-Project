@@ -1,3 +1,8 @@
+using System;
+using System.Data;
+using System.Data.SqlClient;
+
+using System.Diagnostics;
 namespace ywBookStoreLIB
 {
     public class DALOrder

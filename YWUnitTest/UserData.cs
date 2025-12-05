@@ -13,13 +13,13 @@ namespace ywBookStoreLIB
     public class UserData
     {
         public int UserID { set; get; }
-        public string LoginName { set; get; }
+        public string UserName { set; get; }
         public string Password { set; get; }
         public Boolean LoggedIn { set; get; }
 
         // New properties to hold DB values
-        public string Type { get; private set; }      // e.g. "SA" or "RG"
-        public bool Manager { get; private set; }     // Manager bit
+        public string Type { get; set; }      // e.g. "SA" or "RG"
+        public bool Manager { get; set; }     // Manager bit
 
         // Computed role shown in UI
         public string Role
@@ -45,7 +45,7 @@ namespace ywBookStoreLIB
                 var attrs = dbUser.GetUserTypeAndManager(UserID);
                 Type = attrs.UserType;
                 Manager = attrs.Manager;
-                LoginName = loginName;
+                UserName = loginName;
                 LoggedIn = true;
                 return true;
             }
