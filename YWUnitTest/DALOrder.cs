@@ -107,5 +107,83 @@ namespace ywBookStoreLIB
             }
             return false;
         }
+
+        public decimal GetTotalSales()
+        {
+            try
+            {
+                String strSQL = "SELECT SUM(OI.Quantity * BD.Price) FROM OrderItem OI INNER JOIN BookData BD ON OI.ISBN = BD.ISBN";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    return (decimal)result;
+                }
+                return 0m;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return 0m;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public int GetTotalOrders()
+        {
+            try
+            {
+                String strSQL = "SELECT COUNT(*) FROM Orders";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                int totalOrders = (int)cmd.ExecuteScalar();
+                return totalOrders;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return -1; // Indicate error
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public DataTable GetSalesDataForLast30Days()
+        {
+            try
+            {
+                String strSQL = @"
+                    SELECT 
+                        CAST(O.OrderDate AS DATE) AS OrderDay,
+                        SUM(OI.Quantity * BD.Price) AS DailySales
+                    FROM Orders O
+                    JOIN OrderItem OI ON O.OrderID = OI.OrderID
+                    JOIN BookData BD ON OI.ISBN = BD.ISBN
+                    WHERE O.OrderDate >= DATEADD(day, -30, GETDATE())
+                    GROUP BY CAST(O.OrderDate AS DATE)
+                    ORDER BY OrderDay";
+
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

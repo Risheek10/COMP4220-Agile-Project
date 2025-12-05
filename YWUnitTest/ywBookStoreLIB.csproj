@@ -142,6 +142,7 @@
     <Compile Include="UnitTest2.cs" />
     <Compile Include="UnitTest3.cs" />
     <Compile Include="UserData.cs" />
+    <Compile Include="SettingsManager.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />

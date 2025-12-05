@@ -194,5 +194,58 @@ namespace ywBookStoreLIB
             }
             return false;
         }
+
+        public int GetTotalBooksInStock()
+        {
+            try
+            {
+                String strSQL = "SELECT SUM(InStock) FROM BookData";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                object result = cmd.ExecuteScalar();
+                if (result != DBNull.Value)
+                {
+                    return (int)result;
+                }
+                return 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return -1; // Indicate error
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
+
+        public DataTable GetTop10BestSellingBooks()
+        {
+            try
+            {
+                String strSQL = @"
+                    SELECT TOP 10 BD.Title, SUM(OI.Quantity) AS TotalSold
+                    FROM BookData BD
+                    JOIN OrderItem OI ON BD.ISBN = OI.ISBN
+                    GROUP BY BD.Title
+                    ORDER BY TotalSold DESC";
+
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                SqlDataAdapter da = new SqlDataAdapter(cmd);
+                DataTable dt = new DataTable();
+                da.Fill(dt);
+                return dt;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }

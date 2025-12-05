@@ -172,7 +172,7 @@
                         <Border Background="#3498DB" CornerRadius="8" Width="200" Height="120" Margin="0,0,10,0">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="Total Users" Foreground="White" FontSize="14" TextAlignment="Center"/>
-                                <TextBlock Text="1,234" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
+                                <TextBlock Name="TotalUsersTextBlock" Text="1,234" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
                             </StackPanel>
                         </Border>
 
@@ -180,7 +180,7 @@
                         <Border Background="#27AE60" CornerRadius="8" Width="200" Height="120" Margin="10,0,10,0">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="Total Sales" Foreground="White" FontSize="14" TextAlignment="Center"/>
-                                <TextBlock Text="$45,678" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
+                                <TextBlock Name="TotalSalesTextBlock" Text="$45,678" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
                             </StackPanel>
                         </Border>
 
@@ -188,7 +188,7 @@
                         <Border Background="#E74C3C" CornerRadius="8" Width="200" Height="120" Margin="10,0,10,0">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="Total Orders" Foreground="White" FontSize="14" TextAlignment="Center"/>
-                                <TextBlock Text="567" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
+                                <TextBlock Name="TotalOrdersTextBlock" Text="567" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
                             </StackPanel>
                         </Border>
 
@@ -196,7 +196,7 @@
                         <Border Background="#F39C12" CornerRadius="8" Width="200" Height="120" Margin="10,0,0,0">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="Books in Stock" Foreground="White" FontSize="14" TextAlignment="Center"/>
-                                <TextBlock Text="8,901" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
+                                <TextBlock Name="BooksInStockTextBlock" Text="8,901" Foreground="White" FontSize="32" FontWeight="Bold" TextAlignment="Center"/>
                             </StackPanel>
                         </Border>
                     </StackPanel>
@@ -214,7 +214,7 @@
                         <Border Grid.Column="0" Background="#ECF0F1" CornerRadius="8" Margin="0,0,10,0">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="Sales Trend (Last 30 Days)" FontSize="14" FontWeight="Bold" TextAlignment="Center"/>
-                                <TextBlock Text="[Chart Placeholder]" FontSize="12" TextAlignment="Center" Margin="0,20,0,0" Foreground="#7F8C8D"/>
+                                <TextBlock Name="SalesTrendChartTextBlock" Text="[Chart Placeholder]" FontSize="12" TextAlignment="Center" Margin="0,20,0,0" Foreground="#7F8C8D"/>
                             </StackPanel>
                         </Border>
 
@@ -222,7 +222,7 @@
                         <Border Grid.Column="1" Background="#ECF0F1" CornerRadius="8">
                             <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center">
                                 <TextBlock Text="Top 10 Best Sellers" FontSize="14" FontWeight="Bold" TextAlignment="Center"/>
-                                <TextBlock Text="[Chart Placeholder]" FontSize="12" TextAlignment="Center" Margin="0,20,0,0" Foreground="#7F8C8D"/>
+                                <TextBlock Name="TopSellersChartTextBlock" Text="[Chart Placeholder]" FontSize="12" TextAlignment="Center" Margin="0,20,0,0" Foreground="#7F8C8D"/>
                             </StackPanel>
                         </Border>
                     </Grid>
@@ -240,10 +240,10 @@
                             <TextBlock Text="General Settings" FontSize="14" FontWeight="Bold" Margin="0,0,0,10"/>
                             <Border Background="#ECF0F1" Padding="15" CornerRadius="5" Margin="0,0,0,15">
                                 <StackPanel>
-                                    <CheckBox Content="Enable User Registration" Margin="0,0,0,10"/>
-                                    <CheckBox Content="Require Email Verification" Margin="0,0,0,10"/>
-                                    <CheckBox Content="Enable Maintenance Mode" Margin="0,0,0,10"/>
-                                    <CheckBox Content="Send Daily Reports" Margin="0,0,0,10"/>
+                                    <CheckBox Name="EnableUserRegistrationCheckBox" Content="Enable User Registration" Margin="0,0,0,10"/>
+                                    <CheckBox Name="RequireEmailVerificationCheckBox" Content="Require Email Verification" Margin="0,0,0,10"/>
+                                    <CheckBox Name="EnableMaintenanceModeCheckBox" Content="Enable Maintenance Mode" Margin="0,0,0,10"/>
+                                    <CheckBox Name="SendDailyReportsCheckBox" Content="Send Daily Reports" Margin="0,0,0,10"/>
                                 </StackPanel>
                             </Border>
 
@@ -253,15 +253,15 @@
                                 <StackPanel>
                                     <StackPanel Margin="0,0,0,10">
                                         <TextBlock Text="SMTP Server:" FontWeight="Bold" Margin="0,0,0,5"/>
-                                        <TextBox Height="30" Padding="10" Text="smtp.example.com"/>
+                                        <TextBox Name="SmtpServerTextBox" Height="30" Padding="10" Text="smtp.example.com"/>
                                     </StackPanel>
                                     <StackPanel Margin="0,0,0,10">
                                         <TextBlock Text="SMTP Port:" FontWeight="Bold" Margin="0,0,0,5"/>
-                                        <TextBox Height="30" Padding="10" Text="587"/>
+                                        <TextBox Name="SmtpPortTextBox" Height="30" Padding="10" Text="587"/>
                                     </StackPanel>
                                     <StackPanel Margin="0,0,0,10">
                                         <TextBlock Text="Admin Email:" FontWeight="Bold" Margin="0,0,0,5"/>
-                                        <TextBox Height="30" Padding="10" Text="admin@bookstore.com"/>
+                                        <TextBox Name="AdminEmailTextBox" Height="30" Padding="10" Text="admin@bookstore.com"/>
                                     </StackPanel>
                                 </StackPanel>
                             </Border>

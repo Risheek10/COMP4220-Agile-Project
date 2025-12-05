@@ -14,13 +14,18 @@ namespace ywBookStoreGUI
     {
         private DALBookCatalog bookCatalog;
         private DALUserInfo userInfo;
+        private DALOrder order;
+
         public AdminWindow()
         {
             InitializeComponent();
             bookCatalog = new DALBookCatalog();
             userInfo = new DALUserInfo();
+            order = new DALOrder();
             LoadBooks();
             LoadUsers();
+            LoadAnalytics();
+            LoadSettings();
         }
 
         private void LoadBooks(string searchTerm = "", string stockStatus = "All")
@@ -51,26 +56,75 @@ namespace ywBookStoreGUI
             UsersDataGrid.ItemsSource = ds.Tables["Users"].DefaultView;
         }
 
-        private void ViewDetails_Click(object sender, RoutedEventArgs e)
+        private void LoadAnalytics()
         {
-            DataRowView selectedUser = (DataRowView)UsersDataGrid.SelectedItem;
-            if (selectedUser != null)
+            TotalUsersTextBlock.Text = userInfo.GetTotalUsers().ToString();
+            TotalSalesTextBlock.Text = order.GetTotalSales().ToString("C"); // Format as currency
+            TotalOrdersTextBlock.Text = order.GetTotalOrders().ToString();
+            BooksInStockTextBlock.Text = bookCatalog.GetTotalBooksInStock().ToString();
+
+            RenderSalesTrendChart();
+            RenderTopSellersChart();
+        }
+
+        private void RenderSalesTrendChart()
+        {
+            DataTable salesData = order.GetSalesDataForLast30Days();
+            if (salesData != null && salesData.Rows.Count > 0)
             {
-                UserData user = new UserData
+                StringBuilder chartData = new StringBuilder("Sales Trend (Last 30 Days):\n");
+                foreach (DataRow row in salesData.Rows)
                 {
-                    UserID = (int)selectedUser["UserID"],
-                    UserName = selectedUser["UserName"].ToString(),
-                    Password = selectedUser["Password"].ToString(),
-                    Type = selectedUser["Type"].ToString(),
-                    Manager = (bool)selectedUser["Manager"]
-                };
-                UserDetailDialog dialog = new UserDetailDialog(user);
-                dialog.ShowDialog();
+                    chartData.AppendLine($"Date: {((DateTime)row["OrderDay"]).ToShortDateString()}, Sales: {((decimal)row["DailySales"]).ToString("C")}");
+                }
+                SalesTrendChartTextBlock.Text = chartData.ToString();
             }
             else
             {
-                MessageBox.Show("Please select a user to view details.", "No User Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+                SalesTrendChartTextBlock.Text = "No sales data available for the last 30 days.";
             }
+        }
+
+        private void RenderTopSellersChart()
+        {
+            DataTable topSellers = bookCatalog.GetTop10BestSellingBooks();
+            if (topSellers != null && topSellers.Rows.Count > 0)
+            {
+                StringBuilder chartData = new StringBuilder("Top 10 Best Sellers:\n");
+                foreach (DataRow row in topSellers.Rows)
+                {
+                    chartData.AppendLine($"- {row["Title"]} (Sold: {row["TotalSold"]})");
+                }
+                TopSellersChartTextBlock.Text = chartData.ToString();
+            }
+            else
+            {
+                TopSellersChartTextBlock.Text = "No top selling books data available.";
+            }
+        }
+
+        private void LoadSettings()
+        {
+            EnableUserRegistrationCheckBox.IsChecked = SettingsManager.EnableUserRegistration;
+            RequireEmailVerificationCheckBox.IsChecked = SettingsManager.RequireEmailVerification;
+            EnableMaintenanceModeCheckBox.IsChecked = SettingsManager.EnableMaintenanceMode;
+            SendDailyReportsCheckBox.IsChecked = SettingsManager.SendDailyReports;
+
+            SmtpServerTextBox.Text = SettingsManager.SmtpServer;
+            SmtpPortTextBox.Text = SettingsManager.SmtpPort.ToString();
+            AdminEmailTextBox.Text = SettingsManager.AdminEmail;
+        }
+
+        private void SaveSettings()
+        {
+            SettingsManager.EnableUserRegistration = EnableUserRegistrationCheckBox.IsChecked ?? false;
+            SettingsManager.RequireEmailVerification = RequireEmailVerificationCheckBox.IsChecked ?? false;
+            SettingsManager.EnableMaintenanceMode = EnableMaintenanceModeCheckBox.IsChecked ?? false;
+            SettingsManager.SendDailyReports = SendDailyReportsCheckBox.IsChecked ?? false;
+
+            SettingsManager.SmtpServer = SmtpServerTextBox.Text;
+            SettingsManager.SmtpPort = int.Parse(SmtpPortTextBox.Text);
+            SettingsManager.AdminEmail = AdminEmailTextBox.Text;
         }
 
         private void DisableUser_Click(object sender, RoutedEventArgs e)
@@ -274,22 +328,23 @@ namespace ywBookStoreGUI
 
         private void BackupDatabase_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Backup Database Clicked");
+            MessageBox.Show("Database backup functionality would be implemented here. This involves complex database operations and permissions.", "Backup Database", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void RestoreDatabase_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Restore Database Clicked");
+            MessageBox.Show("Database restore functionality would be implemented here. This involves complex database operations and careful consideration of data integrity.", "Restore Database", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void ClearLogs_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Clear Logs Clicked");
+            MessageBox.Show("Clearing logs functionality would be implemented here. This involves file system operations or database log management.", "Clear Logs", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void SaveSettings_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Save Settings Clicked");
+            SaveSettings();
+            MessageBox.Show("Settings saved successfully.", "Save Settings", MessageBoxButton.OK, MessageBoxImage.Information);
         }
 
         private void AddBook_Click(object sender, RoutedEventArgs e)

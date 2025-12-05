@@ -245,5 +245,25 @@ namespace ywBookStoreLIB
             catch (Exception ex) { Debug.WriteLine(ex.Message); }
             return null;
         }
+        public int GetTotalUsers()
+        {
+            try
+            {
+                String strSQL = "SELECT COUNT(*) FROM UserData";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                conn.Open();
+                int totalUsers = (int)cmd.ExecuteScalar();
+                return totalUsers;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return -1; // Indicate error
+            }
+            finally
+            {
+                conn.Close();
+            }
+        }
     }
 }
