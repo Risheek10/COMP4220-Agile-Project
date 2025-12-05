@@ -32,7 +32,7 @@
         <TextBox Name="AuthorTextBox" Grid.Row="3" Grid.Column="1" />
 
         <Label Content="Price:" Grid.Row="4" Grid.Column="0" />
-        <TextBox Name="PriceTextBox" GridRow="4" Grid.Column="1" />
+        <TextBox Name="PriceTextBox" Grid.Column="1" />
 
         <Label Content="Year:" Grid.Row="5" Grid.Column="0" />
         <TextBox Name="YearTextBox" Grid.Row="5" Grid.Column="1" />

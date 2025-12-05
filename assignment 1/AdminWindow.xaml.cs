@@ -9,19 +9,13 @@ namespace ywBookStoreGUI
     {
         private DALBookCatalog bookCatalog;
         private DALUserInfo userInfo;
-        private DALOrder order;
-        private DALReviews reviews;
         public AdminWindow()
         {
             InitializeComponent();
             bookCatalog = new DALBookCatalog();
             userInfo = new DALUserInfo();
-            order = new DALOrder();
-            reviews = new DALReviews();
             LoadBooks();
             LoadUsers();
-            LoadOrders();
-            LoadReviews();
         }
 
         private void LoadBooks()
@@ -34,17 +28,6 @@ namespace ywBookStoreGUI
         {
             DataSet ds = userInfo.GetUsers();
             UsersGrid.ItemsSource = ds.Tables["Users"].DefaultView;
-        }
-
-        private void LoadOrders()
-        {
-            DataSet ds = order.GetOrders();
-            OrdersGrid.ItemsSource = ds.Tables["Orders"].DefaultView;
-        }
-
-        private void LoadReviews()
-        {
-            ReviewsGrid.ItemsSource = reviews.GetReviews().DefaultView;
         }
 
         private void AddBook_Click(object sender, RoutedEventArgs e)
@@ -169,87 +152,6 @@ namespace ywBookStoreGUI
                 else
                 {
                     MessageBox.Show("Failed to delete user.");
-                }
-            }
-        }
-
-        private void UpdateOrder_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView selectedOrder = (DataRowView)OrdersGrid.SelectedItem;
-            if (selectedOrder != null)
-            {
-                int orderId = (int)selectedOrder["OrderID"];
-                DateTime orderDate = (DateTime)selectedOrder["OrderDate"];
-
-                OrderDialog dialog = new OrderDialog(orderId, orderDate);
-                if (dialog.ShowDialog() == true)
-                {
-                    if (order.UpdateOrder(orderId, dialog.OrderDate))
-                    {
-                        LoadOrders();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to update order.");
-                    }
-                }
-            }
-        }
-
-        private void DeleteOrder_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView selectedOrder = (DataRowView)OrdersGrid.SelectedItem;
-            if (selectedOrder != null)
-            {
-                int orderId = (int)selectedOrder["OrderID"];
-                if (order.DeleteOrder(orderId))
-                {
-                    LoadOrders();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to delete order.");
-                }
-            }
-        }
-
-        private void UpdateReview_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView selectedReview = (DataRowView)ReviewsGrid.SelectedItem;
-            if (selectedReview != null)
-            {
-                int reviewId = (int)selectedReview["ReviewID"];
-                int rating = (int)selectedReview["Rating"];
-                string reviewText = selectedReview["ReviewText"].ToString();
-
-                ReviewDialog dialog = new ReviewDialog(reviewId, rating, reviewText);
-                if (dialog.ShowDialog() == true)
-                {
-                    if (reviews.UpdateReview(reviewId, dialog.Rating, dialog.ReviewText))
-                    {
-                        LoadReviews();
-                    }
-                    else
-                    {
-                        MessageBox.Show("Failed to update review.");
-                    }
-                }
-            }
-        }
-
-        private void DeleteReview_Click(object sender, RoutedEventArgs e)
-        {
-            DataRowView selectedReview = (DataRowView)ReviewsGrid.SelectedItem;
-            if (selectedReview != null)
-            {
-                int reviewId = (int)selectedReview["ReviewID"];
-                if (reviews.DeleteReview(reviewId))
-                {
-                    LoadReviews();
-                }
-                else
-                {
-                    MessageBox.Show("Failed to delete review.");
                 }
             }
         }
