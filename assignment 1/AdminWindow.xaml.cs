@@ -21,13 +21,83 @@ namespace ywBookStoreGUI
         private void LoadBooks()
         {
             DataSet ds = bookCatalog.GetBookInfo();
-            BooksGrid.ItemsSource = ds.Tables["Books"].DefaultView;
+            InventoryDataGrid.ItemsSource = ds.Tables["Books"].DefaultView;
         }
 
         private void LoadUsers()
         {
             DataSet ds = userInfo.GetUsers();
-            UsersGrid.ItemsSource = ds.Tables["Users"].DefaultView;
+            UsersDataGrid.ItemsSource = ds.Tables["Users"].DefaultView;
+        }
+
+        private void ViewDetails_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("View Details Clicked");
+        }
+
+        private void DisableUser_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Disable User Clicked");
+        }
+
+        private void RefreshUsers_Click(object sender, RoutedEventArgs e)
+        {
+            LoadUsers();
+        }
+
+        private void CreateNewUser_Click(object sender, RoutedEventArgs e)
+        {
+            AddUser_Click(sender, e);
+        }
+
+        private void ResetPassword_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Reset Password Clicked");
+        }
+
+        private void ExportUserList_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Export User List Clicked");
+        }
+
+        private void RefreshInventory_Click(object sender, RoutedEventArgs e)
+        {
+            LoadBooks();
+        }
+
+        private void BulkUpload_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Bulk Upload Clicked");
+        }
+
+        private void LowStockAlert_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Low Stock Alert Clicked");
+        }
+
+        private void ExportInventory_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Export Inventory Clicked");
+        }
+
+        private void BackupDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Backup Database Clicked");
+        }
+
+        private void RestoreDatabase_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Restore Database Clicked");
+        }
+
+        private void ClearLogs_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Clear Logs Clicked");
+        }
+
+        private void SaveSettings_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("Save Settings Clicked");
         }
 
         private void AddBook_Click(object sender, RoutedEventArgs e)
@@ -48,7 +118,7 @@ namespace ywBookStoreGUI
 
         private void UpdateBook_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView selectedBook = (DataRowView)BooksGrid.SelectedItem;
+            DataRowView selectedBook = (DataRowView)InventoryDataGrid.SelectedItem;
             if (selectedBook != null)
             {
                 Book book = new Book
@@ -80,7 +150,7 @@ namespace ywBookStoreGUI
 
         private void DeleteBook_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView selectedBook = (DataRowView)BooksGrid.SelectedItem;
+            DataRowView selectedBook = (DataRowView)InventoryDataGrid.SelectedItem;
             if (selectedBook != null)
             {
                 string isbn = selectedBook["ISBN"].ToString();
@@ -113,7 +183,7 @@ namespace ywBookStoreGUI
 
         private void UpdateUser_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView selectedUser = (DataRowView)UsersGrid.SelectedItem;
+            DataRowView selectedUser = (DataRowView)UsersDataGrid.SelectedItem;
             if (selectedUser != null)
             {
                 UserData user = new UserData
@@ -141,7 +211,7 @@ namespace ywBookStoreGUI
 
         private void DeleteUser_Click(object sender, RoutedEventArgs e)
         {
-            DataRowView selectedUser = (DataRowView)UsersGrid.SelectedItem;
+            DataRowView selectedUser = (DataRowView)UsersDataGrid.SelectedItem;
             if (selectedUser != null)
             {
                 int userId = (int)selectedUser["UserID"];
