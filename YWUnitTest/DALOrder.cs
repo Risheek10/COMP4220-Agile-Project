@@ -1,22 +1,19 @@
-/* **********************************************************************************
- * For use by students taking 60-422 (Fall, 2014) to work on assignments and project.
- * Permission required material. Contact: xyuan@uwindsor.ca 
- * **********************************************************************************/
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Data.SqlClient;
-using System.Data;
-using System.Diagnostics;
+namespace ywBookStoreLIB
+{
+    public class DALOrder
+    {
+        SqlConnection conn;
 
-namespace ywBookStoreLIB {
-    class DALOrder {
-        public int Proceed2Order(string xmlOrder) {
-            SqlConnection cn = new SqlConnection(
-                Properties.Settings.Default.ywConnectionString);
-            try {
-                SqlCommand cmd = cn.CreateCommand();
+        public DALOrder()
+        {
+            conn = new SqlConnection(Properties.Settings.Default.ywConnectionString);
+        }
+
+        public int Proceed2Order(string xmlOrder)
+        {
+            try
+            {
+                SqlCommand cmd = conn.CreateCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
                 cmd.CommandText = "down_PlaceOrder";
                 SqlParameter inParameter = new SqlParameter();
@@ -29,19 +26,81 @@ namespace ywBookStoreLIB {
                 ReturnParameter.ParameterName = "@OrderID";
                 ReturnParameter.Direction = ParameterDirection.ReturnValue;
                 cmd.Parameters.Add(ReturnParameter);
-                cn.Open();
+                conn.Open();
                 cmd.ExecuteNonQuery();
-                cn.Close();
+                conn.Close();
                 return (int)cmd.Parameters["@OrderID"].Value;
             }
-            catch (Exception ex) {
+            catch (Exception ex)
+            {
                 Debug.WriteLine(ex.ToString());
                 return 0;
             }
-            finally {
-                if (cn.State == ConnectionState.Open)
-                    cn.Close();
+            finally
+            {
+                if (conn.State == ConnectionState.Open)
+                    conn.Close();
             }
+        }
+
+        public DataSet GetOrders()
+        {
+            try
+            {
+                String strSQL = "Select OrderID, UserID, OrderDate from OrderData";
+                SqlCommand cmdSelOrders = new SqlCommand(strSQL, conn);
+                SqlDataAdapter daOrders = new SqlDataAdapter(cmdSelOrders);
+                DataSet dsOrders = new DataSet("Orders");
+                daOrders.Fill(dsOrders, "Orders");
+                return dsOrders;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+
+        public bool UpdateOrder(int orderId, DateTime orderDate)
+        {
+            try
+            {
+                String strSQL = "UPDATE OrderData SET OrderDate = @OrderDate WHERE OrderID = @OrderID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@OrderDate", orderDate);
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool DeleteOrder(int orderId)
+        {
+            try
+            {
+                String strSQL = "DELETE FROM OrderData WHERE OrderID = @OrderID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@OrderID", orderId);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
         }
     }
 }

@@ -1,0 +1,92 @@
+<Window x:Class="ywBookStoreGUI.AdminWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Admin Panel" Height="450" Width="800">
+    <Grid>
+        <TabControl>
+            <TabItem Header="Books">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="BooksGrid" AutoGenerateColumns="False" Grid.Row="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
+                            <DataGridTextColumn Header="Title" Binding="{Binding Title}" />
+                            <DataGridTextColumn Header="Author" Binding="{Binding Author}" />
+                            <DataGridTextColumn Header="Price" Binding="{Binding Price}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Add Book" Click="AddBook_Click" />
+                        <Button Content="Update Book" Click="UpdateBook_Click" />
+                        <Button Content="Delete Book" Click="DeleteBook_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Users">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="UsersGrid" AutoGenerateColumns="False" Grid.Row="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="UserID" Binding="{Binding UserID}" />
+                            <DataGridTextColumn Header="UserName" Binding="{Binding UserName}" />
+                            <DataGridTextColumn Header="Type" Binding="{Binding Type}" />
+                            <DataGridCheckBoxColumn Header="Manager" Binding="{Binding Manager}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Add User" Click="AddUser_Click" />
+                        <Button Content="Update User" Click="UpdateUser_Click" />
+                        <Button Content="Delete User" Click="DeleteUser_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Orders">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="OrdersGrid" AutoGenerateColumns="False" Grid.Row="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="OrderID" Binding="{Binding OrderID}" />
+                            <DataGridTextColumn Header="UserID" Binding="{Binding UserID}" />
+                            <DataGridTextColumn Header="OrderDate" Binding="{Binding OrderDate}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Update Order" Click="UpdateOrder_Click" />
+                        <Button Content="Delete Order" Click="DeleteOrder_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+            <TabItem Header="Reviews">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="*" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <DataGrid Name="ReviewsGrid" AutoGenerateColumns="False" Grid.Row="0">
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="ReviewID" Binding="{Binding ReviewID}" />
+                            <DataGridTextColumn Header="ISBN" Binding="{Binding ISBN}" />
+                            <DataGridTextColumn Header="UserID" Binding="{Binding UserID}" />
+                            <DataGridTextColumn Header="Rating" Binding="{Binding Rating}" />
+                            <DataGridTextColumn Header="ReviewText" Binding="{Binding ReviewText}" />
+                            <DataGridTextColumn Header="CreatedAt" Binding="{Binding CreatedAt}" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button Content="Update Review" Click="UpdateReview_Click" />
+                        <Button Content="Delete Review" Click="DeleteReview_Click" />
+                    </StackPanel>
+                </Grid>
+            </TabItem>
+        </TabControl>
+    </Grid>
+</Window>

@@ -1,0 +1,27 @@
+<Window x:Class="ywBookStoreGUI.OrderDialog"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Order Details" Height="200" Width="400">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+
+        <Label Content="OrderID:" Grid.Row="0" Grid.Column="0" />
+        <TextBox Name="OrderIDTextBox" Grid.Row="0" Grid.Column="1" IsReadOnly="True" />
+
+        <Label Content="Order Date:" Grid.Row="1" Grid.Column="0" />
+        <DatePicker Name="OrderDatePicker" Grid.Row="1" Grid.Column="1" />
+
+        <StackPanel Grid.Row="2" Grid.Column="1" Orientation="Horizontal" HorizontalAlignment="Right">
+            <Button Content="OK" Click="OK_Click" />
+            <Button Content="Cancel" Click="Cancel_Click" />
+        </StackPanel>
+    </Grid>
+</Window>

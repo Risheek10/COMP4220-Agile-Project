@@ -114,10 +114,8 @@ namespace BookStoreGUI
 
         private void adminButton_Click(object sender, RoutedEventArgs e)
         {
-            // Open the Admin Panel window
-            AdminPanel adminPanel = new AdminPanel();
-            adminPanel.Owner = this;
-            adminPanel.ShowDialog();
+            AdminWindow adminWindow = new AdminWindow();
+            adminWindow.ShowDialog();
         }
 
         private void chechoutButton_Click(object sender, RoutedEventArgs e)

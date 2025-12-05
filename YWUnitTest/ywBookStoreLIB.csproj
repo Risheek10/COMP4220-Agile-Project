@@ -121,7 +121,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AdminLoginTests.cs" />
+    <Compile Include="AdminPanelTests.cs" />
     <Compile Include="BookCatalog.cs" />
+    <Compile Include="Book.cs" />
     <Compile Include="BookOrder.cs" />
     <Compile Include="CheckoutValidator.cs" />
     <Compile Include="DALPriceFilter.cs" />

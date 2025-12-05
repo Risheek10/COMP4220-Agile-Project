@@ -10,11 +10,17 @@ using System.Runtime.InteropServices.WindowsRuntime;
 
 namespace ywBookStoreLIB
 {
-    class DALUserInfo
+    public class DALUserInfo
     {
+        SqlConnection conn;
+
+        public DALUserInfo()
+        {
+            conn = new SqlConnection(Properties.Settings.Default.ywConnectionString);
+        }
+
         public int LogIn(string userName, string password)
         {
-            var conn = new SqlConnection(ywBookStoreLIB.Properties.Settings.Default.ywConnectionString);
             try
             {
                 SqlCommand cmd = new SqlCommand();
@@ -47,7 +53,6 @@ namespace ywBookStoreLIB
         // New: fetch Type and Manager flag for a given user id
         public (string UserType, bool Manager) GetUserTypeAndManager(int userId)
         {
-            var conn = new SqlConnection(ywBookStoreLIB.Properties.Settings.Default.ywConnectionString);
             try
             {
                 SqlCommand cmd = new SqlCommand();
@@ -80,6 +85,126 @@ namespace ywBookStoreLIB
                 if (conn.State == ConnectionState.Open)
                     conn.Close();
             }
+        }
+
+        public DataSet GetUsers()
+        {
+            try
+            {
+                String strSQL = "Select UserID, UserName, Type, Manager from UserData";
+                SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
+                DataSet dsUsers = new DataSet("Users");
+                daUsers.Fill(dsUsers, "Users");
+                return dsUsers;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+
+        public UserData GetUser(int userId)
+        {
+            try
+            {
+                String strSQL = "SELECT * FROM UserData WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                SqlDataReader reader = cmd.ExecuteReader();
+                if (reader.Read())
+                {
+                    return new UserData
+                    {
+                        UserID = (int)reader["UserID"],
+                        UserName = reader["UserName"].ToString(),
+                        Password = reader["Password"].ToString(),
+                        Type = reader["Type"].ToString(),
+                        Manager = (bool)reader["Manager"]
+                    };
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return null;
+        }
+
+        public bool AddUser(UserData user)
+        {
+            try
+            {
+                String strSQL = "INSERT INTO UserData (UserName, Password, Type, Manager) VALUES (@UserName, @Password, @Type, @Manager)";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Type", user.Type);
+                cmd.Parameters.AddWithValue("@Manager", user.Manager);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool UpdateUser(UserData user)
+        {
+            try
+            {
+                String strSQL = "UPDATE UserData SET UserName = @UserName, Password = @Password, Type = @Type, Manager = @Manager WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserName", user.UserName);
+                cmd.Parameters.AddWithValue("@Password", user.Password);
+                cmd.Parameters.AddWithValue("@Type", user.Type);
+                cmd.Parameters.AddWithValue("@Manager", user.Manager);
+                cmd.Parameters.AddWithValue("@UserID", user.UserID);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
+        }
+
+        public bool DeleteUser(int userId)
+        {
+            try
+            {
+                String strSQL = "DELETE FROM UserData WHERE UserID = @UserID";
+                SqlCommand cmd = new SqlCommand(strSQL, conn);
+                cmd.Parameters.AddWithValue("@UserID", userId);
+                conn.Open();
+                int rowsAffected = cmd.ExecuteNonQuery();
+                return rowsAffected > 0;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                conn.Close();
+            }
+            return false;
         }
     }
 }
