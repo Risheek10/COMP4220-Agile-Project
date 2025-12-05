@@ -91,8 +91,24 @@ namespace ywBookStoreLIB
         {
             try
             {
-                String strSQL = "Select UserID, UserName from UserData";
+                String strSQL = "Select UserID, UserName, Type, Manager from UserData";
                 SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
+                DataSet dsUsers = new DataSet("Users");
+                daUsers.Fill(dsUsers, "Users");
+                return dsUsers;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
+        }
+
+        public DataSet GetUsers(string searchTerm)
+        {
+            try
+            {
+                String strSQL = "Select UserID, UserName, Type, Manager from UserData WHERE UserName LIKE @SearchTerm";
+                SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                cmdSelUsers.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
                 SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
                 DataSet dsUsers = new DataSet("Users");
                 daUsers.Fill(dsUsers, "Users");
@@ -204,6 +220,30 @@ namespace ywBookStoreLIB
                 conn.Close();
             }
             return false;
+        }
+
+        public DataSet GetUsers(string searchTerm, string userType)
+        {
+            try
+            {
+                string strSQL = "Select UserID, UserName, Type, Manager from UserData WHERE UserName LIKE @SearchTerm";
+                if (userType != "All")
+                {
+                    strSQL += " AND Type = @UserType";
+                }
+                SqlCommand cmdSelUsers = new SqlCommand(strSQL, conn);
+                cmdSelUsers.Parameters.AddWithValue("@SearchTerm", "%" + searchTerm + "%");
+                if (userType != "All")
+                {
+                    cmdSelUsers.Parameters.AddWithValue("@UserType", userType);
+                }
+                SqlDataAdapter daUsers = new SqlDataAdapter(cmdSelUsers);
+                DataSet dsUsers = new DataSet("Users");
+                daUsers.Fill(dsUsers, "Users");
+                return dsUsers;
+            }
+            catch (Exception ex) { Debug.WriteLine(ex.Message); }
+            return null;
         }
     }
 }

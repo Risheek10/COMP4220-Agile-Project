@@ -2,6 +2,9 @@ using System.Windows;
 using ywBookStoreLIB;
 using System.Data;
 using System.Windows.Controls;
+using System.IO;
+using System.Text;
+using Microsoft.Win32;
 
 namespace ywBookStoreGUI
 {
@@ -18,31 +21,90 @@ namespace ywBookStoreGUI
             LoadUsers();
         }
 
-        private void LoadBooks()
+        private void LoadBooks(string searchTerm = "", string stockStatus = "All")
         {
-            DataSet ds = bookCatalog.GetBookInfo();
+            DataSet ds;
+            if (string.IsNullOrEmpty(searchTerm) && stockStatus == "All")
+            {
+                ds = bookCatalog.GetBookInfo();
+            }
+            else
+            {
+                ds = bookCatalog.GetBookInfo(searchTerm, stockStatus);
+            }
             InventoryDataGrid.ItemsSource = ds.Tables["Books"].DefaultView;
         }
 
-        private void LoadUsers()
+        private void LoadUsers(string searchTerm = "", string filterStatus = "All")
         {
-            DataSet ds = userInfo.GetUsers();
+            DataSet ds;
+            if (string.IsNullOrEmpty(searchTerm) && filterStatus == "All")
+            {
+                ds = userInfo.GetUsers();
+            }
+            else
+            {
+                ds = userInfo.GetUsers(searchTerm, filterStatus);
+            }
             UsersDataGrid.ItemsSource = ds.Tables["Users"].DefaultView;
         }
 
         private void ViewDetails_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("View Details Clicked");
+            DataRowView selectedUser = (DataRowView)UsersDataGrid.SelectedItem;
+            if (selectedUser != null)
+            {
+                UserData user = new UserData
+                {
+                    UserID = (int)selectedUser["UserID"],
+                    UserName = selectedUser["UserName"].ToString(),
+                    Password = selectedUser["Password"].ToString(),
+                    Type = selectedUser["Type"].ToString(),
+                    Manager = (bool)selectedUser["Manager"]
+                };
+                UserDetailDialog dialog = new UserDetailDialog(user);
+                dialog.ShowDialog();
+            }
+            else
+            {
+                MessageBox.Show("Please select a user to view details.", "No User Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void DisableUser_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Disable User Clicked");
+            DataRowView selectedUser = (DataRowView)UsersDataGrid.SelectedItem;
+            if (selectedUser != null)
+            {
+                UserData user = new UserData
+                {
+                    UserID = (int)selectedUser["UserID"],
+                    UserName = selectedUser["UserName"].ToString(),
+                    Password = selectedUser["Password"].ToString(),
+                    Type = "DI", // Assuming "DI" means Disabled
+                    Manager = false
+                };
+                if (userInfo.UpdateUser(user))
+                {
+                    LoadUsers();
+                    MessageBox.Show("User disabled successfully.");
+                }
+                else
+                {
+                    MessageBox.Show("Failed to disable user.");
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a user to disable.", "No User Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void RefreshUsers_Click(object sender, RoutedEventArgs e)
         {
-            LoadUsers();
+            string searchTerm = SearchUserTextBox.Text == "Enter username or email" ? "" : SearchUserTextBox.Text;
+            string filterStatus = (FilterUserStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "All";
+            LoadUsers(searchTerm, filterStatus);
         }
 
         private void CreateNewUser_Click(object sender, RoutedEventArgs e)
@@ -52,17 +114,72 @@ namespace ywBookStoreGUI
 
         private void ResetPassword_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Reset Password Clicked");
+            DataRowView selectedUser = (DataRowView)UsersDataGrid.SelectedItem;
+            if (selectedUser != null)
+            {
+                ResetPasswordDialog dialog = new ResetPasswordDialog();
+                if (dialog.ShowDialog() == true)
+                {
+                    UserData user = new UserData
+                    {
+                        UserID = (int)selectedUser["UserID"],
+                        UserName = selectedUser["UserName"].ToString(),
+                        Password = dialog.NewPassword,
+                        Type = selectedUser["Type"].ToString(),
+                        Manager = (bool)selectedUser["Manager"]
+                    };
+                    if (userInfo.UpdateUser(user))
+                    {
+                        LoadUsers();
+                        MessageBox.Show("User password reset successfully.");
+                    }
+                    else
+                    {
+                        MessageBox.Show("Failed to reset user password.");
+                    }
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select a user to reset password.", "No User Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void ExportUserList_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Export User List Clicked");
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV file (*.csv)|*.csv";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                StringBuilder csv = new StringBuilder();
+
+                // Add header row
+                foreach (DataGridColumn column in UsersDataGrid.Columns)
+                {
+                    csv.Append(column.Header.ToString() + ",");
+                }
+                csv.AppendLine();
+
+                // Add data rows
+                foreach (DataRowView row in UsersDataGrid.ItemsSource)
+                {
+                    foreach (DataGridColumn column in UsersDataGrid.Columns)
+                    {
+                        csv.Append(row[column.Header.ToString()].ToString() + ",");
+                    }
+                    csv.AppendLine();
+                }
+
+                File.WriteAllText(saveFileDialog.FileName, csv.ToString());
+                MessageBox.Show("User list exported successfully.", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void RefreshInventory_Click(object sender, RoutedEventArgs e)
         {
-            LoadBooks();
+            string searchTerm = SearchBookTextBox.Text == "Title, ISBN, or Author" ? "" : SearchBookTextBox.Text;
+            string stockStatus = (FilterStockStatusComboBox.SelectedItem as ComboBoxItem)?.Content.ToString() ?? "All";
+            LoadBooks(searchTerm, stockStatus);
         }
 
         private void BulkUpload_Click(object sender, RoutedEventArgs e)
@@ -77,7 +194,32 @@ namespace ywBookStoreGUI
 
         private void ExportInventory_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Export Inventory Clicked");
+            SaveFileDialog saveFileDialog = new SaveFileDialog();
+            saveFileDialog.Filter = "CSV file (*.csv)|*.csv";
+            if (saveFileDialog.ShowDialog() == true)
+            {
+                StringBuilder csv = new StringBuilder();
+
+                // Add header row
+                foreach (DataGridColumn column in InventoryDataGrid.Columns)
+                {
+                    csv.Append(column.Header.ToString() + ",");
+                }
+                csv.AppendLine();
+
+                // Add data rows
+                foreach (DataRowView row in InventoryDataGrid.ItemsSource)
+                {
+                    foreach (DataGridColumn column in InventoryDataGrid.Columns)
+                    {
+                        csv.Append(row[column.Header.ToString()].ToString() + ",");
+                    }
+                    csv.AppendLine();
+                }
+
+                File.WriteAllText(saveFileDialog.FileName, csv.ToString());
+                MessageBox.Show("Inventory exported successfully.", "Export Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void BackupDatabase_Click(object sender, RoutedEventArgs e)
@@ -190,6 +332,7 @@ namespace ywBookStoreGUI
                 {
                     UserID = (int)selectedUser["UserID"],
                     UserName = selectedUser["UserName"].ToString(),
+                    Password = selectedUser["Password"].ToString(),
                     Type = selectedUser["Type"].ToString(),
                     Manager = (bool)selectedUser["Manager"]
                 };
