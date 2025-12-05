@@ -12,22 +12,42 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v1.1
       with:
-        dotnet-version: 6.0.x # Or the appropriate version for your project
+        msbuild-version: 'latest' # Or a specific version like '17.0'
 
-    - name: Clear NuGet cache
-      run: dotnet nuget locals all --clear
+    - name: Setup NuGet
+      uses: NuGet/setup-nuget@v1
+      with:
+        nuget-version: '6.x' # Or a specific version like '6.8.0'
+
 
     - name: Restore dependencies
-      run: dotnet restore YWUnitTest/ywBookStoreLIB.csproj
+      run: nuget restore ywBookStore.sln
 
-    - name: Build
-      run: dotnet build YWUnitTest/ywBookStoreLIB.csproj
+    - name: Build Solution
+      run: msbuild ywBookStore.sln /p:Configuration=Release /p:Platform="Any CPU"
 
-    - name: Test
-      run: dotnet test YWUnitTest/ywBookStoreLIB.csproj --no-build --verbosity normal
+    - name: Run MSTest Tests
+      run: |
+        $vstestPath = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\VisualStudio\17.0\InstallDir")."InstallDir" + "\Common7\IDE\Extensions\TestPlatform\vstest.console.exe"
+        if (-not (Test-Path $vstestPath)) {
+            $vstestPath = (Get-ItemProperty "HKLM:\SOFTWARE\Microsoft\VisualStudio\16.0\InstallDir")."InstallDir" + "\Common7\IDE\CommonExtensions\Microsoft\TestWindow\vstest.console.exe"
+        }
+        if (-not (Test-Path $vstestPath)) {
+            throw "vstest.console.exe not found. Please check the runner environment or update the path."
+        }
+
+        # Replace YourTestProject.dll with the actual assembly name of your test project
+        # This assumes your test assembly is in the Release build output directory.
+        $testAssemblyPath = "YWUnitTest\bin\Release\YWUnitTest.dll" # Assuming test project is YWUnitTest and its output is YWUnitTest.dll
+        if (-not (Test-Path $testAssemblyPath)) {
+            throw "Test assembly '$testAssemblyPath' not found. Please ensure your project builds successfully and the path is correct."
+        }
+
+        & $vstestPath $testAssemblyPath /Logger:trx /EnableCodeCoverage
+      shell: powershell
       # Note: The ywBookStoreGUI project is intentionally skipped during this CI build
       # due to compatibility issues with building .NET Framework WPF projects
       # in the dotnet build environment. It should be built locally using Visual Studio.
