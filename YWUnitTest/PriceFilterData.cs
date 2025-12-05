@@ -29,11 +29,12 @@ namespace ywBookStoreLIB
                     return 2;
                 }
 
-                if (!String.IsNullOrEmpty(min) && !String.IsNullOrEmpty(max)) {//make sure min < max
-                    if(Double.Parse(min) > Double.Parse(max)) 
-                    { 
+                if (!String.IsNullOrEmpty(min) && !String.IsNullOrEmpty(max))
+                {//make sure min < max
+                    if (Double.Parse(min) > Double.Parse(max))
+                    {
                         return 3;
-                     }
+                    }
                 }
                 result = priceFilter.PriceFilter(min, max); //get dataset
                 return 0;
