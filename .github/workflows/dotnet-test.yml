@@ -18,7 +18,7 @@ jobs:
         dotnet-version: 6.0.x # Or the appropriate version for your project
 
     - name: Restore dependencies
-      run: dotnet restore YWUnitTest/ywBookStoreLIB.csproj
+      run: dotnet restore ywBookStore.sln
 
     - name: Build
       run: dotnet build YWUnitTest/ywBookStoreLIB.csproj --no-restore
