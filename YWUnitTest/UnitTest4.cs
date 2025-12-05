@@ -1,4 +1,4 @@
-﻿using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Microsoft.VisualStudio.TestTools.UnitTesting;
 using System;
 using System.Data;
 
@@ -25,8 +25,10 @@ namespace ywBookStoreLIB
             dataTable.Columns.Add("Year", typeof(string));
 
             dataTable.Rows.Add("0135974445", "Agile Software Development, Principles, Patterns, and Practices", "Robert C. Martin", "Pearson", "1", "70.40", "2002");
+            DataView view = dataTable.DefaultView;
+            DataRowView row = view[0];
             expectedResult = true;
-            actualResult = true;
+            actualResult = check.detailCheck(row);
             Assert.AreEqual(expectedResult, actualResult);
         }
         [TestMethod]
@@ -39,10 +41,11 @@ namespace ywBookStoreLIB
             dataTable.Columns.Add("Edition", typeof(string));
             dataTable.Columns.Add("Price", typeof(string));
             dataTable.Columns.Add("Year", typeof(string));
-
             dataTable.Rows.Add("", "Agile Software Development, Principles, Patterns, and Practices", "Robert C. Martin", "Pearson", "1", "70.40", "2002");
+            DataView view = dataTable.DefaultView;
+            DataRowView row = view[0];
             expectedResult = false;
-            actualResult = false;
+            actualResult = check.detailCheck(row);
             Assert.AreEqual(expectedResult, actualResult);
         }
         [TestMethod]
@@ -55,10 +58,11 @@ namespace ywBookStoreLIB
             dataTable.Columns.Add("Edition", typeof(string));
             dataTable.Columns.Add("Price", typeof(string));
             dataTable.Columns.Add("Year", typeof(string));
-
             dataTable.Rows.Add("0135974445", "", "Robert C. Martin", "Pearson", "1", "70.40", "2002");
+            DataView view = dataTable.DefaultView;
+            DataRowView row = view[0];
             expectedResult = false;
-            actualResult = false;
+            actualResult = check.detailCheck(row);
             Assert.AreEqual(expectedResult, actualResult);
         }
         [TestMethod]
@@ -71,15 +75,17 @@ namespace ywBookStoreLIB
             dataTable.Columns.Add("Edition", typeof(string));
             dataTable.Columns.Add("Price", typeof(string));
             dataTable.Columns.Add("Year", typeof(string));
-
             dataTable.Rows.Add("0135974445", "Agile Software Development, Principles, Patterns, and Practices", "Robert C. Martin", "Pearson", "1", "", "2002");
+            DataView view = dataTable.DefaultView;
+            DataRowView row = view[0];
             expectedResult = false;
-            actualResult = false;
+            actualResult = check.detailCheck(row);
             Assert.AreEqual(expectedResult, actualResult);
         }
         [TestMethod]
         public void TestMethod5() // empty row
         {
+
             dataTable.Columns.Add("ISBN", typeof(string));
             dataTable.Columns.Add("Title", typeof(string));
             dataTable.Columns.Add("Author", typeof(string));
@@ -87,12 +93,15 @@ namespace ywBookStoreLIB
             dataTable.Columns.Add("Edition", typeof(string));
             dataTable.Columns.Add("Price", typeof(string));
             dataTable.Columns.Add("Year", typeof(string));
-
             dataTable.Rows.Add("", "", "", "", "", "", "");
+            DataView view = dataTable.DefaultView;
+            DataRowView row = view[0];
             expectedResult = false;
-            actualResult = false;
+            actualResult = check.detailCheck(row);
             Assert.AreEqual(expectedResult, actualResult);
         }
 
     }
 }
+
+
