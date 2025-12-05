@@ -5,6 +5,8 @@ using System.Windows.Controls;
 using System.IO;
 using System.Text;
 using Microsoft.Win32;
+using System.Linq;
+using System;;
 
 namespace ywBookStoreGUI
 {
@@ -184,12 +186,60 @@ namespace ywBookStoreGUI
 
         private void BulkUpload_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Bulk Upload Clicked");
+            OpenFileDialog openFileDialog = new OpenFileDialog();
+            openFileDialog.Filter = "CSV files (*.csv)|*.csv";
+            if (openFileDialog.ShowDialog() == true)
+            {
+                try
+                {
+                    string[] lines = File.ReadAllLines(openFileDialog.FileName);
+                    foreach (string line in lines.Skip(1)) // Skip header row
+                    {
+                        string[] values = line.Split(',');
+                        if (values.Length >= 8) // Ensure enough columns for Book data
+                        {
+                            Book book = new Book
+                            {
+                                ISBN = values[0],
+                                CategoryID = int.Parse(values[1]),
+                                Title = values[2],
+                                Author = values[3],
+                                Price = decimal.Parse(values[4]),
+                                Year = int.Parse(values[5]),
+                                Edition = values[6],
+                                Publisher = values[7]
+                            };
+                            bookCatalog.AddBook(book);
+                        }
+                    }
+                    LoadBooks();
+                    MessageBox.Show("Books uploaded successfully.", "Bulk Upload Complete", MessageBoxButton.OK, MessageBoxImage.Information);
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show($"Error during bulk upload: {ex.Message}", "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+                }
+            }
         }
 
         private void LowStockAlert_Click(object sender, RoutedEventArgs e)
         {
-            MessageBox.Show("Low Stock Alert Clicked");
+            DataSet ds = bookCatalog.GetBookInfo("", "Low Stock"); // Use the GetBookInfo overload to filter for low stock
+            DataTable lowStockBooks = ds.Tables["Books"];
+
+            if (lowStockBooks != null && lowStockBooks.Rows.Count > 0)
+            {
+                StringBuilder alertMessage = new StringBuilder("The following books are low in stock:\n");
+                foreach (DataRow row in lowStockBooks.Rows)
+                {
+                    alertMessage.AppendLine($"- {row["Title"]} by {row["Author"]} (ISBN: {row["ISBN"]}, Stock: {row["InStock"]})");
+                }
+                MessageBox.Show(alertMessage.ToString(), "Low Stock Alert", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+            else
+            {
+                MessageBox.Show("No books are currently low in stock.", "Low Stock Alert", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void ExportInventory_Click(object sender, RoutedEventArgs e)
