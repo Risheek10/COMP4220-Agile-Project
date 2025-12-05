@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
@@ -13,17 +13,25 @@ namespace ywBookStoreLIB
         {
             if (selectedRow == null) { 
                 return false;
-            
-            }else if (selectedRow.Row.IsNull("Title") || selectedRow.Row.IsNull("Price") || selectedRow.Row.IsNull("ISBN"))
-            {
-                return false;
+
             }
             else
             {
-                return true;
+                string isbn = selectedRow["ISBN"].ToString();
+                string title = selectedRow["Title"].ToString();
+                string price = selectedRow["Price"].ToString() ;
+                if (string.IsNullOrEmpty(isbn) || string.IsNullOrEmpty(title) || string.IsNullOrEmpty(price))
+                {
+                    return false;
+                }
+                else
+                {
+                    return true;
+                }
             }
-   
         }
         
     }
 }
+
+
