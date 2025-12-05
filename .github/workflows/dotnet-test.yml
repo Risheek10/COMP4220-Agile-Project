@@ -41,7 +41,7 @@ jobs:
 
         # Replace YourTestProject.dll with the actual assembly name of your test project
         # This assumes your test assembly is in the Release build output directory.
-        $testAssemblyPath = "YWUnitTest\bin\Release\YWUnitTest.dll" # Assuming test project is YWUnitTest and its output is YWUnitTest.dll
+        $testAssemblyPath = "YWUnitTest\bin\Release\ywBookStoreLIB.dll" # Corrected assembly name
         if (-not (Test-Path $testAssemblyPath)) {
             throw "Test assembly '$testAssemblyPath' not found. Please ensure your project builds successfully and the path is correct."
         }
