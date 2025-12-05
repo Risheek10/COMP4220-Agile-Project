@@ -24,7 +24,7 @@ jobs:
       run: dotnet restore YWUnitTest/ywBookStoreLIB.csproj
 
     - name: Build
-      run: dotnet build YWUnitTest/ywBookStoreLIB.csproj --no-restore
+      run: dotnet build YWUnitTest/ywBookStoreLIB.csproj
 
     - name: Test
       run: dotnet test YWUnitTest/ywBookStoreLIB.csproj --no-build --verbosity normal
