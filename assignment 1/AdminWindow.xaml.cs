@@ -6,7 +6,7 @@ using System.IO;
 using System.Text;
 using Microsoft.Win32;
 using System.Linq;
-using System;;
+using System;
 
 namespace ywBookStoreGUI
 {

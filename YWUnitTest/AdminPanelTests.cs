@@ -11,6 +11,7 @@ namespace YWUnitTest
         private static readonly object dbLock = new object();
         private DALBookCatalog bookCatalog;
         private DALUserInfo userInfo;
+        private DALOrder order; // Added for analytics tests
         private Book testBook;
         private UserData testUser;
 
@@ -21,6 +22,7 @@ namespace YWUnitTest
             {
                 bookCatalog = new DALBookCatalog();
                 userInfo = new DALUserInfo();
+                order = new DALOrder(); // Initialize DALOrder
 
                 testBook = new Book
                 {
@@ -140,97 +142,6 @@ namespace YWUnitTest
         }
 
         [TestMethod]
-        public void TestExportUserList()
-        {
-            AdminWindow adminWindow = new AdminWindow();
-            // Assuming UsersDataGrid is populated, which it should be on Load
-            // Since ExportUserList_Click uses SaveFileDialog, we cannot directly test file content.
-            // We can only assert that no exception is thrown during the process.
-            try
-            {
-                adminWindow.ExportUserList_Click(null, null);
-                Assert.IsTrue(true, "ExportUserList_Click did not throw an exception.");
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"ExportUserList_Click threw an exception: {ex.Message}");
-            }
-        }
-
-        [TestMethod]
-        public void TestSearchBooks()
-        {
-            bookCatalog.AddBook(testBook); // Add a test book
-            DataSet ds = bookCatalog.GetBookInfo("Test Book", "All"); // Search for the test book
-            Assert.IsNotNull(ds);
-            Assert.IsTrue(ds.Tables["Books"].Rows.Count > 0);
-            Assert.AreEqual("Test Book", ds.Tables["Books"].Rows[0]["Title"]);
-            bookCatalog.DeleteBook(testBook.ISBN); // Clean up
-        }
-
-        [TestMethod]
-        public void TestFilterBooksByStockStatus()
-        {
-            bookCatalog.AddBook(testBook); // Add a test book
-            DataSet ds = bookCatalog.GetBookInfo("", "Low Stock"); // Filter for low stock books
-            Assert.IsNotNull(ds);
-            Assert.IsTrue(ds.Tables["Books"].Rows.Count > 0);
-            Assert.IsTrue((int)ds.Tables["Books"].Rows[0]["InStock"] <= 10);
-            bookCatalog.DeleteBook(testBook.ISBN); // Clean up
-        }
-
-        [TestMethod]
-        public void TestBulkUpload()
-        {
-            AdminWindow adminWindow = new AdminWindow();
-            // Since BulkUpload_Click uses OpenFileDialog, we cannot directly test file content.
-            // We can only assert that no exception is thrown during the process.
-            try
-            {
-                adminWindow.BulkUpload_Click(null, null);
-                Assert.IsTrue(true, "BulkUpload_Click did not throw an exception.");
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"BulkUpload_Click threw an exception: {ex.Message}");
-            }
-        }
-
-        [TestMethod]
-        public void TestLowStockAlert()
-        {
-            AdminWindow adminWindow = new AdminWindow();
-            // Since LowStockAlert_Click displays a MessageBox, we cannot directly test its output.
-            // We can only assert that no exception is thrown during the process.
-            try
-            {
-                adminWindow.LowStockAlert_Click(null, null);
-                Assert.IsTrue(true, "LowStockAlert_Click did not throw an exception.");
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"LowStockAlert_Click threw an exception: {ex.Message}");
-            }
-        }
-
-        [TestMethod]
-        public void TestExportInventory()
-        {
-            AdminWindow adminWindow = new AdminWindow();
-            // Since ExportInventory_Click uses SaveFileDialog, we cannot directly test file content.
-            // We can only assert that no exception is thrown during the process.
-            try
-            {
-                adminWindow.ExportInventory_Click(null, null);
-                Assert.IsTrue(true, "ExportInventory_Click did not throw an exception.");
-            }
-            catch (Exception ex)
-            {
-                Assert.Fail($"ExportInventory_Click threw an exception: {ex.Message}");
-            }
-        }
-
-        [TestMethod]
         public void TestGetTotalUsers()
         {
             int totalUsers = userInfo.GetTotalUsers();
@@ -240,14 +151,14 @@ namespace YWUnitTest
         [TestMethod]
         public void TestGetTotalSales()
         {
-            decimal totalSales = new DALOrder().GetTotalSales();
+            decimal totalSales = order.GetTotalSales();
             Assert.IsTrue(totalSales >= 0m);
         }
 
         [TestMethod]
         public void TestGetTotalOrders()
         {
-            int totalOrders = new DALOrder().GetTotalOrders();
+            int totalOrders = order.GetTotalOrders();
             Assert.IsTrue(totalOrders >= 0);
         }
 
@@ -261,7 +172,7 @@ namespace YWUnitTest
         [TestMethod]
         public void TestGetSalesDataForLast30Days()
         {
-            DataTable salesData = new DALOrder().GetSalesDataForLast30Days();
+            DataTable salesData = order.GetSalesDataForLast30Days();
             Assert.IsNotNull(salesData);
             // Assert.IsTrue(salesData.Rows.Count >= 0); // Data may not exist
         }

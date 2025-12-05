@@ -15,14 +15,12 @@ namespace ywBookStoreLIB
 
         public DatabaseHelper()
         {
-            // 
+            connectionString = Properties.Settings.Default.ywConnectionString;
         }
 
         public void ExecuteNonQuery(string sql)
         {
             DataTable dt = new DataTable();
-            string connectionString = Properties.Settings.Default.ywConnectionString;
-
             using (SqlConnection conn = new SqlConnection(connectionString))
             using (SqlCommand cmd = new SqlCommand(sql, conn))
             {

@@ -18,10 +18,13 @@ jobs:
         dotnet-version: 6.0.x # Or the appropriate version for your project
 
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore YWUnitTest/ywBookStoreLIB.csproj
 
     - name: Build
-      run: dotnet build --no-restore
+      run: dotnet build YWUnitTest/ywBookStoreLIB.csproj --no-restore
 
     - name: Test
-      run: dotnet test --no-build --verbosity normal
+      run: dotnet test YWUnitTest/ywBookStoreLIB.csproj --no-build --verbosity normal
+      # Note: The ywBookStoreGUI project is intentionally skipped during this CI build
+      # due to compatibility issues with building .NET Framework WPF projects
+      # in the dotnet build environment. It should be built locally using Visual Studio.
