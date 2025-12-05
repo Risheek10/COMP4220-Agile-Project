@@ -112,7 +112,7 @@ namespace YWUnitTest
             userInfo.AddUser(testUser); // Add a test user
             DataSet ds = userInfo.GetUsers("testuser", "All"); // Search for the test user
             Assert.IsNotNull(ds);
-            Assert.IsTrue(ds.Tables["Users"].Rows.Count > 0);
+            Assert.IsNotEmpty(ds.Tables["Users"].Rows);
             Assert.AreEqual("testuser", ds.Tables["Users"].Rows[0]["UserName"]);
             userInfo.DeleteUser(testUser.UserID); // Clean up
         }
@@ -123,7 +123,7 @@ namespace YWUnitTest
             userInfo.AddUser(testUser); // Add a test user
             DataSet ds = userInfo.GetUsers("", "CU"); // Filter for customer users
             Assert.IsNotNull(ds);
-            Assert.IsTrue(ds.Tables["Users"].Rows.Count > 0);
+            Assert.IsNotEmpty(ds.Tables["Users"].Rows);
             Assert.AreEqual("CU", ds.Tables["Users"].Rows[0]["Type"]);
             userInfo.DeleteUser(testUser.UserID); // Clean up
         }
@@ -138,7 +138,7 @@ namespace YWUnitTest
             Assert.IsTrue(updateResult);
 
             int loginResult = userInfo.LogIn(testUser.UserName, newPassword); // Try logging in with new password
-            Assert.IsTrue(loginResult > 0);
+            Assert.IsGreaterThan(0, loginResult);
             userInfo.DeleteUser(testUser.UserID); // Clean up
         }
 
@@ -146,28 +146,28 @@ namespace YWUnitTest
         public void TestGetTotalUsers()
         {
             int totalUsers = userInfo.GetTotalUsers();
-            Assert.IsTrue(totalUsers >= 0);
+            Assert.IsGreaterThanOrEqualTo(0, totalUsers);
         }
 
         [TestMethod]
         public void TestGetTotalSales()
         {
             decimal totalSales = order.GetTotalSales();
-            Assert.IsTrue(totalSales >= 0m);
+            Assert.IsGreaterThanOrEqualTo(0m, totalSales);
         }
 
         [TestMethod]
         public void TestGetTotalOrders()
         {
             int totalOrders = order.GetTotalOrders();
-            Assert.IsTrue(totalOrders >= 0);
+            Assert.IsGreaterThanOrEqualTo(0, totalOrders);
         }
 
         [TestMethod]
         public void TestGetTotalBooksInStock()
         {
             int totalBooks = bookCatalog.GetTotalBooksInStock();
-            Assert.IsTrue(totalBooks >= 0);
+            Assert.IsGreaterThanOrEqualTo(0, totalBooks);
         }
 
         [TestMethod]
