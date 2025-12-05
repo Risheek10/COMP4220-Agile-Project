@@ -45,6 +45,12 @@ Header="Edition" Width="18*" />
 			x:Name="yearColumn" Binding="{Binding Year}"
 			Header="Year" Width="8*" />
                    </DataGrid.Columns>
+					 <DataGrid.Resources>
+					     <Style TargetType="DataGridRow">
+					         <EventSetter Event="MouseDoubleClick" Handler="row_doubleClick"/>
+					         <EventSetter Event="PreviewMouseRightButtonUp" Handler="row_rightClick"/>
+					     </Style>
+					 </DataGrid.Resources>
             </DataGrid>
             <StackPanel Orientation="Vertical">
                 <ListView x:Name="orderListView" MinHeight="150" Width="573"
