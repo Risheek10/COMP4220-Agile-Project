@@ -1,12 +1,9 @@
-﻿/* **********************************************************************************
+/* **********************************************************************************
  * For use by students taking 60-422 (Fall, 2014) to work on assignments and project.
  * Permission required material. Contact: xyuan@uwindsor.ca 
  * **********************************************************************************/
 using ywBookStoreLIB;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace ywBookStoreLIB
 {
@@ -85,8 +82,21 @@ namespace ywBookStoreLIB
                     return false;
                 }
             }
+        }
 
-
+        // Public helper that updates login name and password for the current user.
+        // Returns true on success.
+        public bool UpdateCredentials(string newLoginName, string newPassword)
+        {
+            if (this.UserID <= 0) return false;
+            var dal = new DALUserInfo();
+            bool rc = dal.UpdateCredentials(this.UserID, newLoginName, newPassword);
+            if (rc)
+            {
+                this.LoginName = newLoginName;
+                this.Password = newPassword;
+            }
+            return rc;
         }
     }
 }

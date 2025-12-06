@@ -49,6 +49,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>bookstore-icon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
@@ -72,9 +75,18 @@
     </ApplicationDefinition>
     <Compile Include="CheckoutWindow.xaml.cs">
       <DependentUpon>CheckoutWindow.xaml</DependentUpon>
-	</Compile>
+    </Compile>
     <Compile Include="RecommendBookWindow.xaml.cs">
       <DependentUpon>RecommendBookWindow.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="recoverPasswordDialog.xaml.cs">
+      <DependentUpon>recoverPasswordDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="SettingsDialog.xaml.cs">
+      <DependentUpon>SettingsDialog.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="wishlistDialog.xaml.cs">
+      <DependentUpon>wishlistDialog.xaml</DependentUpon>
     </Compile>
     <Page Include="LoginDialog.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -96,11 +108,22 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-	<Page Include="CheckoutWindow.xaml">
-		<Generator>MSBuild:Compile</Generator>
-		<SubType>Designer</SubType>
-	</Page>
+    <Page Include="CheckoutWindow.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="RecommendBookWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="recoverPasswordDialog.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="SettingsDialog.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="wishlistDialog.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -154,6 +177,9 @@
       <Project>{dd143626-2af6-4f2d-a64d-70d691058113}</Project>
       <Name>ywBookStoreLIB</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="bookstore-icon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -286,5 +286,16 @@ namespace ywBookStoreGUI
             // Show the form
             signUpWindow.ShowDialog();
         }
-    }
+
+		private void recoverPasswordButton_click(object sender, RoutedEventArgs e)
+		{
+			var dlg = new recoverPasswordDialog
+			{
+				Owner = this,
+				WindowStartupLocation = WindowStartupLocation.CenterOwner
+			};
+
+			dlg.ShowDialog();
+		}
+	}
 }

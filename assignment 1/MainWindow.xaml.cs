@@ -23,6 +23,7 @@ using System.Windows.Shapes;
 using System.Diagnostics;
 using ywBookStoreGUI;
 using ywBookStoreLIB;
+using ywBookstoreGUI;
 
 namespace BookStoreGUI
 {
@@ -227,5 +228,62 @@ namespace BookStoreGUI
             }
         }
 
+		private void wishlistButton_Click(object sender, RoutedEventArgs e)
+		{
+			// Pass the current BookOrder instance into the wishlist dialog so both windows share the same collections
+			ywBookstoreGUI.wishlistDialog dlg = new ywBookstoreGUI.wishlistDialog(bookOrder);
+			dlg.Owner = this;
+			dlg.ShowDialog();
+		}
+
+		private void addWishlistButton_Click(object sender, RoutedEventArgs e)
+		{
+            OrderItemDialog orderItemDialog = new OrderItemDialog();
+			DataRowView selectedRow;
+			if (this.ProductsDataGrid.SelectedItems.Count == 0)
+				return;
+			selectedRow = (DataRowView)this.ProductsDataGrid.SelectedItems[0];
+			orderItemDialog.isbnTextBox.Text = selectedRow.Row.ItemArray[0].ToString();
+			orderItemDialog.titleTextBox.Text = selectedRow.Row.ItemArray[2].ToString();
+			orderItemDialog.priceTextBox.Text = selectedRow.Row.ItemArray[4].ToString();
+			orderItemDialog.Owner = this;
+			orderItemDialog.ShowDialog();
+			if (orderItemDialog.DialogResult == true)
+			{
+
+
+				string isbn = orderItemDialog.isbnTextBox.Text;
+				string title = orderItemDialog.titleTextBox.Text;
+				double unitPrice = double.Parse(orderItemDialog.priceTextBox.Text);
+				int quantity = int.Parse(orderItemDialog.quantityTextBox.Text);
+
+				// Add to wishlist collection
+				bookOrder.AddWishlistItem(new OrderItem(isbn, title, unitPrice, quantity));
+
+				// Enforce mutual exclusivity: remove the same book from the order list if present
+				bookOrder.RemoveItem(isbn);
+			}
+		}
+
+        private void accountSettingsButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (userData == null || userData.UserID <= 0 || !userData.LoggedIn)
+            {
+                MessageBox.Show("You must be logged in to change account settings.", "Account Settings", MessageBoxButton.OK, MessageBoxImage.Information);
+                return;
+            }
+
+            var dlg = new ywBookstoreGUI.SettingsDialog(userData)
+            {
+                Owner = this
+            };
+
+            bool? result = dlg.ShowDialog();
+            if (result == true)
+            {
+                // Refresh status text to reflect any username changes
+                this.statusTextBlock.Text = "User #" + userData.UserID + " (" + userData.Role + ")";
+            }
+        }
     }
 }

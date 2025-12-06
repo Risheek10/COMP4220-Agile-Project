@@ -13,10 +13,17 @@ namespace ywBookStoreLIB {
     public class BookOrder {
         ObservableCollection<OrderItem> orderItemList = new
             ObservableCollection<OrderItem>();
-        public ObservableCollection<OrderItem> OrderItemList
+		ObservableCollection<OrderItem> wishlistItemList = new
+			ObservableCollection<OrderItem>();
+		public ObservableCollection<OrderItem> OrderItemList
         {
             get { return orderItemList; }
         }
+        public ObservableCollection<OrderItem> WishlistItemList
+        {
+            get { return wishlistItemList; }
+        }
+
         public void AddItem(OrderItem orderItem)
         {
             foreach (var item in orderItemList)
@@ -40,7 +47,19 @@ namespace ywBookStoreLIB {
                 }
             }
         }
-        public double GetOrderTotal()
+		public void AddWishlistItem(OrderItem orderItem)
+		{
+			foreach (var item in wishlistItemList)
+			{
+				if (item.BookID == orderItem.BookID)
+				{
+					item.Quantity += orderItem.Quantity;
+					return;
+				}
+			}
+			wishlistItemList.Add(orderItem);
+		}
+		public double GetOrderTotal()
         {
             if (orderItemList.Count == 0)
             {

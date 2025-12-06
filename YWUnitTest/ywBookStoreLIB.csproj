@@ -126,6 +126,7 @@
     <Compile Include="CheckoutValidator.cs" />
     <Compile Include="DALPriceFilter.cs" />
     <Compile Include="PriceFilterData.cs" />
+    <Compile Include="RecoverPasswordTests.cs" />
     <Compile Include="search.cs" />
     <Compile Include="DALBookCatalog.cs" />
     <Compile Include="DALOrder.cs" />
