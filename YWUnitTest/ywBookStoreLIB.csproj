@@ -154,6 +154,7 @@
     <Compile Include="RecommendBookWindowTests.cs" />
     <Compile Include="UnitTest2.cs" />
     <Compile Include="UnitTest3.cs" />
+    <Compile Include="ReviewWindowTests.cs" />
     <Compile Include="UserData.cs" />
   </ItemGroup>
   <ItemGroup>
