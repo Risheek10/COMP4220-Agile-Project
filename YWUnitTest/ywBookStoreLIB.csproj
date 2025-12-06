@@ -144,6 +144,7 @@
     <Compile Include="CheckoutUnitTest.cs" />
     <Compile Include="UnitTest2.cs" />
     <Compile Include="UnitTest3.cs" />
+    <Compile Include="ReviewWindowTests.cs" />
     <Compile Include="UserData.cs" />
     <Compile Include="SettingsManager.cs" />
   </ItemGroup>

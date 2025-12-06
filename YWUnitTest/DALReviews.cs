@@ -33,6 +33,24 @@ namespace ywBookStoreLIB
 
         public void AddReview(string isbn, int userId, int rating, string review)
         {
+            // 1. Rating must be 1-5
+            if (rating < 1 || rating > 5)
+                throw new ArgumentOutOfRangeException(nameof(rating),
+                    "Rating must be between 1 and 5");
+
+            // 2. Review can't be empty
+            if (string.IsNullOrWhiteSpace(review))
+                throw new ArgumentException("Review text cannot be empty", nameof(review));
+
+            // 3. ISBN must be 10 chars
+            if (string.IsNullOrWhiteSpace(isbn) || isbn.Trim().Length != 10)
+                throw new ArgumentException("ISBN must be 10 characters", nameof(isbn));
+
+            // 4. UserID must be positive
+            if (userId <= 0)
+                throw new ArgumentException("Invalid UserID", nameof(userId));
+
+
             string query = @"INSERT INTO Reviews (ISBN, UserID, Rating, ReviewText)
                              VALUES (@isbn, @userId, @rating, @review)";
 
